@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import satsLogo from "@/assets/sats-logo.png";
 interface SealScan {
   id: string;
   seal_number: string;
@@ -242,7 +243,7 @@ const Preview = () => {
                 <tr>
                   <td rowSpan={2} className="border border-black p-2 w-1/3 align-top">
                     <div className="text-center">
-                      <div className="text-red-600 font-bold text-2xl mb-1">SATS</div>
+                      <img src={satsLogo} alt="SATS" className="h-8 mx-auto mb-1" />
                       <div className="text-xs font-semibold">SATS Security Services Pte Ltd</div>
                     </div>
                   </td>
