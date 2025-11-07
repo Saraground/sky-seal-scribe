@@ -148,7 +148,7 @@ const Preview = () => {
               <tbody>
                 {Object.entries(groupedScans).slice(0, 2).map(([equipmentType, scans], idx) => (
                   <tr key={equipmentType}>
-                    <td className="border border-black p-1 w-32">{equipmentNames[equipmentType]}</td>
+                    <td className="border border-black p-1 w-32">Hi-Lift</td>
                     <td className="border border-black p-1 w-8 text-center font-bold">{idx + 1}</td>
                     <td className="border border-black p-1 text-center font-semibold">Seal No.</td>
                   </tr>
