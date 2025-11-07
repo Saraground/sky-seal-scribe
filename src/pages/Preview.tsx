@@ -16,6 +16,7 @@ interface SealScan {
 interface FlightData {
   flight_number: string;
   departure_time: string;
+  created_at: string;
 }
 
 const Preview = () => {
@@ -39,7 +40,7 @@ const Preview = () => {
       // Fetch flight data
       const { data: flight } = await supabase
         .from("flights")
-        .select("flight_number, departure_time")
+        .select("flight_number, departure_time, created_at")
         .eq("id", flightId!)
         .single();
       
@@ -187,7 +188,9 @@ const Preview = () => {
             {/* Time Section */}
             <div className="border border-black p-1 bg-blue-900 text-white text-xs font-semibold flex justify-between">
               <span>Time-commences & Time-end checking of meal cart:</span>
-              <span>_______ hrs - _______ hrs</span>
+              <span>
+                {flightData ? new Date(flightData.created_at).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }) : '_______'} hrs - {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })} hrs
+              </span>
             </div>
 
             {/* Main Data Table */}
