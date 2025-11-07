@@ -194,31 +194,21 @@ const Preview = () => {
                   <th className="border border-black p-1 text-sm font-bold">S/n</th>
                   <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
                   <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
-                  <th className="border border-black p-1 text-sm font-bold">S/n</th>
-                  <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
-                  <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
               <tbody>
-                {Array.from({ length: Math.ceil(sealScans.length / 2) }).map((_, rowIndex) => {
-                  const leftScan = sealScans[rowIndex * 2];
-                  const rightScan = sealScans[rowIndex * 2 + 1];
-                  return (
-                    <tr key={`row-${rowIndex}`}>
-                      <td className="border border-black p-1 text-center text-xs">{leftScan ? rowIndex * 2 + 1 : ''}</td>
-                      <td className="border border-black p-1 text-center text-xs">{leftScan ? equipmentNames[leftScan.equipment_type] : ''}</td>
-                      <td className="border border-black p-1 text-center font-bold text-lg">{leftScan?.seal_number || ''}</td>
-                      <td className="border border-black p-1 text-center text-xs">{rightScan ? rowIndex * 2 + 2 : ''}</td>
-                      <td className="border border-black p-1 text-center text-xs">{rightScan ? equipmentNames[rightScan.equipment_type] : ''}</td>
-                      <td className="border border-black p-1 text-center font-bold text-lg">{rightScan?.seal_number || ''}</td>
-                    </tr>
-                  );
-                })}
+                {sealScans.map((scan, index) => (
+                  <tr key={scan.id}>
+                    <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
+                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[scan.equipment_type]}</td>
+                    <td className="border border-black p-1 text-center font-bold text-lg">{scan.seal_number}</td>
+                    <td className="border border-black p-1"></td>
+                  </tr>
+                ))}
                 {/* Empty rows to fill page */}
-                {Array.from({ length: Math.max(0, 8 - Math.ceil(sealScans.length / 2)) }).map((_, i) => (
+                {Array.from({ length: Math.max(0, 15 - sealScans.length) }).map((_, i) => (
                   <tr key={`empty-${i}`}>
-                    <td className="border border-black p-3"></td>
-                    <td className="border border-black p-3"></td>
                     <td className="border border-black p-3"></td>
                     <td className="border border-black p-3"></td>
                     <td className="border border-black p-3"></td>
