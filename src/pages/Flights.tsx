@@ -8,6 +8,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { AddFlightDialog } from "@/components/AddFlightDialog";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface Flight {
   id: string;
@@ -24,6 +34,7 @@ const Flights = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [flights, setFlights] = useState<Flight[]>([]);
+  const [flightToDelete, setFlightToDelete] = useState<string | null>(null);
 
   const fetchFlights = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -79,11 +90,13 @@ const Flights = () => {
     navigate("/");
   };
 
-  const handleDeleteFlight = async (flightId: string) => {
+  const handleDeleteFlight = async () => {
+    if (!flightToDelete) return;
+
     const { error } = await supabase
       .from("flights")
       .delete()
-      .eq("id", flightId);
+      .eq("id", flightToDelete);
 
     if (error) {
       toast({
@@ -91,6 +104,7 @@ const Flights = () => {
         description: "Failed to delete flight",
         variant: "destructive",
       });
+      setFlightToDelete(null);
       return;
     }
 
@@ -98,6 +112,7 @@ const Flights = () => {
       title: "Success",
       description: "Flight deleted successfully",
     });
+    setFlightToDelete(null);
   };
 
   const getStatusColor = (status: string) => {
@@ -172,7 +187,7 @@ const Flights = () => {
                     className="w-full gap-2"
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleDeleteFlight(flight.id);
+                      setFlightToDelete(flight.id);
                     }}
                   >
                     <Trash2 className="w-4 h-4" />
@@ -184,6 +199,23 @@ const Flights = () => {
           ))}
         </div>
       </main>
+
+      <AlertDialog open={!!flightToDelete} onOpenChange={(open) => !open && setFlightToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete this flight and all associated seal scan records. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteFlight} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
