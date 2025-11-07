@@ -226,43 +226,43 @@ const Flights = () => {
               onClick={() => navigate(`/equipment/${flight.id}`)}
             >
               <CardHeader className="pb-2 py-2">
-                <div className="flex items-start justify-between">
-                  <div>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
                     <CardTitle className="text-base">{flight.flight_number}</CardTitle>
                     <p className="text-xs text-muted-foreground mt-0.5">{flight.destination}</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Badge className={getStatusColor(flight.status)}>
-                      {flight.status.replace("-", " ")}
-                    </Badge>
-                    {flight.status === "pending" && (
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        className="h-6 w-6"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setFlightToDelete(flight.id);
-                        }}
-                      >
-                        <Trash2 className="w-3 h-3" />
-                      </Button>
-                    )}
+                  <div className="flex flex-col items-end gap-1">
+                    <div className="flex items-center gap-2">
+                      <Badge className={getStatusColor(flight.status)}>
+                        {flight.status.replace("-", " ")}
+                      </Badge>
+                      {flight.status === "pending" && (
+                        <Button
+                          variant="destructive"
+                          size="icon"
+                          className="h-6 w-6"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setFlightToDelete(flight.id);
+                          }}
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </Button>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground text-right">
+                      {formatDateTime(flight.created_at)}
+                    </p>
+                    <p className="text-xs text-muted-foreground text-right">
+                      by {flight.username || "Unknown"}
+                    </p>
                   </div>
                 </div>
               </CardHeader>
               <CardContent className="pb-2 py-1">
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">
-                    Created: <span className="font-semibold text-foreground">{formatDateTime(flight.created_at)}</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Created by: <span className="font-semibold text-foreground">{flight.username || "Unknown"}</span>
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
-                  </p>
-                </div>
+                <p className="text-xs text-muted-foreground">
+                  Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
+                </p>
               </CardContent>
             </Card>
           ))}
