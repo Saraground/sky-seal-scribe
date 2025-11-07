@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Camera, ScanLine, Plus, Trash2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -17,7 +17,7 @@ interface SealEntry {
 const Scan = () => {
   const navigate = useNavigate();
   const { flightId, equipmentType } = useParams();
-  const { toast } = useToast();
+  
   const [seals, setSeals] = useState<SealEntry[]>([]);
   const [currentSeal, setCurrentSeal] = useState("");
   const [loading, setLoading] = useState(false);
@@ -42,11 +42,7 @@ const Scan = () => {
         .order("created_at", { ascending: true });
 
       if (error) {
-        toast({
-          title: "Error",
-          description: "Failed to load existing seals",
-          variant: "destructive",
-        });
+        console.error("Error loading seals:", error);
         return;
       }
 
@@ -100,12 +96,7 @@ const Scan = () => {
         });
 
         if (error) {
-          toast({
-            title: "Error",
-            description: "Failed to save seal to database",
-            variant: "destructive",
-          });
-          return;
+          console.error("Error saving seal:", error);
         }
       }
     }
@@ -121,22 +112,12 @@ const Scan = () => {
       .eq("id", id);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to remove seal from database",
-        variant: "destructive",
-      });
+      console.error("Error removing seal:", error);
     }
   };
 
   const handleSave = async () => {
     setLoading(true);
-    
-    toast({
-      title: "Data saved",
-      description: "All seal information has been recorded",
-    });
-    
     setLoading(false);
     navigate(`/equipment/${flightId}`);
   };

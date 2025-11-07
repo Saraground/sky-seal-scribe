@@ -6,12 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, User, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 
 const Profile = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
@@ -49,11 +49,6 @@ const Profile = () => {
 
   const handleSave = async () => {
     if (!username.trim()) {
-      toast({
-        title: "Error",
-        description: "Username cannot be empty",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -65,19 +60,11 @@ const Profile = () => {
       .eq("id", userId);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update username",
-        variant: "destructive",
-      });
+      console.error("Error updating profile:", error);
       setSaving(false);
       return;
     }
 
-    toast({
-      title: "Success",
-      description: "Username updated successfully",
-    });
     setSaving(false);
   };
 

@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plane, LogOut, Clock, Trash2, User } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+
 import { AddFlightDialog } from "@/components/AddFlightDialog";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import {
@@ -32,7 +32,7 @@ interface Flight {
 
 const Flights = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  
   const [flights, setFlights] = useState<Flight[]>([]);
   const [flightToDelete, setFlightToDelete] = useState<string | null>(null);
   const [sealCounts, setSealCounts] = useState<Record<string, number>>({});
@@ -56,11 +56,7 @@ const Flights = () => {
       .order("created_at", { ascending: false });
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load flights",
-        variant: "destructive",
-      });
+      console.error("Error loading flights:", error);
       return;
     }
 
@@ -121,19 +117,10 @@ const Flights = () => {
       .eq("id", flightToDelete);
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to archive flight",
-        variant: "destructive",
-      });
-      setFlightToDelete(null);
-      return;
+      console.error("Error archiving flight:", error);
+    } else {
+      setFlights(flights.filter(f => f.id !== flightToDelete));
     }
-
-    toast({
-      title: "Success",
-      description: "Flight archived successfully",
-    });
     setFlightToDelete(null);
   };
 

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
+
 import { supabase } from "@/integrations/supabase/client";
 import scootLogo from "@/assets/scoot-logo.png";
 const Login = () => {
@@ -15,7 +15,7 @@ const Login = () => {
   const [staffNumber, setStaffNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
+  
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -28,21 +28,12 @@ const Login = () => {
     });
     setLoading(false);
     if (error) {
-      toast({
-        title: "Login failed",
-        description: error.message,
-        variant: "destructive"
-      });
       return;
     }
     if (data.user) {
       localStorage.setItem("user", JSON.stringify({
         email
       }));
-      toast({
-        title: "Login successful",
-        description: "Welcome to Trolley Seal Management"
-      });
       navigate("/flights");
     }
   };
@@ -62,18 +53,8 @@ const Login = () => {
       setLoading(false);
 
       if (error) {
-        toast({
-          title: "Request failed",
-          description: error.message,
-          variant: "destructive"
-        });
         return;
       }
-
-      toast({
-        title: "Request submitted!",
-        description: "Your login request has been sent to the admin. You will receive an email once your account is created."
-      });
       
       // Clear form
       setUsername("");
@@ -81,11 +62,6 @@ const Login = () => {
       setStaffNumber("");
     } catch (error: any) {
       setLoading(false);
-      toast({
-        title: "Request failed",
-        description: error.message,
-        variant: "destructive"
-      });
     }
   };
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">

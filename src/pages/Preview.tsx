@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
+
 import satsLogo from "@/assets/sats-logo.png";
 interface SealScan {
   id: string;
@@ -42,9 +42,6 @@ const Preview = () => {
   const [selectedHiLift, setSelectedHiLift] = useState<1 | 2>(1);
   const [hiLiftNumber, setHiLiftNumber] = useState("");
   const [hiLiftSealNumber, setHiLiftSealNumber] = useState("");
-  const {
-    toast
-  } = useToast();
   const equipmentNames: Record<string, string> = {
     "full-trolley": "Full Size Trolley",
     "half-trolley": "Half Size Trolley",
@@ -108,10 +105,6 @@ const Preview = () => {
   }, {} as Record<string, SealScan[]>);
   const handleReset = () => {
     fetchData();
-    toast({
-      title: "Success",
-      description: "Page data refreshed"
-    });
   };
   const handlePrint = () => {
     window.print();
@@ -124,11 +117,6 @@ const Preview = () => {
   };
   const handleSaveHiLift = async () => {
     if (!hiLiftSealNumber) {
-      toast({
-        title: "Error",
-        description: "Please enter a seal number",
-        variant: "destructive"
-      });
       return;
     }
     const updateData = selectedHiLift === 1 ? {
@@ -142,11 +130,7 @@ const Preview = () => {
       error
     } = await supabase.from("flights").update(updateData).eq("id", flightId!);
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to update Hi-Lift information",
-        variant: "destructive"
-      });
+      console.error("Error updating Hi-Lift:", error);
       return;
     }
     setFlightData(prev => prev ? {
@@ -159,10 +143,6 @@ const Preview = () => {
         hilift_2_number: hiLiftNumber
       })
     } : null);
-    toast({
-      title: "Success",
-      description: `Hi-Lift ${selectedHiLift} information updated`
-    });
     setHiLiftDialogOpen(false);
   };
   return <div className="min-h-screen bg-background">

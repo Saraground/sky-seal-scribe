@@ -4,13 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+
 import { supabase } from "@/integrations/supabase/client";
 
 export const AddFlightDialog = ({ onFlightAdded }: { onFlightAdded: () => void }) => {
   const [open, setOpen] = useState(false);
   const [flightNumber, setFlightNumber] = useState("TR");
-  const { toast } = useToast();
+  
 
   const handleFlightNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase();
@@ -32,21 +32,11 @@ export const AddFlightDialog = ({ onFlightAdded }: { onFlightAdded: () => void }
     e.preventDefault();
 
     if (!flightNumber || flightNumber === "TR" || flightNumber.length < 4) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid flight number (e.g., TR123)",
-        variant: "destructive",
-      });
       return;
     }
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
-      toast({
-        title: "Error",
-        description: "You must be logged in to add flights",
-        variant: "destructive",
-      });
       return;
     }
 
@@ -63,18 +53,9 @@ export const AddFlightDialog = ({ onFlightAdded }: { onFlightAdded: () => void }
     });
 
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to add flight",
-        variant: "destructive",
-      });
+      console.error("Error adding flight:", error);
       return;
     }
-
-    toast({
-      title: "Success",
-      description: "Flight added successfully",
-    });
 
     setFlightNumber("TR");
     setOpen(false);
