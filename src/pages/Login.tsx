@@ -83,7 +83,7 @@ const Login = () => {
           <div className="mx-auto flex items-center justify-center">
             <img src={scootLogo} alt="Scoot Logo" className="w-32 h-32 object-contain" />
           </div>
-          <CardTitle className="text-2xl">Trolley Seal Management</CardTitle>
+          <CardTitle className="text-2xl">Mealcart Trolley Seal Management</CardTitle>
           <CardDescription>Airline Catering Service System by SSS Police</CardDescription>
         </CardHeader>
         <CardContent>
