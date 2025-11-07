@@ -229,10 +229,10 @@ const Preview = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-black p-1 bg-blue-900 text-white text-center font-semibold">
+                  <td className="border border-black p-1 text-center font-semibold">
                     Flight No.
                   </td>
-                  <td className="border border-black p-1 bg-blue-900 text-white text-center text-lg font-bold">
+                  <td className="border border-black p-1 text-center text-lg font-bold">
                     {flightData?.flight_number || ''}
                   </td>
                 </tr>
