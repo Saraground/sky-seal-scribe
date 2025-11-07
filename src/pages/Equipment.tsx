@@ -177,20 +177,16 @@ const Equipment = () => {
                     </div>
                     <div>
                       <CardTitle className="text-sm">Hi-Lift 1</CardTitle>
-                      <CardDescription className="text-xs">Scan seal number</CardDescription>
+                      
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
                   <div className="text-xs font-semibold text-blue-500">
-                    {hilift1Number || hilift1Seal ? (
-                      <>
+                    {hilift1Number || hilift1Seal ? <>
                         {hilift1Number && <div>Hi-Lift No: {hilift1Number}</div>}
                         {hilift1Seal && <div>Seal: {hilift1Seal}</div>}
-                      </>
-                    ) : (
-                      <div>Not configured</div>
-                    )}
+                      </> : <div>Not configured</div>}
                   </div>
                 </CardContent>
               </Card>
@@ -225,20 +221,16 @@ const Equipment = () => {
                     </div>
                     <div>
                       <CardTitle className="text-sm">Hi-Lift 2</CardTitle>
-                      <CardDescription className="text-xs">Scan seal number</CardDescription>
+                      
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
                   <div className="text-xs font-semibold text-blue-500">
-                    {hilift2Number || hilift2Seal ? (
-                      <>
+                    {hilift2Number || hilift2Seal ? <>
                         {hilift2Number && <div>Hi-Lift No: {hilift2Number}</div>}
                         {hilift2Seal && <div>Seal: {hilift2Seal}</div>}
-                      </>
-                    ) : (
-                      <div>Not configured</div>
-                    )}
+                      </> : <div>Not configured</div>}
                   </div>
                 </CardContent>
               </Card>
