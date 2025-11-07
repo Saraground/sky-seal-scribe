@@ -24,7 +24,7 @@ interface Flight {
   flight_number: string;
   destination: string;
   departure_time: string;
-  status: "pending" | "completed" | "in-progress";
+  status: "pending" | "completed" | "in-progress" | "deleted";
   user_id: string;
   created_at: string;
   updated_at: string;
@@ -52,6 +52,7 @@ const Flights = () => {
       .from("flights")
       .select("*")
       .gte("created_at", sixHoursAgo.toISOString())
+      .neq("status", "deleted")
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -116,13 +117,13 @@ const Flights = () => {
 
     const { error } = await supabase
       .from("flights")
-      .delete()
+      .update({ status: "deleted" })
       .eq("id", flightToDelete);
 
     if (error) {
       toast({
         title: "Error",
-        description: "Failed to delete flight",
+        description: "Failed to archive flight",
         variant: "destructive",
       });
       setFlightToDelete(null);
@@ -131,7 +132,7 @@ const Flights = () => {
 
     toast({
       title: "Success",
-      description: "Flight deleted successfully",
+      description: "Flight archived successfully",
     });
     setFlightToDelete(null);
   };
@@ -234,15 +235,15 @@ const Flights = () => {
       <AlertDialog open={!!flightToDelete} onOpenChange={(open) => !open && setFlightToDelete(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Archive this flight?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this flight and all associated seal scan records. This action cannot be undone.
+              This will archive the flight and hide it from the list. All data and seal scan records will remain in the database for future reference.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction onClick={handleDeleteFlight} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
+              Archive
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
