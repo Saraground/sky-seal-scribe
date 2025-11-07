@@ -35,6 +35,7 @@ const Flights = () => {
   const { toast } = useToast();
   const [flights, setFlights] = useState<Flight[]>([]);
   const [flightToDelete, setFlightToDelete] = useState<string | null>(null);
+  const [sealCounts, setSealCounts] = useState<Record<string, number>>({});
 
   const fetchFlights = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -58,6 +59,21 @@ const Flights = () => {
     }
 
     setFlights((data || []) as Flight[]);
+    
+    // Fetch seal counts for all flights
+    if (data && data.length > 0) {
+      const { data: sealData } = await supabase
+        .from("seal_scans")
+        .select("flight_id");
+      
+      if (sealData) {
+        const counts: Record<string, number> = {};
+        sealData.forEach(scan => {
+          counts[scan.flight_id] = (counts[scan.flight_id] || 0) + 1;
+        });
+        setSealCounts(counts);
+      }
+    }
   };
 
   useEffect(() => {
@@ -199,6 +215,9 @@ const Flights = () => {
                 </div>
               </CardHeader>
               <CardContent className="pb-3">
+                <p className="text-sm text-muted-foreground">
+                  Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
+                </p>
               </CardContent>
             </Card>
           ))}
