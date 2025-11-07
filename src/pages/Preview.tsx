@@ -249,7 +249,7 @@ const Preview = () => {
               <tbody>
                 {Object.entries(groupedScans).flatMap(([equipmentType, scans], index) => {
                   const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
-                  const maxCharsPerLine = 45; // Approximate characters that fit in the column
+                  const maxCharsPerLine = 35; // Reduced to prevent overflow into Remarks column
                   const sealLines: string[] = [];
                   
                   // Split seal numbers into chunks without wrapping
