@@ -289,8 +289,8 @@ const Preview = () => {
                   
                   return [...equipmentRows, emptyRow];
                 })}
-                {/* Fixed 17 empty rows */}
-                {Array.from({ length: 17 }).map((_, i) => (
+                {/* Fixed 9 empty rows */}
+                {Array.from({ length: 9 }).map((_, i) => (
                   <tr key={`empty-${i}`}>
                     <td className="border border-black p-3"></td>
                     <td className="border border-black p-3"></td>
