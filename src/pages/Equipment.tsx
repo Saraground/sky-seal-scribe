@@ -204,9 +204,16 @@ const Equipment = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
-                  <p className="text-xs font-semibold text-blue-500">
-                    {hilift1Number && hilift1Seal ? `#${hilift1Number} - Seal: ${hilift1Seal}` : hilift1Number ? `#${hilift1Number}` : hilift1Seal ? `Seal: ${hilift1Seal}` : "Not configured"}
-                  </p>
+                  <div className="text-xs font-semibold text-blue-500">
+                    {hilift1Number || hilift1Seal ? (
+                      <>
+                        {hilift1Number && <div>Hi-Lift No: {hilift1Number}</div>}
+                        {hilift1Seal && <div>Seal: {hilift1Seal}</div>}
+                      </>
+                    ) : (
+                      <div>Not configured</div>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             </DialogTrigger>
@@ -245,9 +252,16 @@ const Equipment = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
-                  <p className="text-xs font-semibold text-blue-500">
-                    {hilift2Number && hilift2Seal ? `#${hilift2Number} - Seal: ${hilift2Seal}` : hilift2Number ? `#${hilift2Number}` : hilift2Seal ? `Seal: ${hilift2Seal}` : "Not configured"}
-                  </p>
+                  <div className="text-xs font-semibold text-blue-500">
+                    {hilift2Number || hilift2Seal ? (
+                      <>
+                        {hilift2Number && <div>Hi-Lift No: {hilift2Number}</div>}
+                        {hilift2Seal && <div>Seal: {hilift2Seal}</div>}
+                      </>
+                    ) : (
+                      <div>Not configured</div>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             </DialogTrigger>
