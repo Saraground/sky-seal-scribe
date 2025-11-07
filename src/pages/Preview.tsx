@@ -345,7 +345,7 @@ const Preview = () => {
 
                   // Create rows: first row with equipment info, additional rows for overflow, then empty row
                   const equipmentRows = sealLines.map((line, lineIdx) => (
-                    <tr key={`${equipmentType}-${lineIdx}`}>
+                    <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '24px' }}>
                       <td className="border border-black p-1 text-center text-xs">
                         {lineIdx === 0 ? index + 1 : ''}
                       </td>
@@ -363,11 +363,11 @@ const Preview = () => {
                   
                   // Add empty row after each equipment type
                   const emptyRow = (
-                    <tr key={`${equipmentType}-empty`}>
-                      <td className="border border-black p-3"></td>
-                      <td className="border border-black p-3"></td>
-                      <td className="border border-black p-3"></td>
-                      <td className="border border-black p-3"></td>
+                    <tr key={`${equipmentType}-empty`} style={{ height: '24px' }}>
+                      <td className="border border-black p-1"></td>
+                      <td className="border border-black p-1"></td>
+                      <td className="border border-black p-1"></td>
+                      <td className="border border-black p-1"></td>
                     </tr>
                   );
                   
@@ -375,11 +375,11 @@ const Preview = () => {
                 })}
                 {/* Fixed 13 empty rows */}
                 {Array.from({ length: 13 }).map((_, i) => (
-                  <tr key={`empty-${i}`}>
-                    <td className="border border-black p-2"></td>
-                    <td className="border border-black p-2"></td>
-                    <td className="border border-black p-2"></td>
-                    <td className="border border-black p-2"></td>
+                  <tr key={`empty-${i}`} style={{ height: '24px' }}>
+                    <td className="border border-black p-1"></td>
+                    <td className="border border-black p-1"></td>
+                    <td className="border border-black p-1"></td>
+                    <td className="border border-black p-1"></td>
                   </tr>
                 ))}
                 <tr>
