@@ -24,40 +24,7 @@ const Flights = () => {
       return;
     }
 
-    // Generate mock flights ±6 hours from current time
-    const now = new Date();
-    const mockFlights: Flight[] = [
-      {
-        id: "1",
-        flightNumber: "TR123",
-        destination: "Singapore (SIN)",
-        departureTime: new Date(now.getTime() + 2 * 60 * 60 * 1000).toISOString(),
-        status: "pending",
-      },
-      {
-        id: "2",
-        flightNumber: "TR456",
-        destination: "Bangkok (BKK)",
-        departureTime: new Date(now.getTime() + 4 * 60 * 60 * 1000).toISOString(),
-        status: "in-progress",
-      },
-      {
-        id: "3",
-        flightNumber: "TR789",
-        destination: "Taipei (TPE)",
-        departureTime: new Date(now.getTime() - 1 * 60 * 60 * 1000).toISOString(),
-        status: "completed",
-      },
-      {
-        id: "4",
-        flightNumber: "TR321",
-        destination: "Hong Kong (HKG)",
-        departureTime: new Date(now.getTime() + 5 * 60 * 60 * 1000).toISOString(),
-        status: "pending",
-      },
-    ];
-
-    setFlights(mockFlights);
+    setFlights([]);
   }, [navigate]);
 
   const handleLogout = () => {
