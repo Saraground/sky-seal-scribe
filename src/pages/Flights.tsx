@@ -28,6 +28,7 @@ interface Flight {
   user_id: string;
   created_at: string;
   updated_at: string;
+  username?: string;
 }
 
 const Flights = () => {
@@ -60,10 +61,34 @@ const Flights = () => {
       return;
     }
 
-    setFlights((data || []) as Flight[]);
+    const flightsWithUsernames = (data || []) as Flight[];
+    
+    // Fetch usernames for all unique user_ids
+    if (flightsWithUsernames.length > 0) {
+      const uniqueUserIds = [...new Set(flightsWithUsernames.map(f => f.user_id))];
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("id, username")
+        .in("id", uniqueUserIds);
+      
+      if (profileData) {
+        const profileMap: Record<string, string> = {};
+        profileData.forEach(p => {
+          profileMap[p.id] = p.username || "";
+        });
+        
+        
+        // Add username to each flight
+        flightsWithUsernames.forEach(flight => {
+          flight.username = profileMap[flight.user_id] || "";
+        });
+      }
+    }
+    
+    setFlights(flightsWithUsernames);
     
     // Fetch seal counts for all flights
-    if (data && data.length > 0) {
+    if (flightsWithUsernames.length > 0) {
       const { data: sealData } = await supabase
         .from("seal_scans")
         .select("flight_id");
@@ -140,6 +165,21 @@ const Flights = () => {
     return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
   };
 
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  };
+
+  const formatDateTime = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleString("en-US", { 
+      month: "short", 
+      day: "numeric", 
+      hour: "2-digit", 
+      minute: "2-digit" 
+    });
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground shadow-lg">
@@ -210,9 +250,17 @@ const Flights = () => {
                 </div>
               </CardHeader>
               <CardContent className="pb-2 py-1">
-                <p className="text-xs text-muted-foreground">
-                  Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
-                </p>
+                <div className="space-y-1">
+                  <p className="text-xs text-muted-foreground">
+                    Created: <span className="font-semibold text-foreground">{formatDateTime(flight.created_at)}</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Created by: <span className="font-semibold text-foreground">{flight.username || "Unknown"}</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
+                  </p>
+                </div>
               </CardContent>
             </Card>
           ))}
