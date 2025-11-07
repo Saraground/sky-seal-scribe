@@ -201,16 +201,41 @@ const Preview = () => {
           <style dangerouslySetInnerHTML={{
           __html: `
             @media print {
-              @page { margin: 0.2cm; size: A4; }
-              body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-              table { page-break-inside: avoid; font-size: 0.75rem; }
-              tr { page-break-inside: avoid; page-break-after: avoid; }
-              * { page-break-inside: avoid; }
+              @page { 
+                margin: 0.2cm; 
+                size: A4 portrait; 
+              }
+              body { 
+                print-color-adjust: exact; 
+                -webkit-print-color-adjust: exact; 
+              }
+              table { 
+                page-break-inside: avoid; 
+                font-size: 0.75rem; 
+              }
+              tr { 
+                page-break-inside: avoid !important; 
+                page-break-after: avoid !important; 
+              }
+              * { 
+                page-break-inside: avoid !important; 
+                page-break-before: avoid !important;
+                page-break-after: avoid !important;
+              }
+              html, body {
+                height: 100%;
+                overflow: hidden !important;
+              }
+              .print-container {
+                height: 100vh;
+                overflow: hidden !important;
+                page-break-after: avoid !important;
+              }
             }
           `
         }} />
           
-          <div className="border-2 border-black">
+          <div className="border-2 border-black print-container">
             {/* Header Section */}
             <table className="w-full border-collapse">
               <tbody>
