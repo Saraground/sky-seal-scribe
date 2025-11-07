@@ -26,8 +26,8 @@ const Preview = () => {
   const [loading, setLoading] = useState(true);
 
   const equipmentNames: Record<string, string> = {
-    "full-trolley": "Full-Size Trolley",
-    "half-trolley": "Half-Size Trolley",
+    "full-trolley": "Hi-Lift",
+    "half-trolley": "Hi-Lift",
     "food-container": "Food Container",
     "service-container": "Service Container",
   };
