@@ -107,6 +107,28 @@ const Scan = () => {
               <Plus className="w-4 h-4 mr-2" />
               Add Seal
             </Button>
+            
+            {seals.length > 0 && (
+              <div className="pt-4 border-t space-y-3">
+                <div className="flex justify-between items-center">
+                  <p className="text-sm font-medium">Total Seals Scanned</p>
+                  <span className="text-lg font-bold text-primary">{seals.length}</span>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">Scanned Seal Numbers:</p>
+                  <div className="flex flex-wrap gap-2">
+                    {seals.map((seal) => (
+                      <span
+                        key={seal.id}
+                        className="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono font-medium bg-primary/10 text-primary"
+                      >
+                        {seal.sealNumber}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
