@@ -141,7 +141,7 @@ const Equipment = () => {
             </div>
             <div>
               <h1 className="text-sm font-semibold tracking-tight">Select Equipment Type</h1>
-              <p className="text-white/60 text-xs">Flight {flightNumber || "..."}</p>
+              <p className="text-white/70 text-sm font-medium">Flight {flightNumber || "..."}</p>
             </div>
           </div>
         </div>
