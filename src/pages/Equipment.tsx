@@ -39,6 +39,7 @@ const Equipment = () => {
     flightId
   } = useParams();
   const [sealCounts, setSealCounts] = useState<Record<string, number>>({});
+  const [flightNumber, setFlightNumber] = useState("");
   const [hilift1Seal, setHilift1Seal] = useState("");
   const [hilift2Seal, setHilift2Seal] = useState("");
   const [hilift1Number, setHilift1Number] = useState("");
@@ -67,8 +68,9 @@ const Equipment = () => {
       if (!flightId) return;
       const {
         data
-      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_number, hilift_2_number").eq("id", flightId).single();
+      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_number, hilift_2_number, flight_number").eq("id", flightId).single();
       if (data) {
+        setFlightNumber(data.flight_number || "");
         setHilift1Seal(data.hilift_1_seal || "");
         setHilift2Seal(data.hilift_2_seal || "");
         setHilift1Number(data.hilift_1_number || "");
@@ -124,16 +126,26 @@ const Equipment = () => {
     setHilift2DialogOpen(false);
   };
   return <div className="min-h-screen bg-background">
-      <header className="bg-primary text-primary-foreground shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center mb-2">
-            <Button variant="ghost" size="sm" onClick={() => navigate("/flights")} className="text-primary-foreground hover:bg-primary-foreground/10">
+      <header className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-xl">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-between items-start mb-4">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/flights")} className="text-primary-foreground hover:bg-primary-foreground/20 transition-colors">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Flights
             </Button>
             <ConnectionStatus />
           </div>
-          <h1 className="text-xl font-bold">Select Equipment Type</h1>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-lg bg-primary-foreground/10 flex items-center justify-center backdrop-blur-sm">
+                <ScanLine className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight">Select Equipment Type</h1>
+                <p className="text-primary-foreground/80 text-sm">Flight {flightNumber || "..."}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </header>
 
