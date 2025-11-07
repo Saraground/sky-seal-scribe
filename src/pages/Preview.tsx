@@ -201,26 +201,11 @@ const Preview = () => {
           <style dangerouslySetInnerHTML={{
           __html: `
             @media print {
-              @page { 
-                margin: 0.5cm 0.3cm; 
-                size: A4 portrait; 
-              }
-              body { 
-                print-color-adjust: exact; 
-                -webkit-print-color-adjust: exact; 
-              }
-              table { 
-                page-break-inside: avoid; 
-                font-size: 0.7rem;
-                width: 100%;
-              }
-              tr { 
-                page-break-inside: avoid; 
-                page-break-after: avoid; 
-              }
-              * { 
-                page-break-inside: avoid; 
-              }
+              @page { margin: 0.2cm; size: A4; }
+              body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+              table { page-break-inside: avoid; font-size: 0.75rem; }
+              tr { page-break-inside: avoid; page-break-after: avoid; }
+              * { page-break-inside: avoid; }
             }
           `
         }} />
@@ -349,10 +334,10 @@ const Preview = () => {
             <table className="w-full border-collapse table-fixed">
               <thead>
                 <tr className="bg-gray-100">
-                  <th className="border border-black p-0.5 text-xs font-bold w-[40px]">S/n</th>
-                  <th className="border border-black p-0.5 text-xs font-bold w-[140px]">Cart No.</th>
-                  <th className="border border-black p-0.5 text-xs font-bold w-[380px]">Seal / Sticker No.</th>
-                  <th className="border border-black p-0.5 text-xs font-bold">Remarks</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[50px]">S/n</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[150px]">Cart No.</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[400px]">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -379,53 +364,53 @@ const Preview = () => {
 
                 // Create rows: first row with equipment info, additional rows for overflow, then empty row
                 const equipmentRows = sealLines.map((line, lineIdx) => <tr key={`${equipmentType}-${lineIdx}`} style={{
-                  height: '20px'
+                  height: '26px'
                 }}>
-                      <td className="border border-black p-0.5 text-center" style={{ fontSize: '10px' }}>
+                      <td className="border border-black p-1 text-center text-xs">
                         {lineIdx === 0 ? index + 1 : ''}
                       </td>
-                      <td className="border border-black p-0.5 text-center" style={{ fontSize: '10px' }}>
+                      <td className="border border-black p-1 text-center text-xs">
                         {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
                       </td>
-                      <td className="border border-black p-0.5 text-left px-1 whitespace-nowrap">
-                        <span className="font-bold" style={{ fontSize: '11px' }}>
+                      <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
+                        <span className="font-bold text-sm">
                           {line}
                         </span>
                       </td>
-                      <td className="border border-black p-0.5"></td>
+                      <td className="border border-black p-1"></td>
                     </tr>);
 
                 // Add empty row after each equipment type
                 const emptyRow = <tr key={`${equipmentType}-empty`} style={{
-                  height: '20px'
+                  height: '26px'
                 }}>
-                      <td className="border border-black p-0.5"></td>
-                      <td className="border border-black p-0.5"></td>
-                      <td className="border border-black p-0.5"></td>
-                      <td className="border border-black p-0.5"></td>
+                      <td className="border border-black p-1"></td>
+                      <td className="border border-black p-1"></td>
+                      <td className="border border-black p-1"></td>
+                      <td className="border border-black p-1"></td>
                     </tr>;
                 return [...equipmentRows, emptyRow];
               })}
-                {/* Fill remaining rows to maintain consistent page layout */}
+                {/* Reduced empty rows to fit one page */}
                 {Array.from({
-                length: 8
+                length: 1
               }).map((_, i) => <tr key={`empty-${i}`} style={{
-                height: '20px'
+                height: '22px'
               }}>
-                    <td className="border border-black p-0.5"></td>
-                    <td className="border border-black p-0.5"></td>
-                    <td className="border border-black p-0.5"></td>
-                    <td className="border border-black p-0.5"></td>
+                    <td className="border border-black p-1"></td>
+                    <td className="border border-black p-1"></td>
+                    <td className="border border-black p-1"></td>
+                    <td className="border border-black p-1"></td>
                   </tr>)}
-                <tr style={{ height: '20px' }}>
-                  <td colSpan={2} className="border border-black p-0.5"></td>
-                  <td className="border border-black p-0.5 text-right font-semibold" style={{ fontSize: '10px' }}>TOTAL NO. OF TR PADLOCKS:</td>
-                  <td className="border border-black p-0.5"></td>
+                <tr>
+                  <td colSpan={2} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
+                  <td className="border border-black p-1"></td>
                 </tr>
-                <tr style={{ height: '20px' }}>
-                  <td colSpan={2} className="border border-black p-0.5"></td>
-                  <td className="border border-black p-0.5 text-right font-semibold" style={{ fontSize: '10px' }}>ACKNOWLEDGE BY:</td>
-                  <td className="border border-black p-0.5"></td>
+                <tr>
+                  <td colSpan={2} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">ACKNOWLEDGE BY:</td>
+                  <td className="border border-black p-1"></td>
                 </tr>
               </tbody>
             </table>
