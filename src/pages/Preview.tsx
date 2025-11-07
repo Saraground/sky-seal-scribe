@@ -191,12 +191,12 @@ const Preview = () => {
             </div>
 
             {/* Main Data Table */}
-            <table className="w-full border-collapse">
+            <table className="w-full border-collapse table-fixed">
               <thead>
                 <tr className="bg-gray-100">
-                  <th className="border border-black p-1 text-sm font-bold">S/n</th>
-                  <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
-                  <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[50px]">S/n</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[150px]">Cart No.</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[300px]">Seal / Sticker No.</th>
                   <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
