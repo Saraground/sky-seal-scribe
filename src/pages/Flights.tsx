@@ -24,7 +24,7 @@ interface Flight {
   flight_number: string;
   destination: string;
   departure_time: string;
-  status: "pending" | "completed" | "in-progress" | "deleted";
+  status: "pending" | "completed" | "in-progress" | "deleted" | "printed";
   user_id: string;
   created_at: string;
   updated_at: string;
@@ -153,6 +153,8 @@ const Flights = () => {
     switch (status) {
       case "completed":
         return "bg-success text-success-foreground";
+      case "printed":
+        return "bg-blue-500 text-white";
       case "in-progress":
         return "bg-warning text-warning-foreground";
       default:

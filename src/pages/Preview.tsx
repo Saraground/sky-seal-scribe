@@ -50,6 +50,23 @@ const Preview = () => {
   };
   useEffect(() => {
     fetchData();
+    
+    // Listen for print completion
+    const handleAfterPrint = async () => {
+      // Update flight status to "printed" after print dialog closes
+      if (flightId) {
+        await supabase
+          .from("flights")
+          .update({ status: "printed" })
+          .eq("id", flightId);
+      }
+    };
+
+    window.addEventListener("afterprint", handleAfterPrint);
+
+    return () => {
+      window.removeEventListener("afterprint", handleAfterPrint);
+    };
   }, [flightId]);
   const fetchData = async () => {
     setLoading(true);
