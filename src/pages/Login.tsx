@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plane } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import scootLogo from "@/assets/scoot-logo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -83,8 +83,8 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-4 text-center">
-          <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-            <Plane className="w-8 h-8 text-primary" />
+          <div className="mx-auto flex items-center justify-center">
+            <img src={scootLogo} alt="Scoot Logo" className="w-32 h-32 object-contain" />
           </div>
           <CardTitle className="text-2xl">Trolley Seal Management</CardTitle>
           <CardDescription>Airline Catering Service System</CardDescription>
