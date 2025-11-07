@@ -393,7 +393,7 @@ const Preview = () => {
               })}
                 {/* Reduced empty rows to fit one page */}
                 {Array.from({
-                length: 8
+                length: 1
               }).map((_, i) => <tr key={`empty-${i}`} style={{
                 height: '22px'
               }}>
