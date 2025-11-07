@@ -249,7 +249,7 @@ const Preview = () => {
                     Hi-Lift 1{flightData?.hilift_1_number ? ` - ${flightData.hilift_1_number}` : ""}
                   </td>
                   <td className="border border-black p-1 w-8 text-center font-bold">1</td>
-                  <td className="border border-black p-1 text-left text-lg font-bold">
+                  <td className="border border-black p-1 text-left font-bold" style={{ fontSize: '22px' }}>
                     Rear Seal: {flightData?.hilift_1_rear_seal || ""}, Front Seal: {flightData?.hilift_1_seal || ""}
                   </td>
                 </tr>
@@ -258,7 +258,7 @@ const Preview = () => {
                     Hi-Lift 2{flightData?.hilift_2_number ? ` - ${flightData.hilift_2_number}` : ""}
                   </td>
                   <td className="border border-black p-1 w-8 text-center font-bold">2</td>
-                  <td className="border border-black p-1 text-left text-lg font-bold">
+                  <td className="border border-black p-1 text-left font-bold" style={{ fontSize: '22px' }}>
                     Rear Seal: {flightData?.hilift_2_rear_seal || ""}, Front Seal: {flightData?.hilift_2_seal || ""}
                   </td>
                 </tr>
