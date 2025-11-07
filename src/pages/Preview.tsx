@@ -199,21 +199,19 @@ const Preview = () => {
       </header>
 
       <main className="container mx-auto px-4 py-6 max-w-4xl print:max-w-full">
-        <div className="mb-6 print:hidden">
-          <div className="flex gap-3 justify-center">
-            <Button onClick={handlePrint} className="flex-1 max-w-xs">
-              <Printer className="w-4 h-4 mr-2" />
-              Print Report
-            </Button>
-            <Button variant="outline" className="flex-1 max-w-xs">
-              <FileText className="w-4 h-4 mr-2" />
-              Export to Excel
-            </Button>
-            <Button variant="outline" onClick={handleReset} className="flex-1 max-w-xs">
-              <RotateCcw className="w-4 h-4 mr-2" />
-              Reset
-            </Button>
-          </div>
+        <div className="mb-6 print:hidden flex gap-3">
+          <Button onClick={handlePrint} className="flex-1">
+            <Printer className="w-4 h-4 mr-2" />
+            Print Report
+          </Button>
+          <Button variant="outline" className="flex-1">
+            <FileText className="w-4 h-4 mr-2" />
+            Export to Excel
+          </Button>
+          <Button variant="outline" onClick={handleReset} className="flex-1">
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reset
+          </Button>
         </div>
 
         {/* Print Template */}
