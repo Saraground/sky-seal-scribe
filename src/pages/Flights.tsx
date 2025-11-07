@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plane, LogOut, Clock, Trash2 } from "lucide-react";
+import { Plane, LogOut, Clock, Trash2, User } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { AddFlightDialog } from "@/components/AddFlightDialog";
@@ -141,6 +141,10 @@ const Flights = () => {
           </div>
           <div className="flex items-center gap-2">
             <ConnectionStatus />
+            <Button variant="outline" size="sm" onClick={() => navigate("/profile")} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
+              <User className="w-4 h-4 mr-2" />
+              Profile
+            </Button>
             <Button variant="outline" size="sm" onClick={handleLogout} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
               <LogOut className="w-4 h-4 mr-2" />
               Logout

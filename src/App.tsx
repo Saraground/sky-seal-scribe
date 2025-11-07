@@ -8,6 +8,7 @@ import Flights from "./pages/Flights";
 import Equipment from "./pages/Equipment";
 import Scan from "./pages/Scan";
 import Preview from "./pages/Preview";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/equipment/:flightId" element={<Equipment />} />
           <Route path="/scan/:flightId/:equipmentType" element={<Scan />} />
           <Route path="/preview/:flightId" element={<Preview />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
