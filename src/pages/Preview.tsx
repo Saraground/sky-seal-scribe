@@ -198,13 +198,11 @@ const Preview = () => {
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(groupedScans).map(([equipmentType, scans], groupIndex) => (
-                  <tr key={equipmentType}>
-                    <td className="border border-black p-1 text-center text-xs">{groupIndex + 1}</td>
-                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[equipmentType]}</td>
-                    <td className="border border-black p-1 text-center font-bold text-lg">
-                      {scans.map(scan => scan.seal_number).join(', ')}
-                    </td>
+                {sealScans.map((scan, index) => (
+                  <tr key={scan.id}>
+                    <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
+                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[scan.equipment_type]}</td>
+                    <td className="border border-black p-1 text-center font-bold text-lg">{scan.seal_number}</td>
                     <td className="border border-black p-1"></td>
                   </tr>
                 ))}
