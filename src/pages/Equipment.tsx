@@ -183,8 +183,8 @@ const Equipment = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-3 space-y-3">
-        <div className="grid gap-3 md:grid-cols-2">
+      <main className="container mx-auto px-4 py-3 space-y-1">
+        <div className="grid gap-1 md:grid-cols-2">
           {equipmentTypes.map((equipment) => {
             const Icon = equipment.icon;
             return (
@@ -220,7 +220,7 @@ const Equipment = () => {
         </div>
 
         {/* Hi-Lift Seals Section */}
-        <div className="grid gap-3 md:grid-cols-2 mt-3">
+        <div className="grid gap-1 md:grid-cols-2 mt-1">
           <Dialog open={hilift1DialogOpen} onOpenChange={setHilift1DialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
@@ -326,7 +326,7 @@ const Equipment = () => {
           </Dialog>
         </div>
         
-        <div className="flex gap-3 mt-3">
+        <div className="flex gap-1 mt-1">
           <Button
             variant="outline"
             className="flex-1 gap-2"
