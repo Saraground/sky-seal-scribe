@@ -9,16 +9,32 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const AddFlightDialog = ({ onFlightAdded }: { onFlightAdded: () => void }) => {
   const [open, setOpen] = useState(false);
-  const [flightNumber, setFlightNumber] = useState("");
+  const [flightNumber, setFlightNumber] = useState("TR");
   const { toast } = useToast();
+
+  const handleFlightNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.toUpperCase();
+    
+    // Always keep TR prefix
+    if (!value.startsWith("TR")) {
+      setFlightNumber("TR");
+      return;
+    }
+    
+    // Only allow TR followed by numbers
+    const numberPart = value.slice(2);
+    if (numberPart === "" || /^\d+$/.test(numberPart)) {
+      setFlightNumber(value);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!flightNumber) {
+    if (!flightNumber || flightNumber === "TR" || flightNumber.length < 4) {
       toast({
         title: "Error",
-        description: "Please enter a flight number",
+        description: "Please enter a valid flight number (e.g., TR123)",
         variant: "destructive",
       });
       return;
@@ -60,7 +76,7 @@ export const AddFlightDialog = ({ onFlightAdded }: { onFlightAdded: () => void }
       description: "Flight added successfully",
     });
 
-    setFlightNumber("");
+    setFlightNumber("TR");
     setOpen(false);
     onFlightAdded();
   };
@@ -82,9 +98,10 @@ export const AddFlightDialog = ({ onFlightAdded }: { onFlightAdded: () => void }
             <Label htmlFor="flightNumber">Flight Number</Label>
             <Input
               id="flightNumber"
-              placeholder="e.g., TR123"
+              placeholder="TR123"
               value={flightNumber}
-              onChange={(e) => setFlightNumber(e.target.value)}
+              onChange={handleFlightNumberChange}
+              maxLength={10}
             />
           </div>
           <Button type="submit" className="w-full">
