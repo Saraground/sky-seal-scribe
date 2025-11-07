@@ -204,10 +204,11 @@ const Preview = () => {
         <div className="print:block hidden">
           <style dangerouslySetInnerHTML={{__html: `
             @media print {
-              @page { margin: 0.5cm; }
+              @page { margin: 0.3cm; size: A4; }
               body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-              table { page-break-inside: auto; }
-              tr { page-break-inside: avoid; page-break-after: auto; }
+              table { page-break-inside: avoid; font-size: 0.85rem; }
+              tr { page-break-inside: avoid; page-break-after: avoid; }
+              * { page-break-inside: avoid; }
             }
           `}} />
           
@@ -372,13 +373,13 @@ const Preview = () => {
                   
                   return [...equipmentRows, emptyRow];
                 })}
-                {/* Fixed 14 empty rows */}
-                {Array.from({ length: 14 }).map((_, i) => (
+                {/* Fixed 13 empty rows */}
+                {Array.from({ length: 13 }).map((_, i) => (
                   <tr key={`empty-${i}`}>
-                    <td className="border border-black p-3"></td>
-                    <td className="border border-black p-3"></td>
-                    <td className="border border-black p-3"></td>
-                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-2"></td>
+                    <td className="border border-black p-2"></td>
+                    <td className="border border-black p-2"></td>
+                    <td className="border border-black p-2"></td>
                   </tr>
                 ))}
                 <tr>
