@@ -196,51 +196,32 @@ const Preview = () => {
                 <tr className="bg-gray-100">
                   <th className="border border-black p-1 text-sm font-bold">S/n</th>
                   <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
-                  <th className="border border-black p-1 text-sm font-bold" colSpan={4}>Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
                   <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
               <tbody>
-                {(() => {
-                  const rows = [];
-                  for (let i = 0; i < sealScans.length; i += 4) {
-                    const chunk = sealScans.slice(i, i + 4);
-                    rows.push(
-                      <tr key={i}>
-                        <td className="border border-black p-1 text-center text-xs">{i + 1}</td>
-                        <td className="border border-black p-1 text-center text-xs">
-                          {chunk[0] ? equipmentNames[chunk[0].equipment_type] : ''}
-                        </td>
-                        {[0, 1, 2, 3].map((idx) => (
-                          <td key={idx} className="border border-black p-1 text-center">
-                            <span className="font-bold text-sm">
-                              {chunk[idx]?.seal_number || ''}
-                            </span>
-                          </td>
-                        ))}
-                        <td className="border border-black p-1"></td>
-                      </tr>
-                    );
-                  }
-                  
-                  // Add empty rows to fill page
-                  const currentRows = rows.length;
-                  for (let i = currentRows; i < 15; i++) {
-                    rows.push(
-                      <tr key={`empty-${i}`}>
-                        <td className="border border-black p-3"></td>
-                        <td className="border border-black p-3"></td>
-                        <td className="border border-black p-3"></td>
-                        <td className="border border-black p-3"></td>
-                        <td className="border border-black p-3"></td>
-                        <td className="border border-black p-3"></td>
-                        <td className="border border-black p-3"></td>
-                      </tr>
-                    );
-                  }
-                  
-                  return rows;
-                })()}
+                {sealScans.map((scan, index) => (
+                  <tr key={scan.id}>
+                    <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
+                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[scan.equipment_type]}</td>
+                    <td className="border border-black p-1">
+                      <div className="grid grid-cols-4 gap-2 p-1">
+                        <span className="font-bold text-sm">{scan.seal_number}</span>
+                      </div>
+                    </td>
+                    <td className="border border-black p-1"></td>
+                  </tr>
+                ))}
+                {/* Empty rows to fill page */}
+                {Array.from({ length: Math.max(0, 15 - sealScans.length) }).map((_, i) => (
+                  <tr key={`empty-${i}`}>
+                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-3"></td>
+                  </tr>
+                ))}
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
                   <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
