@@ -50,6 +50,26 @@ const Flights = () => {
 
   useEffect(() => {
     fetchFlights();
+
+    // Subscribe to realtime updates
+    const channel = supabase
+      .channel('flights-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'flights'
+        },
+        () => {
+          fetchFlights();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [navigate]);
 
   const handleLogout = async () => {
