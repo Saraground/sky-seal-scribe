@@ -341,67 +341,99 @@ const Preview = () => {
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(groupedScans).flatMap(([equipmentType, scans], index) => {
-                const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
-                const maxCharsPerLine = 50; // Maximum characters per line for seal numbers
-                const sealLines: string[] = [];
+                {(() => {
+                  // Calculate total rows used by equipment data
+                  const equipmentRowCount = Object.entries(groupedScans).reduce((count, [equipmentType, scans]) => {
+                    const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
+                    const maxCharsPerLine = 50;
+                    const sealLines: string[] = [];
+                    
+                    let currentLine = '';
+                    const sealsArray = sealNumbers.split(', ');
+                    sealsArray.forEach((seal, idx) => {
+                      const testLine = currentLine + (currentLine ? ', ' : '') + seal;
+                      if (testLine.length <= maxCharsPerLine) {
+                        currentLine = testLine;
+                      } else {
+                        if (currentLine) sealLines.push(currentLine);
+                        currentLine = seal;
+                      }
+                      if (idx === sealsArray.length - 1 && currentLine) {
+                        sealLines.push(currentLine);
+                      }
+                    });
+                    
+                    // Each equipment type uses: sealLines.length rows + 1 empty separator row
+                    return count + sealLines.length + 1;
+                  }, 0);
 
-                // Split seal numbers into chunks without wrapping
-                let currentLine = '';
-                const sealsArray = sealNumbers.split(', ');
-                sealsArray.forEach((seal, idx) => {
-                  const testLine = currentLine + (currentLine ? ', ' : '') + seal;
-                  if (testLine.length <= maxCharsPerLine) {
-                    currentLine = testLine;
-                  } else {
-                    if (currentLine) sealLines.push(currentLine);
-                    currentLine = seal;
-                  }
-                  if (idx === sealsArray.length - 1 && currentLine) {
-                    sealLines.push(currentLine);
-                  }
-                });
+                  // Target total data rows for A4 (adjust to fit perfectly)
+                  const targetDataRows = 25;
+                  const emptyRowsNeeded = Math.max(0, targetDataRows - equipmentRowCount);
 
-                // Create rows: first row with equipment info, additional rows for overflow, then empty row
-                const equipmentRows = sealLines.map((line, lineIdx) => <tr key={`${equipmentType}-${lineIdx}`} style={{
-                  height: '26px'
-                }}>
-                      <td className="border border-black p-1 text-center text-xs">
-                        {lineIdx === 0 ? index + 1 : ''}
-                      </td>
-                      <td className="border border-black p-1 text-center text-xs">
-                        {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
-                      </td>
-                      <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
-                        <span className="font-bold text-sm">
-                          {line}
-                        </span>
-                      </td>
-                      <td className="border border-black p-1"></td>
-                    </tr>);
+                  return (
+                    <>
+                      {Object.entries(groupedScans).flatMap(([equipmentType, scans], index) => {
+                        const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
+                        const maxCharsPerLine = 50;
+                        const sealLines: string[] = [];
 
-                // Add empty row after each equipment type
-                const emptyRow = <tr key={`${equipmentType}-empty`} style={{
-                  height: '26px'
-                }}>
-                      <td className="border border-black p-1"></td>
-                      <td className="border border-black p-1"></td>
-                      <td className="border border-black p-1"></td>
-                      <td className="border border-black p-1"></td>
-                    </tr>;
-                return [...equipmentRows, emptyRow];
-              })}
-                {/* Reduced empty rows to fit one page */}
-                {Array.from({
-                length: 1
-              }).map((_, i) => <tr key={`empty-${i}`} style={{
-                height: '22px'
-              }}>
-                    <td className="border border-black p-1"></td>
-                    <td className="border border-black p-1"></td>
-                    <td className="border border-black p-1"></td>
-                    <td className="border border-black p-1"></td>
-                  </tr>)}
+                        let currentLine = '';
+                        const sealsArray = sealNumbers.split(', ');
+                        sealsArray.forEach((seal, idx) => {
+                          const testLine = currentLine + (currentLine ? ', ' : '') + seal;
+                          if (testLine.length <= maxCharsPerLine) {
+                            currentLine = testLine;
+                          } else {
+                            if (currentLine) sealLines.push(currentLine);
+                            currentLine = seal;
+                          }
+                          if (idx === sealsArray.length - 1 && currentLine) {
+                            sealLines.push(currentLine);
+                          }
+                        });
+
+                        const equipmentRows = sealLines.map((line, lineIdx) => (
+                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '26px' }}>
+                            <td className="border border-black p-1 text-center text-xs">
+                              {lineIdx === 0 ? index + 1 : ''}
+                            </td>
+                            <td className="border border-black p-1 text-center text-xs">
+                              {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
+                            </td>
+                            <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
+                              <span className="font-bold text-sm">
+                                {line}
+                              </span>
+                            </td>
+                            <td className="border border-black p-1"></td>
+                          </tr>
+                        ));
+
+                        const emptyRow = (
+                          <tr key={`${equipmentType}-empty`} style={{ height: '26px' }}>
+                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1"></td>
+                          </tr>
+                        );
+                        
+                        return [...equipmentRows, emptyRow];
+                      })}
+                      
+                      {/* Dynamic empty rows to fill A4 page */}
+                      {Array.from({ length: emptyRowsNeeded }).map((_, i) => (
+                        <tr key={`empty-${i}`} style={{ height: '26px' }}>
+                          <td className="border border-black p-1"></td>
+                          <td className="border border-black p-1"></td>
+                          <td className="border border-black p-1"></td>
+                          <td className="border border-black p-1"></td>
+                        </tr>
+                      ))}
+                    </>
+                  );
+                })()}
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
                   <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
