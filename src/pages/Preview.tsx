@@ -201,18 +201,20 @@ const Preview = () => {
                 </tr>
               </thead>
               <tbody>
-                {sealScans.map((scan, index) => (
-                  <tr key={scan.id}>
+                {Object.entries(groupedScans).map(([equipmentType, scans], index) => (
+                  <tr key={equipmentType}>
                     <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
-                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[scan.equipment_type]}</td>
-                    <td className="border border-black p-1 text-center">
-                      <span className="font-bold text-sm">{scan.seal_number}</span>
+                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[equipmentType]}</td>
+                    <td className="border border-black p-1 text-left px-2">
+                      <span className="font-bold text-sm">
+                        {scans.map(scan => scan.seal_number).join(', ')}
+                      </span>
                     </td>
                     <td className="border border-black p-1"></td>
                   </tr>
                 ))}
                 {/* Empty rows to fill page */}
-                {Array.from({ length: Math.max(0, 15 - sealScans.length) }).map((_, i) => (
+                {Array.from({ length: Math.max(0, 15 - Object.keys(groupedScans).length) }).map((_, i) => (
                   <tr key={`empty-${i}`}>
                     <td className="border border-black p-3"></td>
                     <td className="border border-black p-3"></td>
