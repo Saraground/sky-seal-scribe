@@ -184,14 +184,14 @@ const Preview = () => {
                   <td className="border border-black p-1 w-32">Hi-Lift 1</td>
                   <td className="border border-black p-1 w-8 text-center font-bold">1</td>
                   <td className="border border-black p-1 text-left text-xs font-bold">
-                    {flightData?.hilift_1_seal || ""}
+                    Seal No: {flightData?.hilift_1_seal || ""}
                   </td>
                 </tr>
                 <tr>
                   <td className="border border-black p-1 w-32">Hi-Lift 2</td>
                   <td className="border border-black p-1 w-8 text-center font-bold">2</td>
                   <td className="border border-black p-1 text-left text-xs font-bold">
-                    {flightData?.hilift_2_seal || ""}
+                    Seal No: {flightData?.hilift_2_seal || ""}
                   </td>
                 </tr>
                 <tr>
