@@ -124,24 +124,20 @@ const Preview = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td rowSpan={3} className="border border-black p-2 w-1/3 align-top">
+                  <td rowSpan={2} className="border border-black p-2 w-1/3 align-top">
                     <div className="text-center">
                       <div className="text-red-600 font-bold text-2xl mb-1">SATS</div>
                       <div className="text-xs font-semibold">SATS Security Services Pte Ltd</div>
                     </div>
                   </td>
                   <td className="border border-black p-1 text-center font-semibold">Date</td>
-                  <td className="border border-black p-1 text-center">{flightData ? new Date(flightData.departure_time).toLocaleDateString() : ''}</td>
+                  <td rowSpan={2} className="border border-black p-2 align-middle">
+                    <div className="text-center font-bold text-3xl">SCOOT</div>
+                  </td>
                 </tr>
                 <tr>
                   <td className="border border-black p-1 bg-blue-900 text-white text-center font-semibold">
                     Flight No.
-                  </td>
-                  <td className="border border-black p-1 bg-blue-900 text-white text-center font-semibold">{flightData?.flight_number || ''}</td>
-                </tr>
-                <tr>
-                  <td colSpan={2} className="border border-black p-2 align-middle">
-                    <div className="text-center font-bold text-3xl">SCOOT</div>
                   </td>
                 </tr>
               </tbody>
@@ -154,7 +150,7 @@ const Preview = () => {
                   <tr key={equipmentType}>
                     <td className="border border-black p-1 w-32">Hi-Lift</td>
                     <td className="border border-black p-1 w-8 text-center font-bold">{idx + 1}</td>
-                    <td className="border border-black p-1 text-left text-xs font-semibold">Seal No.</td>
+                    <td className="border border-black p-1 text-center font-semibold">Seal No.</td>
                   </tr>
                 ))}
                 <tr>
@@ -179,8 +175,8 @@ const Preview = () => {
               <tbody>
                 <tr>
                   <td className="border border-black p-1 text-xs w-1/4">Name of APO / SO</td>
-                  <td className="border border-black p-1 text-xs text-left"><span className="text-[10px] font-semibold">FORM PREPARED BY<br/>Signatures</span></td>
-                  <td className="border border-black p-1 text-xs text-left"><span className="text-[10px] font-semibold">FORM FINALISED BY<br/>Signatures</span></td>
+                  <td className="border border-black p-1 text-xs text-center font-semibold">FORM PREPARED BY<br/>Signatures</td>
+                  <td className="border border-black p-1 text-xs text-center font-semibold">FORM FINALISED BY<br/>Signatures</td>
                 </tr>
               </tbody>
             </table>
