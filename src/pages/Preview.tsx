@@ -162,7 +162,7 @@ const Preview = () => {
                     </div>
                   </td>
                   <td className="border border-black p-1 text-center font-semibold">Date</td>
-                  <td className="border border-black p-1 text-center text-sm">
+                  <td className="border border-black p-1 text-center text-lg font-bold">
                     {flightData ? new Date(flightData.departure_time).toLocaleDateString() : ''}
                   </td>
                 </tr>
@@ -170,7 +170,7 @@ const Preview = () => {
                   <td className="border border-black p-1 bg-blue-900 text-white text-center font-semibold">
                     Flight No.
                   </td>
-                  <td className="border border-black p-1 bg-blue-900 text-white text-center text-sm">
+                  <td className="border border-black p-1 bg-blue-900 text-white text-center text-lg font-bold">
                     {flightData?.flight_number || ''}
                   </td>
                 </tr>
@@ -183,14 +183,14 @@ const Preview = () => {
                 <tr>
                   <td className="border border-black p-1 w-32">Hi-Lift 1</td>
                   <td className="border border-black p-1 w-8 text-center font-bold">1</td>
-                  <td className="border border-black p-1 text-left text-xs font-bold">
+                  <td className="border border-black p-1 text-left text-lg font-bold">
                     Seal No: {flightData?.hilift_1_seal || ""}
                   </td>
                 </tr>
                 <tr>
                   <td className="border border-black p-1 w-32">Hi-Lift 2</td>
                   <td className="border border-black p-1 w-8 text-center font-bold">2</td>
-                  <td className="border border-black p-1 text-left text-xs font-bold">
+                  <td className="border border-black p-1 text-left text-lg font-bold">
                     Seal No: {flightData?.hilift_2_seal || ""}
                   </td>
                 </tr>
@@ -219,7 +219,7 @@ const Preview = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="font-semibold">FORM PREPARED BY:</div>
-                        <div className="mt-1">{creatorUsername}</div>
+                        <div className="mt-1 text-lg font-bold">{creatorUsername}</div>
                       </div>
                       <div className="font-semibold">Signature:</div>
                     </div>
@@ -228,7 +228,7 @@ const Preview = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="font-semibold">FORM FINALISED BY:</div>
-                        <div className="mt-1">{currentUsername}</div>
+                        <div className="mt-1 text-lg font-bold">{currentUsername}</div>
                       </div>
                       <div className="font-semibold">Signature:</div>
                     </div>
