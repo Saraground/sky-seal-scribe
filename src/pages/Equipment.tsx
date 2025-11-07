@@ -140,8 +140,8 @@ const Equipment = () => {
               <ScanLine className="w-3.5 h-3.5 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-sm font-semibold tracking-tight text-slate-800">Select Equipment Type</h1>
-              <p className="text-blue-600 text-sm font-medium">Flight {flightNumber || "..."}</p>
+              <h1 className="tracking-tight text-slate-800 font-semibold text-xl">Select Equipment Type</h1>
+              <p className="font-medium text-red-600 text-lg">Flight:   TR111{flightNumber || "..."}</p>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ const Equipment = () => {
                 <CardContent className="pt-0 pb-2">
                   <div className="flex items-center justify-between">
                     
-                    <p className="text-xs font-semibold text-blue-500">
+                    <p className="font-semibold text-blue-500 text-sm">
                       {sealCounts[equipment.id] || 0} seals
                     </p>
                   </div>
