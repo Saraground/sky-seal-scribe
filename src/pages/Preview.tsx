@@ -205,10 +205,8 @@ const Preview = () => {
                   <tr key={scan.id}>
                     <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
                     <td className="border border-black p-1 text-center text-xs">{equipmentNames[scan.equipment_type]}</td>
-                    <td className="border border-black p-1">
-                      <div className="grid grid-cols-4 gap-2 p-1">
-                        <span className="font-bold text-sm">{scan.seal_number}</span>
-                      </div>
+                    <td className="border border-black p-1 text-center">
+                      <span className="font-bold text-sm">{scan.seal_number}</span>
                     </td>
                     <td className="border border-black p-1"></td>
                   </tr>
