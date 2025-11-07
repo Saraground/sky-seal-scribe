@@ -297,7 +297,7 @@ const Preview = () => {
                       <div className="font-semibold">Signature:</div>
                     </div>
                   </td>
-                  <td className="border border-black p-1 w-1/3" style={{ fontSize: '60px' }}>Scoot</td>
+                  <td className="border border-black p-1 w-1/3" style={{ fontSize: '40px' }}>Scoot</td>
                 </tr>
               </tbody>
             </table>
