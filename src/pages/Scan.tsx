@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,6 +28,60 @@ const Scan = () => {
     "food-container": "Food Container",
     "service-container": "Service Container",
   };
+
+  // Load existing seals when component mounts
+  useEffect(() => {
+    const fetchExistingSeals = async () => {
+      if (!flightId || !equipmentType) return;
+
+      const { data, error } = await supabase
+        .from("seal_scans")
+        .select("id, seal_number")
+        .eq("flight_id", flightId)
+        .eq("equipment_type", equipmentType)
+        .order("created_at", { ascending: true });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to load existing seals",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (data && data.length > 0) {
+        const loadedSeals = data.map((scan) => ({
+          id: scan.id,
+          sealNumber: scan.seal_number,
+        }));
+        setSeals(loadedSeals);
+      }
+    };
+
+    fetchExistingSeals();
+
+    // Subscribe to realtime updates
+    const channel = supabase
+      .channel('seal-scans-updates')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'seal_scans',
+          filter: `flight_id=eq.${flightId}`
+        },
+        () => {
+          fetchExistingSeals();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [flightId, equipmentType]);
 
   const handleAddSeal = async () => {
     if (currentSeal.trim()) {
@@ -65,13 +119,11 @@ const Scan = () => {
   const handleRemoveSeal = async (id: string, sealNumber: string) => {
     setSeals(seals.filter((seal) => seal.id !== id));
     
-    // Remove from Supabase
+    // Remove from Supabase using the actual database ID
     const { error } = await supabase
       .from("seal_scans")
       .delete()
-      .eq("flight_id", flightId!)
-      .eq("equipment_type", equipmentType!)
-      .eq("seal_number", sealNumber);
+      .eq("id", id);
 
     if (error) {
       toast({
