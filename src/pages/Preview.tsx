@@ -216,12 +216,22 @@ const Preview = () => {
               <tbody>
                 <tr>
                   <td className="border border-black p-1 text-xs w-1/3">
-                    <div>FORM PREPARED BY</div>
-                    <div className="mt-1">Signatures: {creatorUsername}</div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">FORM PREPARED BY:</div>
+                        <div className="mt-1">{creatorUsername}</div>
+                      </div>
+                      <div className="font-semibold">Signature:</div>
+                    </div>
                   </td>
                   <td className="border border-black p-1 text-xs w-1/3">
-                    <div>FORM FINALISED BY</div>
-                    <div className="mt-1">Signatures: {currentUsername}</div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">FORM FINALISED BY:</div>
+                        <div className="mt-1">{currentUsername}</div>
+                      </div>
+                      <div className="font-semibold">Signature:</div>
+                    </div>
                   </td>
                   <td className="border border-black p-1 text-xs w-1/3">Name of APO / SO</td>
                 </tr>
