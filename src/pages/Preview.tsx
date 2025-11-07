@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Printer, FileText, Edit } from "lucide-react";
+import { ArrowLeft, Printer, FileText, Edit, RotateCcw } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { supabase } from "@/integrations/supabase/client";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -52,61 +52,61 @@ const Preview = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      
-      // Fetch current user
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data: currentProfile } = await supabase
-          .from("profiles")
-          .select("username")
-          .eq("id", user.id)
-          .single();
-        
-        if (currentProfile) {
-          setCurrentUsername(currentProfile.username || "");
-        }
-      }
-      
-      // Fetch flight data
-      const { data: flight } = await supabase
-        .from("flights")
-        .select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number")
-        .eq("id", flightId!)
-        .single();
-      
-      if (flight) {
-        setFlightData(flight);
-        
-        // Fetch creator's profile
-        const { data: creatorProfile } = await supabase
-          .from("profiles")
-          .select("username")
-          .eq("id", flight.user_id)
-          .single();
-        
-        if (creatorProfile) {
-          setCreatorUsername(creatorProfile.username || "");
-        }
-      }
-      
-      // Fetch seal scans
-      const { data: scans } = await supabase
-        .from("seal_scans")
-        .select("*")
-        .eq("flight_id", flightId!)
-        .order("scanned_at", { ascending: true });
-      
-      if (scans) {
-        setSealScans(scans);
-      }
-      
-      setLoading(false);
-    };
-    
     fetchData();
   }, [flightId]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    
+    // Fetch current user
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: currentProfile } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", user.id)
+        .single();
+      
+      if (currentProfile) {
+        setCurrentUsername(currentProfile.username || "");
+      }
+    }
+    
+    // Fetch flight data
+    const { data: flight } = await supabase
+      .from("flights")
+      .select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number")
+      .eq("id", flightId!)
+      .single();
+    
+    if (flight) {
+      setFlightData(flight);
+      
+      // Fetch creator's profile
+      const { data: creatorProfile } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", flight.user_id)
+        .single();
+      
+      if (creatorProfile) {
+        setCreatorUsername(creatorProfile.username || "");
+      }
+    }
+    
+    // Fetch seal scans
+    const { data: scans } = await supabase
+      .from("seal_scans")
+      .select("*")
+      .eq("flight_id", flightId!)
+      .order("scanned_at", { ascending: true });
+    
+    if (scans) {
+      setSealScans(scans);
+    }
+    
+    setLoading(false);
+  };
 
   const groupedScans = sealScans.reduce((acc, scan) => {
     if (!acc[scan.equipment_type]) {
@@ -115,6 +115,14 @@ const Preview = () => {
     acc[scan.equipment_type].push(scan);
     return acc;
   }, {} as Record<string, SealScan[]>);
+
+  const handleReset = () => {
+    fetchData();
+    toast({
+      title: "Success",
+      description: "Page data refreshed",
+    });
+  };
 
   const handlePrint = () => {
     window.print();
@@ -199,6 +207,10 @@ const Preview = () => {
           <Button variant="outline" className="flex-1">
             <FileText className="w-4 h-4 mr-2" />
             Export to Excel
+          </Button>
+          <Button variant="outline" onClick={handleReset}>
+            <RotateCcw className="w-4 h-4 mr-2" />
+            Reset
           </Button>
         </div>
 
