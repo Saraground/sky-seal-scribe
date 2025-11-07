@@ -183,8 +183,8 @@ const Equipment = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 space-y-6">
-        <div className="grid gap-4 md:grid-cols-2">
+      <main className="container mx-auto px-4 py-3 space-y-3">
+        <div className="grid gap-3 md:grid-cols-2">
           {equipmentTypes.map((equipment) => {
             const Icon = equipment.icon;
             return (
@@ -193,23 +193,23 @@ const Equipment = () => {
                 className="hover:shadow-md transition-shadow cursor-pointer"
                 onClick={() => navigate(`/scan/${flightId}/${equipment.id}`)}
               >
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-primary" />
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <CardTitle>{equipment.name}</CardTitle>
-                      <CardDescription>{equipment.description}</CardDescription>
+                      <CardTitle className="text-base">{equipment.name}</CardTitle>
+                      <CardDescription className="text-xs">{equipment.description}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-0 pb-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       Seals required: <span className="font-semibold text-foreground">{equipment.sealCount}</span>
                     </p>
-                    <p className="text-sm font-semibold text-blue-500">
+                    <p className="text-xs font-semibold text-blue-500">
                       {sealCounts[equipment.id] || 0} scanned
                     </p>
                   </div>
@@ -220,23 +220,23 @@ const Equipment = () => {
         </div>
 
         {/* Hi-Lift Seals Section */}
-        <div className="grid gap-4 md:grid-cols-2 mt-6">
+        <div className="grid gap-3 md:grid-cols-2 mt-3">
           <Dialog open={hilift1DialogOpen} onOpenChange={setHilift1DialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Truck className="w-6 h-6 text-primary" />
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Truck className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <CardTitle>Hi-Lift 1</CardTitle>
-                      <CardDescription>Scan seal number</CardDescription>
+                      <CardTitle className="text-base">Hi-Lift 1</CardTitle>
+                      <CardDescription className="text-xs">Scan seal number</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm font-semibold text-blue-500">
+                <CardContent className="pt-0 pb-3">
+                  <p className="text-xs font-semibold text-blue-500">
                     {hilift1Seal ? `Seal: ${hilift1Seal}` : "Not scanned"}
                   </p>
                 </CardContent>
@@ -276,19 +276,19 @@ const Equipment = () => {
           <Dialog open={hilift2DialogOpen} onOpenChange={setHilift2DialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Truck className="w-6 h-6 text-primary" />
+                <CardHeader className="pb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Truck className="w-5 h-5 text-primary" />
                     </div>
                     <div>
-                      <CardTitle>Hi-Lift 2</CardTitle>
-                      <CardDescription>Scan seal number</CardDescription>
+                      <CardTitle className="text-base">Hi-Lift 2</CardTitle>
+                      <CardDescription className="text-xs">Scan seal number</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm font-semibold text-blue-500">
+                <CardContent className="pt-0 pb-3">
+                  <p className="text-xs font-semibold text-blue-500">
                     {hilift2Seal ? `Seal: ${hilift2Seal}` : "Not scanned"}
                   </p>
                 </CardContent>
@@ -326,7 +326,7 @@ const Equipment = () => {
           </Dialog>
         </div>
         
-        <div className="flex gap-3 mt-6">
+        <div className="flex gap-3 mt-3">
           <Button
             variant="outline"
             className="flex-1 gap-2"
