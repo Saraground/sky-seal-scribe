@@ -180,23 +180,16 @@ const Preview = () => {
             {/* Equipment Section */}
             <table className="w-full border-collapse">
               <tbody>
-                {Object.entries(groupedScans).slice(0, 2).map(([equipmentType, scans], idx) => (
-                  <tr key={equipmentType}>
-                    <td className="border border-black p-1 w-32">{equipmentNames[equipmentType]}</td>
-                    <td className="border border-black p-1 w-8 text-center font-bold">{idx + 1}</td>
-                    <td className="border border-black p-1 text-left text-xs">Seal No.</td>
-                  </tr>
-                ))}
                 <tr>
                   <td className="border border-black p-1 w-32">Hi-Lift 1</td>
-                  <td className="border border-black p-1 w-8 text-center font-bold">3</td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">1</td>
                   <td className="border border-black p-1 text-left text-xs font-bold">
                     {flightData?.hilift_1_seal || ""}
                   </td>
                 </tr>
                 <tr>
                   <td className="border border-black p-1 w-32">Hi-Lift 2</td>
-                  <td className="border border-black p-1 w-8 text-center font-bold">4</td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">2</td>
                   <td className="border border-black p-1 text-left text-xs font-bold">
                     {flightData?.hilift_2_seal || ""}
                   </td>
