@@ -193,18 +193,18 @@ const Equipment = () => {
                 className="hover:shadow-md transition-shadow cursor-pointer"
                 onClick={() => navigate(`/scan/${flightId}/${equipment.id}`)}
               >
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-1">
                   <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-primary" />
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Icon className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <CardTitle className="text-base">{equipment.name}</CardTitle>
+                      <CardTitle className="text-sm">{equipment.name}</CardTitle>
                       <CardDescription className="text-xs">{equipment.description}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 pb-3">
+                <CardContent className="pt-0 pb-2">
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-muted-foreground">
                       Seals required: <span className="font-semibold text-foreground">{equipment.sealCount}</span>
@@ -224,18 +224,18 @@ const Equipment = () => {
           <Dialog open={hilift1DialogOpen} onOpenChange={setHilift1DialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-1">
                   <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Truck className="w-5 h-5 text-primary" />
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Truck className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <CardTitle className="text-base">Hi-Lift 1</CardTitle>
+                      <CardTitle className="text-sm">Hi-Lift 1</CardTitle>
                       <CardDescription className="text-xs">Scan seal number</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 pb-3">
+                <CardContent className="pt-0 pb-2">
                   <p className="text-xs font-semibold text-blue-500">
                     {hilift1Seal ? `Seal: ${hilift1Seal}` : "Not scanned"}
                   </p>
@@ -276,18 +276,18 @@ const Equipment = () => {
           <Dialog open={hilift2DialogOpen} onOpenChange={setHilift2DialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-1">
                   <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Truck className="w-5 h-5 text-primary" />
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Truck className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <CardTitle className="text-base">Hi-Lift 2</CardTitle>
+                      <CardTitle className="text-sm">Hi-Lift 2</CardTitle>
                       <CardDescription className="text-xs">Scan seal number</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 pb-3">
+                <CardContent className="pt-0 pb-2">
                   <p className="text-xs font-semibold text-blue-500">
                     {hilift2Seal ? `Seal: ${hilift2Seal}` : "Not scanned"}
                   </p>
