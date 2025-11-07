@@ -243,18 +243,20 @@ const Preview = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td className="border border-black p-1 w-32">Hi-Lift 1</td>
+                  <td className="border border-black p-1 w-32">
+                    Hi-Lift 1{flightData?.hilift_1_number ? ` - ${flightData.hilift_1_number}` : ""}
+                  </td>
                   <td className="border border-black p-1 w-8 text-center font-bold">1</td>
                   <td className="border border-black p-1 text-left text-lg font-bold">
-                    {flightData?.hilift_1_number ? `Hi-Lift Number: ${flightData.hilift_1_number} & ` : ""}
                     Seal No: {flightData?.hilift_1_seal || ""}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-black p-1 w-32">Hi-Lift 2</td>
+                  <td className="border border-black p-1 w-32">
+                    Hi-Lift 2{flightData?.hilift_2_number ? ` - ${flightData.hilift_2_number}` : ""}
+                  </td>
                   <td className="border border-black p-1 w-8 text-center font-bold">2</td>
                   <td className="border border-black p-1 text-left text-lg font-bold">
-                    {flightData?.hilift_2_number ? `Hi-Lift Number: ${flightData.hilift_2_number} & ` : ""}
                     Seal No: {flightData?.hilift_2_seal || ""}
                   </td>
                 </tr>
