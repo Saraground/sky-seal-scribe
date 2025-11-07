@@ -126,22 +126,22 @@ const Equipment = () => {
     setHilift2DialogOpen(false);
   };
   return <div className="min-h-screen bg-background">
-      <header className="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-md border-b border-slate-700/50">
+      <header className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 shadow-sm">
         <div className="container mx-auto px-4 py-2">
           <div className="flex justify-between items-start mb-1">
-            <Button variant="ghost" size="sm" onClick={() => navigate("/flights")} className="text-white/90 hover:bg-white/10 transition-colors h-7 text-xs">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/flights")} className="text-slate-700 hover:bg-blue-100/50 transition-colors h-7 text-xs">
               <ArrowLeft className="w-3 h-3 mr-1" />
               Back
             </Button>
             <ConnectionStatus />
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center backdrop-blur-sm border border-white/10">
-              <ScanLine className="w-3.5 h-3.5" />
+            <div className="w-7 h-7 rounded-md bg-blue-100 flex items-center justify-center border border-blue-200">
+              <ScanLine className="w-3.5 h-3.5 text-blue-600" />
             </div>
             <div>
-              <h1 className="text-sm font-semibold tracking-tight">Select Equipment Type</h1>
-              <p className="text-white/70 text-sm font-medium">Flight {flightNumber || "..."}</p>
+              <h1 className="text-sm font-semibold tracking-tight text-slate-800">Select Equipment Type</h1>
+              <p className="text-blue-600 text-sm font-medium">Flight {flightNumber || "..."}</p>
             </div>
           </div>
         </div>
