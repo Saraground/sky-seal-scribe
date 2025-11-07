@@ -180,7 +180,7 @@ const Equipment = () => {
         </div>
 
         {/* Hi-Lift Seals Section */}
-        <div className="grid gap-1 md:grid-cols-2 mt-1">
+        <div className="grid gap-1 grid-cols-2 mt-1">
           <Dialog open={hilift1DialogOpen} onOpenChange={setHilift1DialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
