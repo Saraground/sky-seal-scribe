@@ -188,7 +188,7 @@ const Flights = () => {
           <AddFlightDialog onFlightAdded={fetchFlights} />
         </div>
 
-        <div className="grid gap-4 max-h-[40vh] overflow-y-auto">
+        <div className="grid gap-4">
           {flights.map((flight) => (
             <Card
               key={flight.id}
