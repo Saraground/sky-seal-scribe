@@ -25,6 +25,8 @@ const Preview = () => {
   const [sealScans, setSealScans] = useState<SealScan[]>([]);
   const [flightData, setFlightData] = useState<FlightData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [creatorUsername, setCreatorUsername] = useState<string>("");
+  const [currentUsername, setCurrentUsername] = useState<string>("");
 
   const equipmentNames: Record<string, string> = {
     "full-trolley": "Full Size Trolley",
@@ -37,15 +39,40 @@ const Preview = () => {
     const fetchData = async () => {
       setLoading(true);
       
+      // Fetch current user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: currentProfile } = await supabase
+          .from("profiles")
+          .select("username")
+          .eq("id", user.id)
+          .single();
+        
+        if (currentProfile) {
+          setCurrentUsername(currentProfile.username || "");
+        }
+      }
+      
       // Fetch flight data
       const { data: flight } = await supabase
         .from("flights")
-        .select("flight_number, departure_time, created_at")
+        .select("flight_number, departure_time, created_at, user_id")
         .eq("id", flightId!)
         .single();
       
       if (flight) {
         setFlightData(flight);
+        
+        // Fetch creator's profile
+        const { data: creatorProfile } = await supabase
+          .from("profiles")
+          .select("username")
+          .eq("id", flight.user_id)
+          .single();
+        
+        if (creatorProfile) {
+          setCreatorUsername(creatorProfile.username || "");
+        }
       }
       
       // Fetch seal scans
@@ -178,9 +205,15 @@ const Preview = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td className="border border-black p-1 text-xs w-1/4">Name of APO / SO</td>
-                  <td className="border border-black p-1 text-xs text-left">FORM PREPARED BY<br/>Signatures</td>
-                  <td className="border border-black p-1 text-xs text-left">FORM FINALISED BY<br/>Signatures</td>
+                  <td className="border border-black p-1 text-xs w-1/3">
+                    <div>FORM PREPARED BY</div>
+                    <div className="mt-1">Signatures: {creatorUsername}</div>
+                  </td>
+                  <td className="border border-black p-1 text-xs w-1/3">
+                    <div>FORM FINALISED BY</div>
+                    <div className="mt-1">Signatures: {currentUsername}</div>
+                  </td>
+                  <td className="border border-black p-1 text-xs w-1/3">Name of APO / SO</td>
                 </tr>
               </tbody>
             </table>
