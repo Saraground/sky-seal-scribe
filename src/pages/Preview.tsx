@@ -345,7 +345,7 @@ const Preview = () => {
 
                   // Create rows: first row with equipment info, additional rows for overflow, then empty row
                   const equipmentRows = sealLines.map((line, lineIdx) => (
-                    <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '24px' }}>
+                    <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '26px' }}>
                       <td className="border border-black p-1 text-center text-xs">
                         {lineIdx === 0 ? index + 1 : ''}
                       </td>
@@ -363,7 +363,7 @@ const Preview = () => {
                   
                   // Add empty row after each equipment type
                   const emptyRow = (
-                    <tr key={`${equipmentType}-empty`} style={{ height: '24px' }}>
+                    <tr key={`${equipmentType}-empty`} style={{ height: '26px' }}>
                       <td className="border border-black p-1"></td>
                       <td className="border border-black p-1"></td>
                       <td className="border border-black p-1"></td>
@@ -375,7 +375,7 @@ const Preview = () => {
                 })}
                 {/* Fixed 16 empty rows */}
                 {Array.from({ length: 16 }).map((_, i) => (
-                  <tr key={`empty-${i}`} style={{ height: '24px' }}>
+                  <tr key={`empty-${i}`} style={{ height: '26px' }}>
                     <td className="border border-black p-1"></td>
                     <td className="border border-black p-1"></td>
                     <td className="border border-black p-1"></td>
