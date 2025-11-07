@@ -42,10 +42,14 @@ const Equipment = () => {
   const [flightNumber, setFlightNumber] = useState("");
   const [hilift1Seal, setHilift1Seal] = useState("");
   const [hilift2Seal, setHilift2Seal] = useState("");
+  const [hilift1RearSeal, setHilift1RearSeal] = useState("");
+  const [hilift2RearSeal, setHilift2RearSeal] = useState("");
   const [hilift1Number, setHilift1Number] = useState("");
   const [hilift2Number, setHilift2Number] = useState("");
   const [hilift1SealInput, setHilift1SealInput] = useState("");
   const [hilift2SealInput, setHilift2SealInput] = useState("");
+  const [hilift1RearSealInput, setHilift1RearSealInput] = useState("");
+  const [hilift2RearSealInput, setHilift2RearSealInput] = useState("");
   const [hilift1NumberInput, setHilift1NumberInput] = useState("");
   const [hilift2NumberInput, setHilift2NumberInput] = useState("");
   const [hilift1DialogOpen, setHilift1DialogOpen] = useState(false);
@@ -68,11 +72,13 @@ const Equipment = () => {
       if (!flightId) return;
       const {
         data
-      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_number, hilift_2_number, flight_number").eq("id", flightId).single();
+      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, flight_number").eq("id", flightId).single();
       if (data) {
         setFlightNumber(data.flight_number || "");
         setHilift1Seal(data.hilift_1_seal || "");
         setHilift2Seal(data.hilift_2_seal || "");
+        setHilift1RearSeal(data.hilift_1_rear_seal || "");
+        setHilift2RearSeal(data.hilift_2_rear_seal || "");
         setHilift1Number(data.hilift_1_number || "");
         setHilift2Number(data.hilift_2_number || "");
       }
@@ -98,14 +104,17 @@ const Equipment = () => {
       error
     } = await supabase.from("flights").update({
       hilift_1_seal: hilift1SealInput,
+      hilift_1_rear_seal: hilift1RearSealInput,
       hilift_1_number: hilift1NumberInput
     }).eq("id", flightId!);
     if (error) {
       return;
     }
     setHilift1Seal(hilift1SealInput);
+    setHilift1RearSeal(hilift1RearSealInput);
     setHilift1Number(hilift1NumberInput);
     setHilift1SealInput("");
+    setHilift1RearSealInput("");
     setHilift1NumberInput("");
     setHilift1DialogOpen(false);
   };
@@ -114,14 +123,17 @@ const Equipment = () => {
       error
     } = await supabase.from("flights").update({
       hilift_2_seal: hilift2SealInput,
+      hilift_2_rear_seal: hilift2RearSealInput,
       hilift_2_number: hilift2NumberInput
     }).eq("id", flightId!);
     if (error) {
       return;
     }
     setHilift2Seal(hilift2SealInput);
+    setHilift2RearSeal(hilift2RearSealInput);
     setHilift2Number(hilift2NumberInput);
     setHilift2SealInput("");
+    setHilift2RearSealInput("");
     setHilift2NumberInput("");
     setHilift2DialogOpen(false);
   };
@@ -193,9 +205,10 @@ const Equipment = () => {
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
                   <div className="text-xs font-semibold text-blue-500">
-                    {hilift1Number || hilift1Seal ? <>
+                    {hilift1Number || hilift1Seal || hilift1RearSeal ? <>
                         {hilift1Number && <div>Hi-Lift No: {hilift1Number}</div>}
-                        {hilift1Seal && <div>Seal: {hilift1Seal}</div>}
+                        {hilift1Seal && <div>Front Seal: {hilift1Seal}</div>}
+                        {hilift1RearSeal && <div>Rear Seal: {hilift1RearSeal}</div>}
                       </> : <div>Not configured</div>}
                   </div>
                 </CardContent>
@@ -211,8 +224,12 @@ const Equipment = () => {
                   <Input id="hilift1-number" type="text" placeholder="Enter Hi-Lift number" value={hilift1NumberInput} onChange={e => setHilift1NumberInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift1()} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="hilift1-seal">Hi-Lift Seal Number</Label>
-                  <Input id="hilift1-seal" type="text" placeholder="Enter seal number" value={hilift1SealInput} onChange={e => setHilift1SealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift1()} />
+                  <Label htmlFor="hilift1-seal">Hi-Lift Front Seal Number</Label>
+                  <Input id="hilift1-seal" type="text" placeholder="Enter front seal number" value={hilift1SealInput} onChange={e => setHilift1SealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift1()} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="hilift1-rear-seal">Hi-Lift Rear Seal Number</Label>
+                  <Input id="hilift1-rear-seal" type="text" placeholder="Enter rear seal number" value={hilift1RearSealInput} onChange={e => setHilift1RearSealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift1()} />
                 </div>
                 <Button onClick={handleSaveHilift1} className="w-full">
                   Save
@@ -237,9 +254,10 @@ const Equipment = () => {
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
                   <div className="text-xs font-semibold text-blue-500">
-                    {hilift2Number || hilift2Seal ? <>
+                    {hilift2Number || hilift2Seal || hilift2RearSeal ? <>
                         {hilift2Number && <div>Hi-Lift No: {hilift2Number}</div>}
-                        {hilift2Seal && <div>Seal: {hilift2Seal}</div>}
+                        {hilift2Seal && <div>Front Seal: {hilift2Seal}</div>}
+                        {hilift2RearSeal && <div>Rear Seal: {hilift2RearSeal}</div>}
                       </> : <div>Not configured</div>}
                   </div>
                 </CardContent>
@@ -255,8 +273,12 @@ const Equipment = () => {
                   <Input id="hilift2-number" type="text" placeholder="Enter Hi-Lift number" value={hilift2NumberInput} onChange={e => setHilift2NumberInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="hilift2-seal">Hi-Lift Seal Number</Label>
-                  <Input id="hilift2-seal" type="text" placeholder="Enter seal number" value={hilift2SealInput} onChange={e => setHilift2SealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
+                  <Label htmlFor="hilift2-seal">Hi-Lift Front Seal Number</Label>
+                  <Input id="hilift2-seal" type="text" placeholder="Enter front seal number" value={hilift2SealInput} onChange={e => setHilift2SealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="hilift2-rear-seal">Hi-Lift Rear Seal Number</Label>
+                  <Input id="hilift2-rear-seal" type="text" placeholder="Enter rear seal number" value={hilift2RearSealInput} onChange={e => setHilift2RearSealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
                 </div>
                 <Button onClick={handleSaveHilift2} className="w-full">
                   Save
