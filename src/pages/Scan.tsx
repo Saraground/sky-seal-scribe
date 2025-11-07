@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Camera, ScanLine, Plus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SealEntry {
   id: string;
@@ -19,6 +20,7 @@ const Scan = () => {
   const { toast } = useToast();
   const [seals, setSeals] = useState<SealEntry[]>([]);
   const [currentSeal, setCurrentSeal] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const equipmentNames: Record<string, string> = {
     "full-trolley": "Full-Size Trolley",
@@ -27,10 +29,32 @@ const Scan = () => {
     "service-container": "Service Container",
   };
 
-  const handleAddSeal = () => {
+  const handleAddSeal = async () => {
     if (currentSeal.trim()) {
-      setSeals([...seals, { id: Date.now().toString(), sealNumber: currentSeal }]);
+      const newSeal = { id: Date.now().toString(), sealNumber: currentSeal };
+      setSeals([...seals, newSeal]);
       setCurrentSeal("");
+      
+      // Save to Supabase immediately
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { error } = await supabase.from("seal_scans").insert({
+          user_id: user.id,
+          flight_id: flightId!,
+          equipment_type: equipmentType!,
+          seal_number: currentSeal,
+        });
+
+        if (error) {
+          toast({
+            title: "Error",
+            description: "Failed to save seal to database",
+            variant: "destructive",
+          });
+          return;
+        }
+      }
+      
       toast({
         title: "Seal added",
         description: `Seal number ${currentSeal} recorded`,
@@ -38,26 +62,35 @@ const Scan = () => {
     }
   };
 
-  const handleRemoveSeal = (id: string) => {
+  const handleRemoveSeal = async (id: string, sealNumber: string) => {
     setSeals(seals.filter((seal) => seal.id !== id));
+    
+    // Remove from Supabase
+    const { error } = await supabase
+      .from("seal_scans")
+      .delete()
+      .eq("flight_id", flightId!)
+      .eq("equipment_type", equipmentType!)
+      .eq("seal_number", sealNumber);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to remove seal from database",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleSave = () => {
-    const existingData = JSON.parse(localStorage.getItem("scanData") || "{}");
-    const newData = {
-      ...existingData,
-      [flightId!]: {
-        ...existingData[flightId!],
-        [equipmentType!]: seals,
-      },
-    };
-    localStorage.setItem("scanData", JSON.stringify(newData));
+  const handleSave = async () => {
+    setLoading(true);
     
     toast({
       title: "Data saved",
-      description: "Seal information has been recorded",
+      description: "All seal information has been recorded",
     });
     
+    setLoading(false);
     navigate(`/equipment/${flightId}`);
   };
 
@@ -152,7 +185,7 @@ const Scan = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleRemoveSeal(seal.id)}
+                      onClick={() => handleRemoveSeal(seal.id, seal.sealNumber)}
                     >
                       <Trash2 className="w-4 h-4 text-destructive" />
                     </Button>
@@ -164,8 +197,8 @@ const Scan = () => {
         )}
 
         {seals.length > 0 && (
-          <Button onClick={handleSave} className="w-full mt-6" size="lg">
-            Save & Continue
+          <Button onClick={handleSave} className="w-full mt-6" size="lg" disabled={loading}>
+            {loading ? "Saving..." : "Save & Continue"}
           </Button>
         )}
       </main>

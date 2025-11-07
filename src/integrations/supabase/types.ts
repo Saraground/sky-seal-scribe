@@ -47,6 +47,44 @@ export type Database = {
         }
         Relationships: []
       }
+      seal_scans: {
+        Row: {
+          created_at: string
+          equipment_type: string
+          flight_id: string
+          id: string
+          scanned_at: string
+          seal_number: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          equipment_type: string
+          flight_id: string
+          id?: string
+          scanned_at?: string
+          seal_number: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          equipment_type?: string
+          flight_id?: string
+          id?: string
+          scanned_at?: string
+          seal_number?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seal_scans_flight_id_fkey"
+            columns: ["flight_id"]
+            isOneToOne: false
+            referencedRelation: "flights"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

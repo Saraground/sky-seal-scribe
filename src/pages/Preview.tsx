@@ -4,17 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Printer, FileText } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
+import { supabase } from "@/integrations/supabase/client";
 
-interface ScanData {
-  [flightId: string]: {
-    [equipmentType: string]: Array<{ id: string; sealNumber: string }>;
-  };
+interface SealScan {
+  id: string;
+  seal_number: string;
+  equipment_type: string;
+  scanned_at: string;
+}
+
+interface FlightData {
+  flight_number: string;
+  departure_time: string;
 }
 
 const Preview = () => {
   const navigate = useNavigate();
   const { flightId } = useParams();
-  const [scanData, setScanData] = useState<ScanData>({});
+  const [sealScans, setSealScans] = useState<SealScan[]>([]);
+  const [flightData, setFlightData] = useState<FlightData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const equipmentNames: Record<string, string> = {
     "full-trolley": "Full-Size Trolley",
@@ -24,11 +33,44 @@ const Preview = () => {
   };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("scanData") || "{}");
-    setScanData(data);
-  }, []);
+    const fetchData = async () => {
+      setLoading(true);
+      
+      // Fetch flight data
+      const { data: flight } = await supabase
+        .from("flights")
+        .select("flight_number, departure_time")
+        .eq("id", flightId!)
+        .single();
+      
+      if (flight) {
+        setFlightData(flight);
+      }
+      
+      // Fetch seal scans
+      const { data: scans } = await supabase
+        .from("seal_scans")
+        .select("*")
+        .eq("flight_id", flightId!)
+        .order("scanned_at", { ascending: true });
+      
+      if (scans) {
+        setSealScans(scans);
+      }
+      
+      setLoading(false);
+    };
+    
+    fetchData();
+  }, [flightId]);
 
-  const currentFlightData = scanData[flightId!] || {};
+  const groupedScans = sealScans.reduce((acc, scan) => {
+    if (!acc[scan.equipment_type]) {
+      acc[scan.equipment_type] = [];
+    }
+    acc[scan.equipment_type].push(scan);
+    return acc;
+  }, {} as Record<string, SealScan[]>);
 
   const handlePrint = () => {
     window.print();
@@ -70,34 +112,41 @@ const Preview = () => {
           <CardHeader className="border-b">
             <CardTitle className="text-2xl">Trolley Seal Report</CardTitle>
             <div className="text-sm text-muted-foreground mt-2">
-              <p>Flight: TR{flightId}</p>
-              <p>Date: {new Date().toLocaleDateString()}</p>
-              <p>Time: {new Date().toLocaleTimeString()}</p>
+              <p>Flight: {flightData?.flight_number || "N/A"}</p>
+              <p>Date: {flightData ? new Date(flightData.departure_time).toLocaleDateString() : new Date().toLocaleDateString()}</p>
+              <p>Time: {flightData ? new Date(flightData.departure_time).toLocaleTimeString() : new Date().toLocaleTimeString()}</p>
             </div>
           </CardHeader>
           <CardContent className="pt-6">
-            {Object.keys(currentFlightData).length === 0 ? (
+            {loading ? (
+              <p className="text-center text-muted-foreground py-8">Loading...</p>
+            ) : Object.keys(groupedScans).length === 0 ? (
               <p className="text-center text-muted-foreground py-8">
                 No seal data recorded for this flight
               </p>
             ) : (
               <div className="space-y-6">
-                {Object.entries(currentFlightData).map(([equipmentType, seals]) => (
+                {Object.entries(groupedScans).map(([equipmentType, scans]) => (
                   <div key={equipmentType}>
                     <h3 className="font-semibold text-lg mb-3 text-primary">
                       {equipmentNames[equipmentType]}
                     </h3>
                     <div className="grid gap-2">
-                      {seals.map((seal, index) => (
+                      {scans.map((scan, index) => (
                         <div
-                          key={seal.id}
+                          key={scan.id}
                           className="flex items-center justify-between p-3 bg-muted rounded-lg"
                         >
-                          <span className="text-sm text-muted-foreground">
-                            Seal #{index + 1}
-                          </span>
+                          <div className="flex flex-col">
+                            <span className="text-sm text-muted-foreground">
+                              Seal #{index + 1}
+                            </span>
+                            <span className="text-xs text-muted-foreground">
+                              {new Date(scan.scanned_at).toLocaleString()}
+                            </span>
+                          </div>
                           <span className="font-mono font-medium">
-                            {seal.sealNumber}
+                            {scan.seal_number}
                           </span>
                         </div>
                       ))}
