@@ -242,9 +242,9 @@ const Preview = () => {
               <tbody>
                 <tr>
                   <td rowSpan={2} className="border border-black p-2 w-1/3 align-top">
-                    <div className="text-center">
-                      <img src={satsLogo} alt="SATS" className="h-8 mx-auto mb-1" />
-                      <div className="text-xs font-semibold">SATS Security Services Pte Ltd</div>
+                    <div className="flex flex-col h-full justify-between">
+                      <img src={satsLogo} alt="SATS" className="h-12 mx-auto" />
+                      <div className="text-xs font-semibold text-center">SATS Security Services Pte Ltd</div>
                     </div>
                   </td>
                   <td className="border border-black p-1 text-center font-semibold">Date</td>
