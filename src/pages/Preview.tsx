@@ -124,76 +124,48 @@ const Preview = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td colSpan={7} className="border border-black p-1"></td>
-                  <td className="border border-black p-1 text-center font-semibold text-xs">Date</td>
-                  <td colSpan={2} className="border border-black p-1 text-center">
-                    {flightData ? new Date(flightData.departure_time).toLocaleDateString('en-GB') : ''}
+                  <td rowSpan={2} className="border border-black p-2 w-1/3 align-top">
+                    <div className="text-center">
+                      <div className="text-red-600 font-bold text-2xl mb-1">SATS</div>
+                      <div className="text-xs font-semibold">SATS Security Services Pte Ltd</div>
+                    </div>
                   </td>
-                </tr>
-                <tr>
-                  <td colSpan={7} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-center font-semibold">Date</td>
                   <td rowSpan={2} className="border border-black p-2 align-middle">
-                    <div className="text-center font-bold text-2xl">SCOOT</div>
+                    <div className="text-center font-bold text-3xl">SCOOT</div>
                   </td>
-                  <td colSpan={2} className="border border-black p-1"></td>
                 </tr>
                 <tr>
-                  <td colSpan={3} className="border border-black p-2 align-middle">
-                    <div className="text-xs font-semibold">SATS Security Services Pte Ltd</div>
-                  </td>
-                  <td colSpan={4} className="border border-black p-1"></td>
-                  <td className="border border-black p-1 text-center font-semibold text-xs bg-blue-900 text-white">
+                  <td className="border border-black p-1 bg-blue-900 text-white text-center font-semibold">
                     Flight No.
                   </td>
-                  <td className="border border-black p-1 text-center font-bold">
-                    {flightData?.flight_number || ''}
-                  </td>
                 </tr>
+              </tbody>
+            </table>
+
+            {/* Equipment Section */}
+            <table className="w-full border-collapse">
+              <tbody>
+                {Object.entries(groupedScans).slice(0, 2).map(([equipmentType, scans], idx) => (
+                  <tr key={equipmentType}>
+                    <td className="border border-black p-1 w-32">{equipmentNames[equipmentType]}</td>
+                    <td className="border border-black p-1 w-8 text-center font-bold">{idx + 1}</td>
+                    <td className="border border-black p-1 text-center font-semibold">Seal No.</td>
+                  </tr>
+                ))}
                 <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                
-                {/* Hi-Lift Sections */}
-                <tr>
-                  <td className="border border-black p-1 text-xs">Hi-Lift</td>
-                  <td colSpan={2} className="border border-black p-1"></td>
-                  <td className="border border-black p-1 text-center font-bold">1</td>
-                  <td colSpan={3} className="border border-black p-1"></td>
-                  <td className="border border-black p-1 text-xs font-semibold">Seal No.</td>
-                  <td colSpan={2} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td className="border border-black p-1 text-xs">Hi-Lift</td>
-                  <td colSpan={2} className="border border-black p-1"></td>
-                  <td className="border border-black p-1 text-center font-bold">2</td>
-                  <td colSpan={3} className="border border-black p-1"></td>
-                  <td className="border border-black p-1 text-xs font-semibold">Seal No.</td>
-                  <td colSpan={2} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                
-                {/* SSS Sticker Section */}
-                <tr>
-                  <td colSpan={5} className="border border-black p-1 bg-black text-white text-xs">
+                  <td colSpan={2} className="border border-black p-1 bg-black text-white text-xs">
                     SSS sticker nos. for loose items
                   </td>
-                  <td colSpan={2} className="border border-black p-1 text-xs">
-                    <span className="font-semibold">Colour :</span>
-                  </td>
-                  <td colSpan={2} className="border border-black p-1 text-xs">
-                    <span className="font-semibold">From :</span>
+                  <td className="border border-black p-1 text-xs">
+                    <span className="font-semibold">Colour:</span>
                   </td>
                   <td className="border border-black p-1 text-xs">
-                    <span className="font-semibold">Ends :</span>
+                    <span className="font-semibold">From:</span>
                   </td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-xs">
+                    <span className="font-semibold">Ends:</span>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -202,91 +174,58 @@ const Preview = () => {
             <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td className="border border-black p-1 text-xs" rowSpan={2}>Name of APO / SO</td>
-                  <td colSpan={4} className="border border-black p-1 text-xs text-center font-semibold">FORM PREPARED BY</td>
-                  <td colSpan={4} className="border border-black p-1 text-xs text-center font-semibold">FORM FINALISED BY</td>
-                  <td className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={4} className="border border-black p-1 text-xs text-center">Signatures</td>
-                  <td colSpan={4} className="border border-black p-1 text-xs text-center">Signatures</td>
-                  <td className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-xs w-1/4">Name of APO / SO</td>
+                  <td className="border border-black p-1 text-xs text-center font-semibold">FORM PREPARED BY<br/>Signatures</td>
+                  <td className="border border-black p-1 text-xs text-center font-semibold">FORM FINALISED BY<br/>Signatures</td>
                 </tr>
               </tbody>
             </table>
 
             {/* Time Section */}
-            <table className="w-full border-collapse">
-              <tbody>
-                <tr>
-                  <td colSpan={8} className="border border-black p-1 bg-blue-900 text-white text-xs font-semibold">
-                    Time-commences & Time-end checking of meal cart :
-                  </td>
-                  <td colSpan={2} className="border border-black p-1 bg-blue-900 text-white text-xs font-semibold text-right">
-                    __________ hrs - __________ hrs
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="border border-black p-1 bg-blue-900 text-white text-xs font-semibold flex justify-between">
+              <span>Time-commences & Time-end checking of meal cart:</span>
+              <span>_______ hrs - _______ hrs</span>
+            </div>
 
             {/* Main Data Table */}
             <table className="w-full border-collapse">
               <thead>
-                <tr>
-                  <th className="border border-black p-1 text-xs font-bold">S/n</th>
-                  <th colSpan={6} className="border border-black p-1 text-xs font-bold">Cart No.</th>
-                  <th colSpan={2} className="border border-black p-1 text-xs font-bold">Seal / Sticker No.</th>
-                  <th className="border border-black p-1 text-xs font-bold">Remarks</th>
+                <tr className="bg-gray-100">
+                  <th className="border border-black p-1 text-sm font-bold">S/n</th>
+                  <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
               <tbody>
                 {Object.entries(groupedScans).map(([equipmentType, scans], groupIndex) => (
                   <tr key={equipmentType}>
                     <td className="border border-black p-1 text-center text-xs">{groupIndex + 1}</td>
-                    <td colSpan={6} className="border border-black p-1 text-center text-xs">{equipmentNames[equipmentType]}</td>
-                    <td colSpan={2} className="border border-black p-1 text-center font-bold text-sm">
+                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[equipmentType]}</td>
+                    <td className="border border-black p-1 text-center font-bold text-lg">
                       {scans.map(scan => scan.seal_number).join(', ')}
                     </td>
                     <td className="border border-black p-1"></td>
                   </tr>
                 ))}
                 {/* Empty rows to fill page */}
-                {Array.from({ length: Math.max(0, 25 - Object.keys(groupedScans).length) }).map((_, i) => (
+                {Array.from({ length: Math.max(0, 15 - sealScans.length) }).map((_, i) => (
                   <tr key={`empty-${i}`}>
-                    <td className="border border-black p-2"></td>
-                    <td colSpan={6} className="border border-black p-2"></td>
-                    <td colSpan={2} className="border border-black p-2"></td>
-                    <td className="border border-black p-2"></td>
+                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-3"></td>
+                    <td className="border border-black p-3"></td>
                   </tr>
                 ))}
                 <tr>
-                  <td colSpan={8} className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS :</td>
                   <td colSpan={2} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
+                  <td className="border border-black p-1"></td>
                 </tr>
                 <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={8} className="border border-black p-1 text-right text-xs font-semibold">ACKNOWLEDGE BY :</td>
                   <td colSpan={2} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">ACKNOWLEDGE BY:</td>
+                  <td className="border border-black p-1"></td>
                 </tr>
               </tbody>
             </table>
