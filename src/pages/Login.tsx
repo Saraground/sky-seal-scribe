@@ -11,11 +11,11 @@ import scootLogo from "@/assets/scoot-logo.png";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [staffNumber, setStaffNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -46,35 +46,46 @@ const Login = () => {
       navigate("/flights");
     }
   };
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleLoginRequest = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const {
-      data,
-      error
-    } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: `${window.location.origin}/flights`
+
+    try {
+      const { error } = await supabase.functions.invoke('send-login-request', {
+        body: {
+          username,
+          email,
+          staffNumber
+        }
+      });
+
+      setLoading(false);
+
+      if (error) {
+        toast({
+          title: "Request failed",
+          description: error.message,
+          variant: "destructive"
+        });
+        return;
       }
-    });
-    setLoading(false);
-    if (error) {
+
       toast({
-        title: "Signup failed",
+        title: "Request submitted!",
+        description: "Your login request has been sent to the admin. You will receive an email once your account is created."
+      });
+      
+      // Clear form
+      setUsername("");
+      setEmail("");
+      setStaffNumber("");
+    } catch (error: any) {
+      setLoading(false);
+      toast({
+        title: "Request failed",
         description: error.message,
         variant: "destructive"
       });
-      return;
-    }
-    if (data.user) {
-      toast({
-        title: "Account created!",
-        description: "You can now sign in with your credentials"
-      });
-      // Auto-login after signup since email confirmation is disabled
-      navigate("/flights");
     }
   };
   return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 p-4">
@@ -90,7 +101,7 @@ const Login = () => {
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsTrigger value="request">Login Request</TabsTrigger>
             </TabsList>
             
             <TabsContent value="login">
@@ -109,18 +120,43 @@ const Login = () => {
               </form>
             </TabsContent>
 
-            <TabsContent value="signup">
-              <form onSubmit={handleSignup} className="space-y-4">
+            <TabsContent value="request">
+              <form onSubmit={handleLoginRequest} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input id="signup-email" type="email" placeholder="your.email@airline.com" value={email} onChange={e => setEmail(e.target.value)} required />
+                  <Label htmlFor="request-username">Username</Label>
+                  <Input 
+                    id="request-username" 
+                    type="text" 
+                    placeholder="Your username" 
+                    value={username} 
+                    onChange={e => setUsername(e.target.value)} 
+                    required 
+                  />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <Input id="signup-password" type="password" placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)} required minLength={6} />
+                  <Label htmlFor="request-email">Email ID</Label>
+                  <Input 
+                    id="request-email" 
+                    type="email" 
+                    placeholder="your.email@sats.com.sg" 
+                    value={email} 
+                    onChange={e => setEmail(e.target.value)} 
+                    required 
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="request-staff">Staff Number</Label>
+                  <Input 
+                    id="request-staff" 
+                    type="text" 
+                    placeholder="Your staff number" 
+                    value={staffNumber} 
+                    onChange={e => setStaffNumber(e.target.value)} 
+                    required 
+                  />
                 </div>
                 <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Creating account..." : "Create Account"}
+                  {loading ? "Submitting request..." : "Submit Request"}
                 </Button>
               </form>
             </TabsContent>
