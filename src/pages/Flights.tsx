@@ -44,10 +44,15 @@ const Flights = () => {
       return;
     }
 
+    // Calculate timestamp for 6 hours ago
+    const sixHoursAgo = new Date();
+    sixHoursAgo.setHours(sixHoursAgo.getHours() - 6);
+
     const { data, error } = await supabase
       .from("flights")
       .select("*")
-      .order("departure_time", { ascending: true });
+      .gte("created_at", sixHoursAgo.toISOString())
+      .order("created_at", { ascending: false });
 
     if (error) {
       toast({
