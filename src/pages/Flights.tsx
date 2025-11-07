@@ -174,26 +174,27 @@ const Flights = () => {
                     <CardTitle className="text-lg">{flight.flight_number}</CardTitle>
                     <p className="text-sm text-muted-foreground mt-1">{flight.destination}</p>
                   </div>
-                  <Badge className={getStatusColor(flight.status)}>
-                    {flight.status.replace("-", " ")}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge className={getStatusColor(flight.status)}>
+                      {flight.status.replace("-", " ")}
+                    </Badge>
+                    {flight.status === "pending" && (
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        className="h-6 w-6"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFlightToDelete(flight.id);
+                        }}
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </CardHeader>
-              <CardContent>
-                {flight.status === "pending" && (
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    className="w-full gap-2"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setFlightToDelete(flight.id);
-                    }}
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Delete Flight
-                  </Button>
-                )}
+              <CardContent className="pb-3">
               </CardContent>
             </Card>
           ))}
