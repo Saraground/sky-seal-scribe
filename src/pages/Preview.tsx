@@ -184,8 +184,7 @@ const Preview = () => {
             <Printer className="w-4 h-4 mr-2" />
             Print Report
           </Button>
-          <Button variant="outline" className="flex-1 text-sm text-center">Export 
-to Excel<FileText className="w-4 h-4 mr-2" />
+          <Button variant="outline" className="flex-1 text-sm text-center">Export to Excel<FileText className="w-4 h-4 mr-2" />
             Export to Excel
           </Button>
           <Button variant="outline" onClick={handleReset} className="flex-1">
