@@ -108,11 +108,6 @@ const Scan = () => {
           return;
         }
       }
-      
-      toast({
-        title: "Seal added",
-        description: `Seal number ${currentSeal} recorded`,
-      });
     }
   };
 
