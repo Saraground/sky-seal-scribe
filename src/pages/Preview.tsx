@@ -128,24 +128,20 @@ const Preview = () => {
               <div className="space-y-6">
                 {Object.entries(groupedScans).map(([equipmentType, scans]) => (
                   <div key={equipmentType}>
-                    <h3 className="font-semibold text-lg mb-3 text-primary">
+                    <h3 className="font-semibold text-lg mb-3 text-primary print:text-base">
                       {equipmentNames[equipmentType]}
                     </h3>
                     <div className="grid gap-2">
                       {scans.map((scan, index) => (
                         <div
                           key={scan.id}
-                          className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                          className="flex items-center p-3 bg-muted rounded-lg print:bg-white print:border print:border-gray-300 print:p-2"
                         >
-                          <div className="flex flex-col">
-                            <span className="text-sm text-muted-foreground">
-                              Seal #{index + 1}
-                            </span>
-                            <span className="text-xs text-muted-foreground">
-                              {new Date(scan.scanned_at).toLocaleString()}
-                            </span>
-                          </div>
-                          <span className="font-mono font-medium">
+                          <span className="text-xs text-muted-foreground mr-2 print:text-gray-600">
+                            {index + 1}
+                          </span>
+                          <span className="text-muted-foreground mr-2">-</span>
+                          <span className="text-2xl font-bold font-mono print:text-3xl">
                             {scan.seal_number}
                           </span>
                         </div>
