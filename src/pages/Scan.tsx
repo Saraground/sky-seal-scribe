@@ -1,0 +1,150 @@
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowLeft, Camera, ScanLine, Plus, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+interface SealEntry {
+  id: string;
+  sealNumber: string;
+}
+
+const Scan = () => {
+  const navigate = useNavigate();
+  const { flightId, equipmentType } = useParams();
+  const { toast } = useToast();
+  const [seals, setSeals] = useState<SealEntry[]>([]);
+  const [currentSeal, setCurrentSeal] = useState("");
+
+  const equipmentNames: Record<string, string> = {
+    "full-trolley": "Full-Size Trolley",
+    "half-trolley": "Half-Size Trolley",
+    "food-container": "Food Container",
+    "service-container": "Service Container",
+  };
+
+  const handleAddSeal = () => {
+    if (currentSeal.trim()) {
+      setSeals([...seals, { id: Date.now().toString(), sealNumber: currentSeal }]);
+      setCurrentSeal("");
+      toast({
+        title: "Seal added",
+        description: `Seal number ${currentSeal} recorded`,
+      });
+    }
+  };
+
+  const handleRemoveSeal = (id: string) => {
+    setSeals(seals.filter((seal) => seal.id !== id));
+  };
+
+  const handleSave = () => {
+    const existingData = JSON.parse(localStorage.getItem("scanData") || "{}");
+    const newData = {
+      ...existingData,
+      [flightId!]: {
+        ...existingData[flightId!],
+        [equipmentType!]: seals,
+      },
+    };
+    localStorage.setItem("scanData", JSON.stringify(newData));
+    
+    toast({
+      title: "Data saved",
+      description: "Seal information has been recorded",
+    });
+    
+    navigate(`/equipment/${flightId}`);
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="bg-primary text-primary-foreground shadow-lg">
+        <div className="container mx-auto px-4 py-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(`/equipment/${flightId}`)}
+            className="mb-2 text-primary-foreground hover:bg-primary-foreground/10"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
+          <h1 className="text-xl font-bold">{equipmentNames[equipmentType!]}</h1>
+          <p className="text-sm text-primary-foreground/80">Scan or enter seal numbers</p>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-6 max-w-2xl">
+        <Card className="mb-6">
+          <CardHeader>
+            <CardTitle className="text-lg">Add Seal Number</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="seal-number">Seal Number</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="seal-number"
+                  type="text"
+                  placeholder="Enter or scan seal number"
+                  value={currentSeal}
+                  onChange={(e) => setCurrentSeal(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleAddSeal()}
+                />
+                <Button type="button" variant="outline" size="icon">
+                  <ScanLine className="w-4 h-4" />
+                </Button>
+                <Button type="button" variant="outline" size="icon">
+                  <Camera className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+            <Button onClick={handleAddSeal} className="w-full">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Seal
+            </Button>
+          </CardContent>
+        </Card>
+
+        {seals.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Recorded Seals ({seals.length})</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {seals.map((seal) => (
+                  <div
+                    key={seal.id}
+                    className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                  >
+                    <span className="font-mono font-medium">{seal.sealNumber}</span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleRemoveSeal(seal.id)}
+                    >
+                      <Trash2 className="w-4 h-4 text-destructive" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {seals.length > 0 && (
+          <Button onClick={handleSave} className="w-full mt-6" size="lg">
+            Save & Continue
+          </Button>
+        )}
+      </main>
+    </div>
+  );
+};
+
+export default Scan;
