@@ -254,15 +254,6 @@ const Preview = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-black p-1 w-32">
-                    Hi-Lift 2{flightData?.hilift_2_number ? <span style={{ fontSize: '20px', fontWeight: 'bold' }}> - {flightData.hilift_2_number}</span> : ""}
-                  </td>
-                  <td className="border border-black p-1 w-8 text-center font-bold">2</td>
-                  <td className="border border-black p-1 text-left font-bold" style={{ fontSize: '22px' }}>
-                    Rear Seal: {flightData?.hilift_2_rear_seal || ""}, Front Seal: {flightData?.hilift_2_seal || ""}
-                  </td>
-                </tr>
-                <tr>
                   <td colSpan={2} className="border border-black p-1 bg-black text-white text-xs">
                     SSS sticker nos. for loose items
                   </td>
