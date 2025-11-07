@@ -24,6 +24,8 @@ interface FlightData {
   user_id: string;
   hilift_1_seal: string | null;
   hilift_2_seal: string | null;
+  hilift_1_number: string | null;
+  hilift_2_number: string | null;
 }
 
 const Preview = () => {
@@ -68,7 +70,7 @@ const Preview = () => {
       // Fetch flight data
       const { data: flight } = await supabase
         .from("flights")
-        .select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal")
+        .select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_number, hilift_2_number")
         .eq("id", flightId!)
         .single();
       
@@ -118,7 +120,7 @@ const Preview = () => {
 
   const handleHiLiftClick = (hiLiftNum: 1 | 2) => {
     setSelectedHiLift(hiLiftNum);
-    setHiLiftNumber("");
+    setHiLiftNumber(hiLiftNum === 1 ? flightData?.hilift_1_number || "" : flightData?.hilift_2_number || "");
     setHiLiftSealNumber(hiLiftNum === 1 ? flightData?.hilift_1_seal || "" : flightData?.hilift_2_seal || "");
     setHiLiftDialogOpen(true);
   };
@@ -134,8 +136,8 @@ const Preview = () => {
     }
 
     const updateData = selectedHiLift === 1 
-      ? { hilift_1_seal: hiLiftSealNumber }
-      : { hilift_2_seal: hiLiftSealNumber };
+      ? { hilift_1_seal: hiLiftSealNumber, hilift_1_number: hiLiftNumber }
+      : { hilift_2_seal: hiLiftSealNumber, hilift_2_number: hiLiftNumber };
 
     const { error } = await supabase
       .from("flights")
@@ -145,7 +147,7 @@ const Preview = () => {
     if (error) {
       toast({
         title: "Error",
-        description: "Failed to update Hi-Lift seal number",
+        description: "Failed to update Hi-Lift information",
         variant: "destructive",
       });
       return;
@@ -153,12 +155,14 @@ const Preview = () => {
 
     setFlightData(prev => prev ? {
       ...prev,
-      ...(selectedHiLift === 1 ? { hilift_1_seal: hiLiftSealNumber } : { hilift_2_seal: hiLiftSealNumber })
+      ...(selectedHiLift === 1 
+        ? { hilift_1_seal: hiLiftSealNumber, hilift_1_number: hiLiftNumber } 
+        : { hilift_2_seal: hiLiftSealNumber, hilift_2_number: hiLiftNumber })
     } : null);
 
     toast({
       title: "Success",
-      description: `Hi-Lift ${selectedHiLift} seal number updated`,
+      description: `Hi-Lift ${selectedHiLift} information updated`,
     });
 
     setHiLiftDialogOpen(false);
@@ -241,6 +245,7 @@ const Preview = () => {
                   <td className="border border-black p-1 w-32">Hi-Lift 1</td>
                   <td className="border border-black p-1 w-8 text-center font-bold">1</td>
                   <td className="border border-black p-1 text-left text-lg font-bold">
+                    {flightData?.hilift_1_number ? `Hi-Lift Number: ${flightData.hilift_1_number} & ` : ""}
                     Seal No: {flightData?.hilift_1_seal || ""}
                   </td>
                 </tr>
@@ -248,6 +253,7 @@ const Preview = () => {
                   <td className="border border-black p-1 w-32">Hi-Lift 2</td>
                   <td className="border border-black p-1 w-8 text-center font-bold">2</td>
                   <td className="border border-black p-1 text-left text-lg font-bold">
+                    {flightData?.hilift_2_number ? `Hi-Lift Number: ${flightData.hilift_2_number} & ` : ""}
                     Seal No: {flightData?.hilift_2_seal || ""}
                   </td>
                 </tr>
@@ -448,6 +454,7 @@ const Preview = () => {
                 <div>
                   <p className="font-semibold">Hi-Lift 1</p>
                   <p className="text-sm text-muted-foreground">
+                    {flightData?.hilift_1_number && `Hi-Lift Number: ${flightData.hilift_1_number} | `}
                     Seal No: {flightData?.hilift_1_seal || "Not set"}
                   </p>
                 </div>
@@ -460,6 +467,7 @@ const Preview = () => {
                 <div>
                   <p className="font-semibold">Hi-Lift 2</p>
                   <p className="text-sm text-muted-foreground">
+                    {flightData?.hilift_2_number && `Hi-Lift Number: ${flightData.hilift_2_number} | `}
                     Seal No: {flightData?.hilift_2_seal || "Not set"}
                   </p>
                 </div>

@@ -20,7 +20,9 @@ export type Database = {
           departure_time: string
           destination: string
           flight_number: string
+          hilift_1_number: string | null
           hilift_1_seal: string | null
+          hilift_2_number: string | null
           hilift_2_seal: string | null
           id: string
           status: string
@@ -32,7 +34,9 @@ export type Database = {
           departure_time: string
           destination: string
           flight_number: string
+          hilift_1_number?: string | null
           hilift_1_seal?: string | null
+          hilift_2_number?: string | null
           hilift_2_seal?: string | null
           id?: string
           status?: string
@@ -44,7 +48,9 @@ export type Database = {
           departure_time?: string
           destination?: string
           flight_number?: string
+          hilift_1_number?: string | null
           hilift_1_seal?: string | null
+          hilift_2_number?: string | null
           hilift_2_seal?: string | null
           id?: string
           status?: string
