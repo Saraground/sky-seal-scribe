@@ -213,8 +213,8 @@ const Preview = () => {
                     <td className="border border-black p-1"></td>
                   </tr>
                 ))}
-                {/* Empty rows to fill page */}
-                {Array.from({ length: Math.max(0, 15 - Object.keys(groupedScans).length) }).map((_, i) => (
+                {/* Fixed 10 empty rows */}
+                {Array.from({ length: 10 }).map((_, i) => (
                   <tr key={`empty-${i}`}>
                     <td className="border border-black p-3"></td>
                     <td className="border border-black p-3"></td>
