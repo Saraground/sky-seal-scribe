@@ -278,7 +278,7 @@ const Preview = () => {
                       <td className="border border-black p-1 text-center text-xs">
                         {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
                       </td>
-                      <td className="border border-black p-1 text-left px-2">
+                      <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
                         <span className="font-bold text-sm">
                           {line}
                         </span>
