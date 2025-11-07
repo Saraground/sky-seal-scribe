@@ -2,9 +2,13 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Printer, FileText } from "lucide-react";
+import { ArrowLeft, Printer, FileText, Edit } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { supabase } from "@/integrations/supabase/client";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 interface SealScan {
   id: string;
@@ -30,6 +34,11 @@ const Preview = () => {
   const [loading, setLoading] = useState(true);
   const [creatorUsername, setCreatorUsername] = useState<string>("");
   const [currentUsername, setCurrentUsername] = useState<string>("");
+  const [hiLiftDialogOpen, setHiLiftDialogOpen] = useState(false);
+  const [selectedHiLift, setSelectedHiLift] = useState<1 | 2>(1);
+  const [hiLiftNumber, setHiLiftNumber] = useState("");
+  const [hiLiftSealNumber, setHiLiftSealNumber] = useState("");
+  const { toast } = useToast();
 
   const equipmentNames: Record<string, string> = {
     "full-trolley": "Full Size Trolley",
@@ -105,6 +114,54 @@ const Preview = () => {
 
   const handlePrint = () => {
     window.print();
+  };
+
+  const handleHiLiftClick = (hiLiftNum: 1 | 2) => {
+    setSelectedHiLift(hiLiftNum);
+    setHiLiftNumber("");
+    setHiLiftSealNumber(hiLiftNum === 1 ? flightData?.hilift_1_seal || "" : flightData?.hilift_2_seal || "");
+    setHiLiftDialogOpen(true);
+  };
+
+  const handleSaveHiLift = async () => {
+    if (!hiLiftSealNumber) {
+      toast({
+        title: "Error",
+        description: "Please enter a seal number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const updateData = selectedHiLift === 1 
+      ? { hilift_1_seal: hiLiftSealNumber }
+      : { hilift_2_seal: hiLiftSealNumber };
+
+    const { error } = await supabase
+      .from("flights")
+      .update(updateData)
+      .eq("id", flightId!);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update Hi-Lift seal number",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setFlightData(prev => prev ? {
+      ...prev,
+      ...(selectedHiLift === 1 ? { hilift_1_seal: hiLiftSealNumber } : { hilift_2_seal: hiLiftSealNumber })
+    } : null);
+
+    toast({
+      title: "Success",
+      description: `Hi-Lift ${selectedHiLift} seal number updated`,
+    });
+
+    setHiLiftDialogOpen(false);
   };
 
   return (
@@ -341,6 +398,39 @@ const Preview = () => {
           </div>
         </div>
 
+        {/* Hi-Lift Edit Dialog */}
+        <Dialog open={hiLiftDialogOpen} onOpenChange={setHiLiftDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Hi-Lift {selectedHiLift}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="hilift-number">Hi-Lift Number</Label>
+                <Input
+                  id="hilift-number"
+                  value={hiLiftNumber}
+                  onChange={(e) => setHiLiftNumber(e.target.value)}
+                  placeholder="Enter Hi-Lift number"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="seal-number">Hi-Lift Seal Number</Label>
+                <Input
+                  id="seal-number"
+                  value={hiLiftSealNumber}
+                  onChange={(e) => setHiLiftSealNumber(e.target.value)}
+                  placeholder="Scan or enter seal number"
+                  autoFocus
+                />
+              </div>
+              <Button onClick={handleSaveHiLift} className="w-full">
+                Save
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* Screen Preview */}
         <Card className="print:hidden">
           <CardHeader className="border-b">
@@ -349,6 +439,32 @@ const Preview = () => {
               <p>Flight: {flightData?.flight_number || "N/A"}</p>
               <p>Date: {flightData ? new Date(flightData.departure_time).toLocaleDateString() : new Date().toLocaleDateString()}</p>
               <p>Time: {flightData ? new Date(flightData.departure_time).toLocaleTimeString() : new Date().toLocaleTimeString()}</p>
+            </div>
+            <div className="mt-4 space-y-2">
+              <div 
+                className="flex items-center justify-between p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80"
+                onClick={() => handleHiLiftClick(1)}
+              >
+                <div>
+                  <p className="font-semibold">Hi-Lift 1</p>
+                  <p className="text-sm text-muted-foreground">
+                    Seal No: {flightData?.hilift_1_seal || "Not set"}
+                  </p>
+                </div>
+                <Edit className="w-4 h-4" />
+              </div>
+              <div 
+                className="flex items-center justify-between p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80"
+                onClick={() => handleHiLiftClick(2)}
+              >
+                <div>
+                  <p className="font-semibold">Hi-Lift 2</p>
+                  <p className="text-sm text-muted-foreground">
+                    Seal No: {flightData?.hilift_2_seal || "Not set"}
+                  </p>
+                </div>
+                <Edit className="w-4 h-4" />
+              </div>
             </div>
           </CardHeader>
           <CardContent className="pt-6">
