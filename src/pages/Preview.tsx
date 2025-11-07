@@ -131,13 +131,16 @@ const Preview = () => {
                     </div>
                   </td>
                   <td className="border border-black p-1 text-center font-semibold">Date</td>
-                  <td rowSpan={2} className="border border-black p-2 align-middle">
-                    <div className="text-center font-bold text-3xl">SCOOT</div>
+                  <td className="border border-black p-1 text-center text-sm">
+                    {flightData ? new Date(flightData.departure_time).toLocaleDateString() : ''}
                   </td>
                 </tr>
                 <tr>
                   <td className="border border-black p-1 bg-blue-900 text-white text-center font-semibold">
                     Flight No.
+                  </td>
+                  <td className="border border-black p-1 bg-blue-900 text-white text-center text-sm">
+                    {flightData?.flight_number || ''}
                   </td>
                 </tr>
               </tbody>
@@ -150,7 +153,7 @@ const Preview = () => {
                   <tr key={equipmentType}>
                     <td className="border border-black p-1 w-32">{equipmentNames[equipmentType]}</td>
                     <td className="border border-black p-1 w-8 text-center font-bold">{idx + 1}</td>
-                    <td className="border border-black p-1 text-center font-semibold">Seal No.</td>
+                    <td className="border border-black p-1 text-left text-xs">Seal No.</td>
                   </tr>
                 ))}
                 <tr>
@@ -175,8 +178,8 @@ const Preview = () => {
               <tbody>
                 <tr>
                   <td className="border border-black p-1 text-xs w-1/4">Name of APO / SO</td>
-                  <td className="border border-black p-1 text-xs text-center font-semibold">FORM PREPARED BY<br/>Signatures</td>
-                  <td className="border border-black p-1 text-xs text-center font-semibold">FORM FINALISED BY<br/>Signatures</td>
+                  <td className="border border-black p-1 text-xs text-left">FORM PREPARED BY<br/>Signatures</td>
+                  <td className="border border-black p-1 text-xs text-left">FORM FINALISED BY<br/>Signatures</td>
                 </tr>
               </tbody>
             </table>
