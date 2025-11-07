@@ -179,7 +179,7 @@ const Equipment = () => {
                   <div className="flex items-center justify-between">
                     
                     <p className="text-xs font-semibold text-blue-500">
-                      {sealCounts[equipment.id] || 0} scanned
+                      {sealCounts[equipment.id] || 0} seals
                     </p>
                   </div>
                 </CardContent>
