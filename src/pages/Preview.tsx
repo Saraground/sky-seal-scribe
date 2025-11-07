@@ -131,7 +131,7 @@ const Preview = () => {
                     <h3 className="font-semibold text-lg mb-3 text-primary print:text-base">
                       {equipmentNames[equipmentType]}
                     </h3>
-                    <div className="grid gap-2">
+                    <div className="grid gap-2 print:grid-cols-3 print:gap-3">
                       {scans.map((scan, index) => (
                         <div
                           key={scan.id}
