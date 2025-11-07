@@ -177,9 +177,7 @@ const Equipment = () => {
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs text-muted-foreground">
-                      Seals required: <span className="font-semibold text-foreground">{equipment.sealCount}</span>
-                    </p>
+                    
                     <p className="text-xs font-semibold text-blue-500">
                       {sealCounts[equipment.id] || 0} scanned
                     </p>
