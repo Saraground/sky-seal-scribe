@@ -201,18 +201,46 @@ const Preview = () => {
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(groupedScans).map(([equipmentType, scans], index) => (
-                  <tr key={equipmentType}>
-                    <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
-                    <td className="border border-black p-1 text-center text-xs">{equipmentNames[equipmentType]}</td>
-                    <td className="border border-black p-1 text-left px-2">
-                      <span className="font-bold text-sm">
-                        {scans.map(scan => scan.seal_number).join(', ')}
-                      </span>
-                    </td>
-                    <td className="border border-black p-1"></td>
-                  </tr>
-                ))}
+                {Object.entries(groupedScans).flatMap(([equipmentType, scans], index) => {
+                  const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
+                  const maxCharsPerLine = 45; // Approximate characters that fit in the column
+                  const sealLines: string[] = [];
+                  
+                  // Split seal numbers into chunks without wrapping
+                  let currentLine = '';
+                  const sealsArray = sealNumbers.split(', ');
+                  
+                  sealsArray.forEach((seal, idx) => {
+                    const testLine = currentLine + (currentLine ? ', ' : '') + seal;
+                    if (testLine.length <= maxCharsPerLine) {
+                      currentLine = testLine;
+                    } else {
+                      if (currentLine) sealLines.push(currentLine);
+                      currentLine = seal;
+                    }
+                    if (idx === sealsArray.length - 1 && currentLine) {
+                      sealLines.push(currentLine);
+                    }
+                  });
+
+                  // Create rows: first row with equipment info, additional rows for overflow
+                  return sealLines.map((line, lineIdx) => (
+                    <tr key={`${equipmentType}-${lineIdx}`}>
+                      <td className="border border-black p-1 text-center text-xs">
+                        {lineIdx === 0 ? index + 1 : ''}
+                      </td>
+                      <td className="border border-black p-1 text-center text-xs">
+                        {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
+                      </td>
+                      <td className="border border-black p-1 text-left px-2 whitespace-nowrap overflow-hidden">
+                        <span className="font-bold text-sm">
+                          {line}
+                        </span>
+                      </td>
+                      <td className="border border-black p-1"></td>
+                    </tr>
+                  ));
+                })}
                 {/* Fixed 17 empty rows */}
                 {Array.from({ length: 17 }).map((_, i) => (
                   <tr key={`empty-${i}`}>
