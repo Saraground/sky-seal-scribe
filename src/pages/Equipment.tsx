@@ -8,7 +8,6 @@ import { Label } from "@/components/ui/label";
 import { ArrowLeft, Box, Container, Eye, Printer, ScanLine, Camera, Truck } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 const equipmentTypes = [{
   id: "full-trolley",
   name: "Full-Size Trolley",
@@ -39,9 +38,6 @@ const Equipment = () => {
   const {
     flightId
   } = useParams();
-  const {
-    toast
-  } = useToast();
   const [sealCounts, setSealCounts] = useState<Record<string, number>>({});
   const [hilift1Seal, setHilift1Seal] = useState("");
   const [hilift2Seal, setHilift2Seal] = useState("");
@@ -103,11 +99,6 @@ const Equipment = () => {
       hilift_1_number: hilift1NumberInput
     }).eq("id", flightId!);
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save Hi-Lift 1 data",
-        variant: "destructive"
-      });
       return;
     }
     setHilift1Seal(hilift1SealInput);
@@ -115,10 +106,6 @@ const Equipment = () => {
     setHilift1SealInput("");
     setHilift1NumberInput("");
     setHilift1DialogOpen(false);
-    toast({
-      title: "Success",
-      description: "Hi-Lift 1 data saved"
-    });
   };
   const handleSaveHilift2 = async () => {
     const {
@@ -128,11 +115,6 @@ const Equipment = () => {
       hilift_2_number: hilift2NumberInput
     }).eq("id", flightId!);
     if (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save Hi-Lift 2 data",
-        variant: "destructive"
-      });
       return;
     }
     setHilift2Seal(hilift2SealInput);
@@ -140,10 +122,6 @@ const Equipment = () => {
     setHilift2SealInput("");
     setHilift2NumberInput("");
     setHilift2DialogOpen(false);
-    toast({
-      title: "Success",
-      description: "Hi-Lift 2 data saved"
-    });
   };
   return <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground shadow-lg">
