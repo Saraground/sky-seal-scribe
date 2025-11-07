@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plane, LogOut, Clock } from "lucide-react";
+import { Plane, LogOut, Clock, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { AddFlightDialog } from "@/components/AddFlightDialog";
@@ -78,6 +78,27 @@ const Flights = () => {
     navigate("/");
   };
 
+  const handleDeleteFlight = async (flightId: string) => {
+    const { error } = await supabase
+      .from("flights")
+      .delete()
+      .eq("id", flightId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete flight",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    toast({
+      title: "Success",
+      description: "Flight deleted successfully",
+    });
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
@@ -140,10 +161,20 @@ const Flights = () => {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="w-4 h-4" />
-                  <span>Departure: {formatTime(flight.departure_time)}</span>
-                </div>
+                {flight.status === "pending" && (
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="w-full gap-2"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteFlight(flight.id);
+                    }}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Delete Flight
+                  </Button>
+                )}
               </CardContent>
             </Card>
           ))}
