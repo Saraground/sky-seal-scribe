@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Camera, ScanLine, Plus, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 
 interface SealEntry {
   id: string;
@@ -64,15 +65,18 @@ const Scan = () => {
     <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground shadow-lg">
         <div className="container mx-auto px-4 py-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(`/equipment/${flightId}`)}
-            className="mb-2 text-primary-foreground hover:bg-primary-foreground/10"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
+          <div className="flex justify-between items-center mb-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate(`/equipment/${flightId}`)}
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+            <ConnectionStatus />
+          </div>
           <h1 className="text-xl font-bold">{equipmentNames[equipmentType!]}</h1>
           <p className="text-sm text-primary-foreground/80">Scan or enter seal numbers</p>
         </div>

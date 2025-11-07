@@ -1,7 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Box, Container } from "lucide-react";
+import { ArrowLeft, Box, Container, Eye, Printer } from "lucide-react";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 
 const equipmentTypes = [
   {
@@ -42,20 +43,23 @@ const Equipment = () => {
     <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground shadow-lg">
         <div className="container mx-auto px-4 py-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate("/flights")}
-            className="mb-2 text-primary-foreground hover:bg-primary-foreground/10"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Flights
-          </Button>
+          <div className="flex justify-between items-center mb-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/flights")}
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Flights
+            </Button>
+            <ConnectionStatus />
+          </div>
           <h1 className="text-xl font-bold">Select Equipment Type</h1>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6">
+      <main className="container mx-auto px-4 py-6 space-y-6">
         <div className="grid gap-4 md:grid-cols-2">
           {equipmentTypes.map((equipment) => {
             const Icon = equipment.icon;
@@ -84,6 +88,28 @@ const Equipment = () => {
               </Card>
             );
           })}
+        </div>
+        
+        <div className="flex gap-3">
+          <Button
+            variant="outline"
+            className="flex-1 gap-2"
+            onClick={() => navigate(`/preview/${flightId}`)}
+          >
+            <Eye className="w-4 h-4" />
+            Preview Report
+          </Button>
+          <Button
+            variant="outline"
+            className="flex-1 gap-2"
+            onClick={() => {
+              navigate(`/preview/${flightId}`);
+              setTimeout(() => window.print(), 500);
+            }}
+          >
+            <Printer className="w-4 h-4" />
+            Print Report
+          </Button>
         </div>
       </main>
     </div>

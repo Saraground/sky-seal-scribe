@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Printer, FileText } from "lucide-react";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 
 interface ScanData {
   [flightId: string]: {
@@ -37,15 +38,18 @@ const Preview = () => {
     <div className="min-h-screen bg-background">
       <header className="bg-primary text-primary-foreground shadow-lg print:hidden">
         <div className="container mx-auto px-4 py-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate("/flights")}
-            className="mb-2 text-primary-foreground hover:bg-primary-foreground/10"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Flights
-          </Button>
+          <div className="flex justify-between items-center mb-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/flights")}
+              className="text-primary-foreground hover:bg-primary-foreground/10"
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back to Flights
+            </Button>
+            <ConnectionStatus />
+          </div>
           <h1 className="text-xl font-bold">Preview & Print</h1>
         </div>
       </header>

@@ -7,6 +7,7 @@ import { Plane, LogOut, Clock, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { AddFlightDialog } from "@/components/AddFlightDialog";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 
 interface Flight {
   id: string;
@@ -123,10 +124,13 @@ const Flights = () => {
             <Plane className="w-6 h-6" />
             <h1 className="text-xl font-bold">Flight Dashboard</h1>
           </div>
-          <Button variant="outline" size="sm" onClick={handleLogout} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+          <div className="flex items-center gap-2">
+            <ConnectionStatus />
+            <Button variant="outline" size="sm" onClick={handleLogout} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
+              <LogOut className="w-4 h-4 mr-2" />
+              Logout
+            </Button>
+          </div>
         </div>
       </header>
 
