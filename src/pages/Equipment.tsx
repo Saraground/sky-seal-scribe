@@ -126,24 +126,22 @@ const Equipment = () => {
     setHilift2DialogOpen(false);
   };
   return <div className="min-h-screen bg-background">
-      <header className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground shadow-xl">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex justify-between items-start mb-4">
-            <Button variant="ghost" size="sm" onClick={() => navigate("/flights")} className="text-primary-foreground hover:bg-primary-foreground/20 transition-colors">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Flights
+      <header className="bg-gradient-to-r from-slate-900 to-slate-800 text-white shadow-md border-b border-slate-700/50">
+        <div className="container mx-auto px-4 py-2">
+          <div className="flex justify-between items-start mb-1">
+            <Button variant="ghost" size="sm" onClick={() => navigate("/flights")} className="text-white/90 hover:bg-white/10 transition-colors h-7 text-xs">
+              <ArrowLeft className="w-3 h-3 mr-1" />
+              Back
             </Button>
             <ConnectionStatus />
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg bg-primary-foreground/10 flex items-center justify-center backdrop-blur-sm">
-                <ScanLine className="w-5 h-5" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight">Select Equipment Type</h1>
-                <p className="text-primary-foreground/80 text-sm">Flight {flightNumber || "..."}</p>
-              </div>
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-md bg-white/5 flex items-center justify-center backdrop-blur-sm border border-white/10">
+              <ScanLine className="w-3.5 h-3.5" />
+            </div>
+            <div>
+              <h1 className="text-sm font-semibold tracking-tight">Select Equipment Type</h1>
+              <p className="text-white/60 text-xs">Flight {flightNumber || "..."}</p>
             </div>
           </div>
         </div>
