@@ -230,6 +230,9 @@ const Flights = () => {
                   <div className="flex-1">
                     <CardTitle className="text-base">{flight.flight_number}</CardTitle>
                     <p className="text-xs text-muted-foreground mt-0.5">{flight.destination}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Total Seals: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
+                    </p>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     <div className="flex items-center gap-2">
@@ -259,11 +262,6 @@ const Flights = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="pb-2 py-1">
-                <p className="text-xs text-muted-foreground">
-                  Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
-                </p>
-              </CardContent>
             </Card>
           ))}
         </div>
