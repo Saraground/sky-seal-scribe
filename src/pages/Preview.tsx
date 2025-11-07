@@ -206,7 +206,7 @@ const Preview = () => {
                     <td className="border border-black p-1 text-center text-xs">{index + 1}</td>
                     <td className="border border-black p-1 text-center text-xs">{equipmentNames[scan.equipment_type]}</td>
                     <td className="border border-black p-1">
-                      <div className="grid grid-cols-4 gap-2 p-1">
+                      <div className="grid grid-cols-3 gap-2 p-1">
                         <span className="font-bold text-sm">{scan.seal_number}</span>
                       </div>
                     </td>
