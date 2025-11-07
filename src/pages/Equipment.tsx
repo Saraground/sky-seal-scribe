@@ -2,9 +2,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Box, Container, Eye, Printer } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { ArrowLeft, Box, Container, Eye, Printer, ScanLine, Camera, Truck } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const equipmentTypes = [
   {
@@ -40,7 +44,14 @@ const equipmentTypes = [
 const Equipment = () => {
   const navigate = useNavigate();
   const { flightId } = useParams();
+  const { toast } = useToast();
   const [sealCounts, setSealCounts] = useState<Record<string, number>>({});
+  const [hilift1Seal, setHilift1Seal] = useState("");
+  const [hilift2Seal, setHilift2Seal] = useState("");
+  const [hilift1Input, setHilift1Input] = useState("");
+  const [hilift2Input, setHilift2Input] = useState("");
+  const [hilift1DialogOpen, setHilift1DialogOpen] = useState(false);
+  const [hilift2DialogOpen, setHilift2DialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchSealCounts = async () => {
@@ -60,7 +71,23 @@ const Equipment = () => {
       setSealCounts(counts);
     };
 
+    const fetchHiliftSeals = async () => {
+      if (!flightId) return;
+
+      const { data } = await supabase
+        .from("flights")
+        .select("hilift_1_seal, hilift_2_seal")
+        .eq("id", flightId)
+        .single();
+
+      if (data) {
+        setHilift1Seal(data.hilift_1_seal || "");
+        setHilift2Seal(data.hilift_2_seal || "");
+      }
+    };
+
     fetchSealCounts();
+    fetchHiliftSeals();
 
     // Subscribe to realtime updates
     const channel = supabase
@@ -83,6 +110,58 @@ const Equipment = () => {
       supabase.removeChannel(channel);
     };
   }, [flightId]);
+
+  const handleSaveHilift1 = async () => {
+    if (!hilift1Input.trim()) return;
+
+    const { error } = await supabase
+      .from("flights")
+      .update({ hilift_1_seal: hilift1Input })
+      .eq("id", flightId!);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save Hi-Lift 1 seal",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setHilift1Seal(hilift1Input);
+    setHilift1Input("");
+    setHilift1DialogOpen(false);
+    toast({
+      title: "Success",
+      description: "Hi-Lift 1 seal saved",
+    });
+  };
+
+  const handleSaveHilift2 = async () => {
+    if (!hilift2Input.trim()) return;
+
+    const { error } = await supabase
+      .from("flights")
+      .update({ hilift_2_seal: hilift2Input })
+      .eq("id", flightId!);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save Hi-Lift 2 seal",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setHilift2Seal(hilift2Input);
+    setHilift2Input("");
+    setHilift2DialogOpen(false);
+    toast({
+      title: "Success",
+      description: "Hi-Lift 2 seal saved",
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -139,8 +218,115 @@ const Equipment = () => {
             );
           })}
         </div>
+
+        {/* Hi-Lift Seals Section */}
+        <div className="grid gap-4 md:grid-cols-2 mt-6">
+          <Dialog open={hilift1DialogOpen} onOpenChange={setHilift1DialogOpen}>
+            <DialogTrigger asChild>
+              <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Truck className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle>Hi-Lift 1</CardTitle>
+                      <CardDescription>Scan seal number</CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm font-semibold text-blue-500">
+                    {hilift1Seal ? `Seal: ${hilift1Seal}` : "Not scanned"}
+                  </p>
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Hi-Lift 1 Seal Number</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="hilift1-seal">Seal Number</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="hilift1-seal"
+                      type="text"
+                      placeholder="Enter or scan seal number"
+                      value={hilift1Input}
+                      onChange={(e) => setHilift1Input(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSaveHilift1()}
+                    />
+                    <Button type="button" variant="outline" size="icon">
+                      <ScanLine className="w-4 h-4" />
+                    </Button>
+                    <Button type="button" variant="outline" size="icon">
+                      <Camera className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+                <Button onClick={handleSaveHilift1} className="w-full">
+                  Save Seal Number
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={hilift2DialogOpen} onOpenChange={setHilift2DialogOpen}>
+            <DialogTrigger asChild>
+              <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                <CardHeader>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                      <Truck className="w-6 h-6 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle>Hi-Lift 2</CardTitle>
+                      <CardDescription>Scan seal number</CardDescription>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm font-semibold text-blue-500">
+                    {hilift2Seal ? `Seal: ${hilift2Seal}` : "Not scanned"}
+                  </p>
+                </CardContent>
+              </Card>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Hi-Lift 2 Seal Number</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 mt-4">
+                <div className="space-y-2">
+                  <Label htmlFor="hilift2-seal">Seal Number</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="hilift2-seal"
+                      type="text"
+                      placeholder="Enter or scan seal number"
+                      value={hilift2Input}
+                      onChange={(e) => setHilift2Input(e.target.value)}
+                      onKeyPress={(e) => e.key === "Enter" && handleSaveHilift2()}
+                    />
+                    <Button type="button" variant="outline" size="icon">
+                      <ScanLine className="w-4 h-4" />
+                    </Button>
+                    <Button type="button" variant="outline" size="icon">
+                      <Camera className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+                <Button onClick={handleSaveHilift2} className="w-full">
+                  Save Seal Number
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
         
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-6">
           <Button
             variant="outline"
             className="flex-1 gap-2"

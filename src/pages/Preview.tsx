@@ -17,6 +17,9 @@ interface FlightData {
   flight_number: string;
   departure_time: string;
   created_at: string;
+  user_id: string;
+  hilift_1_seal: string | null;
+  hilift_2_seal: string | null;
 }
 
 const Preview = () => {
@@ -56,7 +59,7 @@ const Preview = () => {
       // Fetch flight data
       const { data: flight } = await supabase
         .from("flights")
-        .select("flight_number, departure_time, created_at, user_id")
+        .select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal")
         .eq("id", flightId!)
         .single();
       
@@ -184,6 +187,20 @@ const Preview = () => {
                     <td className="border border-black p-1 text-left text-xs">Seal No.</td>
                   </tr>
                 ))}
+                <tr>
+                  <td className="border border-black p-1 w-32">Hi-Lift 1</td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">3</td>
+                  <td className="border border-black p-1 text-left text-xs font-bold">
+                    {flightData?.hilift_1_seal || ""}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-1 w-32">Hi-Lift 2</td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">4</td>
+                  <td className="border border-black p-1 text-left text-xs font-bold">
+                    {flightData?.hilift_2_seal || ""}
+                  </td>
+                </tr>
                 <tr>
                   <td colSpan={2} className="border border-black p-1 bg-black text-white text-xs">
                     SSS sticker nos. for loose items
