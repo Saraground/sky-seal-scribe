@@ -206,9 +206,9 @@ const Preview = () => {
         <div className="print:block hidden">
           <style dangerouslySetInnerHTML={{__html: `
             @media print {
-              @page { margin: 0.2cm; size: A4; }
+              @page { margin: 0.3cm; size: A4; }
               body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
-              table { page-break-inside: avoid; font-size: 0.75rem; }
+              table { page-break-inside: avoid; font-size: 0.85rem; }
               tr { page-break-inside: avoid; page-break-after: avoid; }
               * { page-break-inside: avoid; }
             }
@@ -251,6 +251,15 @@ const Preview = () => {
                   <td className="border border-black p-1 w-8 text-center font-bold">1</td>
                   <td className="border border-black p-1 text-left font-bold" style={{ fontSize: '22px' }}>
                     Rear Seal: {flightData?.hilift_1_rear_seal || ""}, Front Seal: {flightData?.hilift_1_seal || ""}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-1 w-32">
+                    Hi-Lift 2{flightData?.hilift_2_number ? <span style={{ fontSize: '20px', fontWeight: 'bold' }}> - {flightData.hilift_2_number}</span> : ""}
+                  </td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">2</td>
+                  <td className="border border-black p-1 text-left font-bold" style={{ fontSize: '22px' }}>
+                    Rear Seal: {flightData?.hilift_2_rear_seal || ""}, Front Seal: {flightData?.hilift_2_seal || ""}
                   </td>
                 </tr>
                 <tr>
@@ -368,9 +377,9 @@ const Preview = () => {
                   
                   return [...equipmentRows, emptyRow];
                 })}
-                {/* Reduced empty rows to fit one page */}
-                {Array.from({ length: 8 }).map((_, i) => (
-                  <tr key={`empty-${i}`} style={{ height: '22px' }}>
+                {/* Fixed 16 empty rows */}
+                {Array.from({ length: 16 }).map((_, i) => (
+                  <tr key={`empty-${i}`} style={{ height: '26px' }}>
                     <td className="border border-black p-1"></td>
                     <td className="border border-black p-1"></td>
                     <td className="border border-black p-1"></td>
