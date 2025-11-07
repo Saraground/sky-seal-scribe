@@ -1,8 +1,10 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Box, Container, Eye, Printer } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
+import { supabase } from "@/integrations/supabase/client";
 
 const equipmentTypes = [
   {
@@ -38,6 +40,49 @@ const equipmentTypes = [
 const Equipment = () => {
   const navigate = useNavigate();
   const { flightId } = useParams();
+  const [sealCounts, setSealCounts] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+    const fetchSealCounts = async () => {
+      if (!flightId) return;
+
+      const { data, error } = await supabase
+        .from("seal_scans")
+        .select("equipment_type")
+        .eq("flight_id", flightId);
+
+      if (error || !data) return;
+
+      const counts: Record<string, number> = {};
+      data.forEach((scan) => {
+        counts[scan.equipment_type] = (counts[scan.equipment_type] || 0) + 1;
+      });
+      setSealCounts(counts);
+    };
+
+    fetchSealCounts();
+
+    // Subscribe to realtime updates
+    const channel = supabase
+      .channel('seal-scans-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'seal_scans',
+          filter: `flight_id=eq.${flightId}`
+        },
+        () => {
+          fetchSealCounts();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [flightId]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -81,9 +126,14 @@ const Equipment = () => {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Seals required: <span className="font-semibold text-foreground">{equipment.sealCount}</span>
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-muted-foreground">
+                      Seals required: <span className="font-semibold text-foreground">{equipment.sealCount}</span>
+                    </p>
+                    <p className="text-sm font-semibold text-blue-500">
+                      {sealCounts[equipment.id] || 0} scanned
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             );
