@@ -188,18 +188,18 @@ const Flights = () => {
           <AddFlightDialog onFlightAdded={fetchFlights} />
         </div>
 
-        <div className="grid gap-4">
+        <div className="grid gap-4 max-h-[40vh] overflow-y-auto">
           {flights.map((flight) => (
             <Card
               key={flight.id}
               className="hover:shadow-md transition-shadow cursor-pointer"
               onClick={() => navigate(`/equipment/${flight.id}`)}
             >
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2 py-2">
                 <div className="flex items-start justify-between">
                   <div>
-                    <CardTitle className="text-lg">{flight.flight_number}</CardTitle>
-                    <p className="text-sm text-muted-foreground mt-1">{flight.destination}</p>
+                    <CardTitle className="text-base">{flight.flight_number}</CardTitle>
+                    <p className="text-xs text-muted-foreground mt-0.5">{flight.destination}</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <Badge className={getStatusColor(flight.status)}>
@@ -221,8 +221,8 @@ const Flights = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="pb-3">
-                <p className="text-sm text-muted-foreground">
+              <CardContent className="pb-2 py-1">
+                <p className="text-xs text-muted-foreground">
                   Total Seals Scanned: <span className="font-semibold text-foreground">{sealCounts[flight.id] || 0}</span>
                 </p>
               </CardContent>
