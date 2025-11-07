@@ -157,14 +157,16 @@ const Flights = () => {
           </div>
           <div className="flex items-center gap-2">
             <ConnectionStatus />
-            <Button variant="outline" size="sm" onClick={() => navigate("/profile")} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
-              <User className="w-4 h-4 mr-2" />
-              Profile
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleLogout} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Button variant="outline" size="sm" onClick={() => navigate("/profile")} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
+                <User className="w-4 h-4 mr-2" />
+                Profile
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleLogout} className="bg-primary-foreground/10 text-primary-foreground border-primary-foreground/20 hover:bg-primary-foreground/20">
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           </div>
         </div>
       </header>
