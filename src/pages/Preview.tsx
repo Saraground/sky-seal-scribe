@@ -200,7 +200,7 @@ const Preview = () => {
           __html: `
             @media print {
               @page { 
-                margin: 0.2cm; 
+                margin: 1cm; 
                 size: A4 portrait; 
               }
               body { 
@@ -391,7 +391,7 @@ const Preview = () => {
                   }, 0);
 
                   // Target total data rows for A4 (adjust to fit perfectly)
-                  const targetDataRows = 25;
+                  const targetDataRows = 22;
                   const emptyRowsNeeded = Math.max(0, targetDataRows - equipmentRowCount);
 
                   return (
