@@ -359,7 +359,7 @@ const Preview = () => {
                 <tr className="bg-gray-100">
                   <th className="border border-black p-1 text-sm font-bold w-[50px]">S/n</th>
                   <th className="border border-black p-1 text-sm font-bold w-[150px]">Cart No.</th>
-                  <th className="border border-black p-1 text-sm font-bold w-[400px]">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[600px]">Seal / Sticker No.</th>
                   <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
