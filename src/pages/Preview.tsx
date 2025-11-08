@@ -417,7 +417,7 @@ const Preview = () => {
                         });
 
                         const equipmentRows = sealLines.map((line, lineIdx) => (
-                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '26px' }}>
+                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '30px' }}>
                             <td className="border border-black p-1 text-center text-xs">
                               {lineIdx === 0 ? index + 1 : ''}
                             </td>
