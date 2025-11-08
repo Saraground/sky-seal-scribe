@@ -63,26 +63,30 @@ const Flights = () => {
 
     const flightsWithUsernames = (data || []) as Flight[];
     
-    // Fetch usernames for all unique user_ids
+    // Fetch usernames for all unique user_ids using the secure function
     if (flightsWithUsernames.length > 0) {
       const uniqueUserIds = [...new Set(flightsWithUsernames.map(f => f.user_id))];
-      const { data: profileData } = await supabase
-        .from("profiles")
-        .select("id, username")
-        .in("id", uniqueUserIds);
       
-      if (profileData) {
-        const profileMap: Record<string, string> = {};
-        profileData.forEach(p => {
-          profileMap[p.id] = p.username || "";
-        });
-        
-        
-        // Add username to each flight
-        flightsWithUsernames.forEach(flight => {
-          flight.username = profileMap[flight.user_id] || "";
-        });
-      }
+      // Use the secure get_username_for_user function for each unique user
+      const usernamePromises = uniqueUserIds.map(async (userId) => {
+        const { data, error } = await supabase.rpc('get_username_for_user', { user_uuid: userId });
+        if (error) {
+          console.error(`Error fetching username for user ${userId}:`, error);
+          return { userId, username: "" };
+        }
+        return { userId, username: data || "" };
+      });
+      
+      const usernameResults = await Promise.all(usernamePromises);
+      const profileMap: Record<string, string> = {};
+      usernameResults.forEach(result => {
+        profileMap[result.userId] = result.username;
+      });
+      
+      // Add username to each flight
+      flightsWithUsernames.forEach(flight => {
+        flight.username = profileMap[flight.user_id] || "";
+      });
     }
     
     setFlights(flightsWithUsernames);
