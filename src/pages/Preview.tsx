@@ -434,7 +434,7 @@ const Preview = () => {
                         ));
 
                         const emptyRow = (
-                          <tr key={`${equipmentType}-empty`} style={{ height: '26px' }}>
+                          <tr key={`${equipmentType}-empty`} style={{ height: '30px' }}>
                             <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
@@ -447,7 +447,7 @@ const Preview = () => {
                       
                       {/* Dynamic empty rows to fill A4 page */}
                       {Array.from({ length: emptyRowsNeeded }).map((_, i) => (
-                        <tr key={`empty-${i}`} style={{ height: '26px' }}>
+                        <tr key={`empty-${i}`} style={{ height: '30px' }}>
                           <td className="border border-black p-1"></td>
                           <td className="border border-black p-1"></td>
                           <td className="border border-black p-1"></td>
