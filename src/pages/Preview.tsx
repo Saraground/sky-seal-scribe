@@ -357,7 +357,7 @@ const Preview = () => {
             <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
               <colgroup>
                 <col style={{ width: '60px' }} />
-                <col style={{ width: '180px' }} />
+                <col style={{ width: '100px' }} />
                 <col style={{ width: '370px' }} />
                 <col />
               </colgroup>
