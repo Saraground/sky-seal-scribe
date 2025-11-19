@@ -200,7 +200,7 @@ const Preview = () => {
           __html: `
             @media print {
               @page { 
-                margin: 1cm; 
+                margin: 0.2cm; 
                 size: A4 portrait; 
               }
               body { 
@@ -359,7 +359,7 @@ const Preview = () => {
                 <tr className="bg-gray-100">
                   <th className="border border-black p-1 text-sm font-bold w-[50px]">S/n</th>
                   <th className="border border-black p-1 text-sm font-bold w-[150px]">Cart No.</th>
-                  <th className="border border-black p-1 text-sm font-bold w-[600px]">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold w-[400px]">Seal / Sticker No.</th>
                   <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
@@ -391,7 +391,7 @@ const Preview = () => {
                   }, 0);
 
                   // Target total data rows for A4 (adjust to fit perfectly)
-                  const targetDataRows = 22;
+                  const targetDataRows = 25;
                   const emptyRowsNeeded = Math.max(0, targetDataRows - equipmentRowCount);
 
                   return (
@@ -417,14 +417,14 @@ const Preview = () => {
                         });
 
                         const equipmentRows = sealLines.map((line, lineIdx) => (
-                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '40px' }}>
+                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '26px' }}>
                             <td className="border border-black p-1 text-center text-xs">
                               {lineIdx === 0 ? index + 1 : ''}
                             </td>
                             <td className="border border-black p-1 text-center text-xs">
                               {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
                             </td>
-                            <td className="border border-black p-1 text-left px-2 whitespace-nowrap" style={{ width: '400px', minWidth: '400px', maxWidth: '400px' }}>
+                            <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
                               <span className="font-bold text-sm">
                                 {line}
                               </span>
@@ -434,10 +434,10 @@ const Preview = () => {
                         ));
 
                         const emptyRow = (
-                          <tr key={`${equipmentType}-empty`} style={{ height: '40px' }}>
+                          <tr key={`${equipmentType}-empty`} style={{ height: '26px' }}>
                             <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
-                            <td className="border border-black p-1" style={{ width: '400px', minWidth: '400px', maxWidth: '400px' }}></td>
+                            <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
                           </tr>
                         );
@@ -447,7 +447,7 @@ const Preview = () => {
                       
                       {/* Dynamic empty rows to fill A4 page */}
                       {Array.from({ length: emptyRowsNeeded }).map((_, i) => (
-                        <tr key={`empty-${i}`} style={{ height: '40px' }}>
+                        <tr key={`empty-${i}`} style={{ height: '26px' }}>
                           <td className="border border-black p-1"></td>
                           <td className="border border-black p-1"></td>
                           <td className="border border-black p-1"></td>
