@@ -54,6 +54,9 @@ const Equipment = () => {
   const [hilift2NumberInput, setHilift2NumberInput] = useState("");
   const [hilift1DialogOpen, setHilift1DialogOpen] = useState(false);
   const [hilift2DialogOpen, setHilift2DialogOpen] = useState(false);
+  const [padlockTotal, setPadlockTotal] = useState("");
+  const [padlockInput, setPadlockInput] = useState("");
+  const [padlockDialogOpen, setPadlockDialogOpen] = useState(false);
   useEffect(() => {
     const fetchSealCounts = async () => {
       if (!flightId) return;
@@ -72,7 +75,7 @@ const Equipment = () => {
       if (!flightId) return;
       const {
         data
-      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, flight_number").eq("id", flightId).single();
+      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, flight_number, padlock_total").eq("id", flightId).single();
       if (data) {
         setFlightNumber(data.flight_number || "");
         setHilift1Seal(data.hilift_1_seal || "");
@@ -81,6 +84,7 @@ const Equipment = () => {
         setHilift2RearSeal(data.hilift_2_rear_seal || "");
         setHilift1Number(data.hilift_1_number || "");
         setHilift2Number(data.hilift_2_number || "");
+        setPadlockTotal(data.padlock_total || "");
       }
     };
     fetchSealCounts();
@@ -136,6 +140,19 @@ const Equipment = () => {
     setHilift2RearSealInput("");
     setHilift2NumberInput("");
     setHilift2DialogOpen(false);
+  };
+  const handleSavePadlock = async () => {
+    const {
+      error
+    } = await supabase.from("flights").update({
+      padlock_total: padlockInput
+    }).eq("id", flightId!);
+    if (error) {
+      return;
+    }
+    setPadlockTotal(padlockInput);
+    setPadlockInput("");
+    setPadlockDialogOpen(false);
   };
   return <div className="min-h-screen bg-background">
       <header className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 shadow-sm">
@@ -238,7 +255,7 @@ const Equipment = () => {
             </DialogContent>
           </Dialog>
 
-          <Dialog open={hilift2DialogOpen} onOpenChange={setHilift2DialogOpen}>
+          <Dialog open={padlockDialogOpen} onOpenChange={setPadlockDialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer px-0 py-0">
                 <CardHeader className="pb-1">
@@ -247,17 +264,15 @@ const Equipment = () => {
                       <Truck className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <CardTitle className="text-sm">Hi-Lift 2</CardTitle>
+                      <CardTitle className="text-sm">Pad Lock</CardTitle>
                       
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0 pb-2">
                   <div className="text-xs font-semibold text-blue-500">
-                    {hilift2Number || hilift2Seal || hilift2RearSeal ? <>
-                        {hilift2Number && <div>Hi-Lift No: {hilift2Number}</div>}
-                        {hilift2Seal && <div>Front Seal: {hilift2Seal}</div>}
-                        {hilift2RearSeal && <div>Rear Seal: {hilift2RearSeal}</div>}
+                    {padlockTotal ? <>
+                        <div>Total: {padlockTotal}</div>
                       </> : <div>Not configured</div>}
                   </div>
                 </CardContent>
@@ -265,22 +280,14 @@ const Equipment = () => {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Edit Hi-Lift 2</DialogTitle>
+                <DialogTitle>Total Pad Lock Used</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="hilift2-number">Hi-Lift Number</Label>
-                  <Input id="hilift2-number" type="text" placeholder="Enter Hi-Lift number" value={hilift2NumberInput} onChange={e => setHilift2NumberInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
+                  <Label htmlFor="padlock-total">Total Pad Lock Used</Label>
+                  <Input id="padlock-total" type="text" placeholder="Enter total padlock used" value={padlockInput} onChange={e => setPadlockInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSavePadlock()} />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="hilift2-seal">Hi-Lift Front Seal Number</Label>
-                  <Input id="hilift2-seal" type="text" placeholder="Enter front seal number" value={hilift2SealInput} onChange={e => setHilift2SealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="hilift2-rear-seal">Hi-Lift Rear Seal Number</Label>
-                  <Input id="hilift2-rear-seal" type="text" placeholder="Enter rear seal number" value={hilift2RearSealInput} onChange={e => setHilift2RearSealInput(e.target.value)} onKeyPress={e => e.key === "Enter" && handleSaveHilift2()} />
-                </div>
-                <Button onClick={handleSaveHilift2} className="w-full">
+                <Button onClick={handleSavePadlock} className="w-full">
                   Save
                 </Button>
               </div>
