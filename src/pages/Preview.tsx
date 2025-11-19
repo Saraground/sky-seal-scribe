@@ -519,15 +519,13 @@ const Preview = () => {
                 </div>
                 <Edit className="w-4 h-4" />
               </div>
-              <div className="flex items-center justify-between p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80" onClick={() => handleHiLiftClick(2)}>
+              <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                 <div>
-                  <p className="font-semibold">Hi-Lift 2</p>
+                  <p className="font-semibold">PADLOCK</p>
                   <p className="text-sm text-muted-foreground">
-                    {flightData?.hilift_2_number && `Hi-Lift Number: ${flightData.hilift_2_number} | `}
-                    Seal No: {flightData?.hilift_2_seal || "Not set"}
+                    Total: {flightData?.padlock_total || "N/A"}
                   </p>
                 </div>
-                <Edit className="w-4 h-4" />
               </div>
             </div>
           </CardHeader>
