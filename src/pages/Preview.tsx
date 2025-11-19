@@ -431,7 +431,7 @@ const Preview = () => {
                               {lineIdx === 0 ? (() => {
                                 const count = scans.length;
                                 const displayCount = equipmentType === 'full-trolley' ? count / 2 : count;
-                                return `${displayCount} ${equipmentNames[equipmentType]}`;
+                                return <><span className="font-bold">{displayCount}</span> {equipmentNames[equipmentType]}</>;
                               })() : ''}
                             </td>
                             <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
