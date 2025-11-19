@@ -424,7 +424,7 @@ const Preview = () => {
                             <td className="border border-black p-1 text-center text-xs">
                               {lineIdx === 0 ? equipmentNames[equipmentType] : ''}
                             </td>
-                            <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
+                            <td className="border border-black p-1 text-left px-2 whitespace-nowrap" style={{ width: '400px', minWidth: '400px', maxWidth: '400px' }}>
                               <span className="font-bold text-sm">
                                 {line}
                               </span>
@@ -437,7 +437,7 @@ const Preview = () => {
                           <tr key={`${equipmentType}-empty`} style={{ height: '40px' }}>
                             <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
-                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1" style={{ width: '400px', minWidth: '400px', maxWidth: '400px' }}></td>
                             <td className="border border-black p-1"></td>
                           </tr>
                         );
