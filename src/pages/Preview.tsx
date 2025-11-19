@@ -284,7 +284,7 @@ const Preview = () => {
                   </td>
                   <td className="border border-black p-1 w-8 text-center font-bold">Total</td>
                   <td className="border border-black p-1 text-left" style={{
-                  fontSize: '22px',
+                  fontSize: '14px',
                   fontWeight: 'bold'
                 }}>
                     {flightData?.padlock_total || ""}
