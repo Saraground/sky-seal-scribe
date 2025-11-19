@@ -358,7 +358,7 @@ const Preview = () => {
               <colgroup>
                 <col style={{ width: '60px' }} />
                 <col style={{ width: '115px' }} />
-                <col style={{ width: '370px' }} />
+                <col style={{ width: '385px' }} />
                 <col />
               </colgroup>
               <thead>
