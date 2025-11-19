@@ -280,16 +280,13 @@ const Preview = () => {
                 </tr>
                 <tr>
                   <td className="border border-black p-1 w-32">
-                    Hi-Lift 2{flightData?.hilift_2_number ? <span style={{
-                    fontSize: '20px',
-                    fontWeight: 'bold'
-                  }}> - {flightData.hilift_2_number}</span> : ""}
+                    Padlock
                   </td>
-                  <td className="border border-black p-1 w-8 text-center font-bold">2</td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">Total</td>
                   <td className="border border-black p-1 text-left font-bold" style={{
                   fontSize: '22px'
                 }}>
-                    Rear Seal: {flightData?.hilift_2_rear_seal || ""}, Front Seal: {flightData?.hilift_2_seal || ""}
+                    {flightData?.padlock_total || ""}
                   </td>
                 </tr>
                 <tr>
@@ -471,7 +468,7 @@ const Preview = () => {
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
                   <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
-                  <td className="border border-black p-1 text-xs font-semibold">Remark: {flightData?.padlock_total || ""}</td>
+                  <td className="border border-black p-1 text-xs font-semibold">{flightData?.padlock_total || ""}</td>
                 </tr>
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
