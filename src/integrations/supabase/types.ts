@@ -27,6 +27,7 @@ export type Database = {
           hilift_2_rear_seal: string | null
           hilift_2_seal: string | null
           id: string
+          padlock_total: string | null
           status: string
           updated_at: string
           user_id: string
@@ -43,6 +44,7 @@ export type Database = {
           hilift_2_rear_seal?: string | null
           hilift_2_seal?: string | null
           id?: string
+          padlock_total?: string | null
           status?: string
           updated_at?: string
           user_id: string
@@ -59,6 +61,7 @@ export type Database = {
           hilift_2_rear_seal?: string | null
           hilift_2_seal?: string | null
           id?: string
+          padlock_total?: string | null
           status?: string
           updated_at?: string
           user_id?: string

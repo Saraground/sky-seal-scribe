@@ -27,6 +27,7 @@ interface FlightData {
   hilift_2_rear_seal: string | null;
   hilift_1_number: string | null;
   hilift_2_number: string | null;
+  padlock_total: string | null;
 }
 const Preview = () => {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ const Preview = () => {
     // Fetch flight data
     const {
       data: flight
-    } = await supabase.from("flights").select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number").eq("id", flightId!).single();
+    } = await supabase.from("flights").select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, padlock_total").eq("id", flightId!).single();
     if (flight) {
       setFlightData(flight);
 
@@ -470,7 +471,7 @@ const Preview = () => {
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
                   <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
-                  <td className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-xs font-semibold">Remark: {flightData?.padlock_total || ""}</td>
                 </tr>
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
