@@ -28,6 +28,8 @@ interface FlightData {
   hilift_1_number: string | null;
   hilift_2_number: string | null;
   padlock_total: string | null;
+  driver_name: string | null;
+  driver_id: string | null;
 }
 const Preview = () => {
   const navigate = useNavigate();
@@ -90,7 +92,7 @@ const Preview = () => {
     // Fetch flight data
     const {
       data: flight
-    } = await supabase.from("flights").select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, padlock_total").eq("id", flightId!).single();
+    } = await supabase.from("flights").select("flight_number, departure_time, created_at, user_id, hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, padlock_total, driver_name, driver_id").eq("id", flightId!).single();
     if (flight) {
       setFlightData(flight);
 
@@ -460,8 +462,15 @@ const Preview = () => {
                   <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.padlock_total || ""}</span></td>
                 </tr>
                 <tr>
-                  <td colSpan={2} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">NAME:</td>
+                  <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.driver_name || ""}</span></td>
                   <td className="border border-black p-1 text-right text-xs font-semibold">ACKNOWLEDGE BY:</td>
+                  <td className="border border-black p-1"></td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">ID:</td>
+                  <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.driver_id || ""}</span></td>
+                  <td className="border border-black p-1"></td>
                   <td className="border border-black p-1"></td>
                 </tr>
               </tbody>
