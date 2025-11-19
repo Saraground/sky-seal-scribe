@@ -19,6 +19,8 @@ export type Database = {
           created_at: string
           departure_time: string
           destination: string
+          driver_id: string | null
+          driver_name: string | null
           flight_number: string
           hilift_1_number: string | null
           hilift_1_rear_seal: string | null
@@ -36,6 +38,8 @@ export type Database = {
           created_at?: string
           departure_time: string
           destination: string
+          driver_id?: string | null
+          driver_name?: string | null
           flight_number: string
           hilift_1_number?: string | null
           hilift_1_rear_seal?: string | null
@@ -53,6 +57,8 @@ export type Database = {
           created_at?: string
           departure_time?: string
           destination?: string
+          driver_id?: string | null
+          driver_name?: string | null
           flight_number?: string
           hilift_1_number?: string | null
           hilift_1_rear_seal?: string | null

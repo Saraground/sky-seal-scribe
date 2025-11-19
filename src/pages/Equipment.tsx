@@ -57,6 +57,11 @@ const Equipment = () => {
   const [padlockTotal, setPadlockTotal] = useState("");
   const [padlockInput, setPadlockInput] = useState("");
   const [padlockDialogOpen, setPadlockDialogOpen] = useState(false);
+  const [driverName, setDriverName] = useState("");
+  const [driverId, setDriverId] = useState("");
+  const [driverNameInput, setDriverNameInput] = useState("");
+  const [driverIdInput, setDriverIdInput] = useState("");
+  const [driverDialogOpen, setDriverDialogOpen] = useState(false);
   useEffect(() => {
     const fetchSealCounts = async () => {
       if (!flightId) return;
@@ -75,7 +80,7 @@ const Equipment = () => {
       if (!flightId) return;
       const {
         data
-      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, flight_number, padlock_total").eq("id", flightId).single();
+      } = await supabase.from("flights").select("hilift_1_seal, hilift_2_seal, hilift_1_rear_seal, hilift_2_rear_seal, hilift_1_number, hilift_2_number, flight_number, padlock_total, driver_name, driver_id").eq("id", flightId).single();
       if (data) {
         setFlightNumber(data.flight_number || "");
         setHilift1Seal(data.hilift_1_seal || "");
@@ -85,6 +90,8 @@ const Equipment = () => {
         setHilift1Number(data.hilift_1_number || "");
         setHilift2Number(data.hilift_2_number || "");
         setPadlockTotal(data.padlock_total || "");
+        setDriverName(data.driver_name || "");
+        setDriverId(data.driver_id || "");
       }
     };
     fetchSealCounts();
@@ -153,6 +160,22 @@ const Equipment = () => {
     setPadlockTotal(padlockInput);
     setPadlockInput("");
     setPadlockDialogOpen(false);
+  };
+  const handleSaveDriver = async () => {
+    const {
+      error
+    } = await supabase.from("flights").update({
+      driver_name: driverNameInput,
+      driver_id: driverIdInput
+    }).eq("id", flightId!);
+    if (error) {
+      return;
+    }
+    setDriverName(driverNameInput);
+    setDriverId(driverIdInput);
+    setDriverNameInput("");
+    setDriverIdInput("");
+    setDriverDialogOpen(false);
   };
   return <div className="min-h-screen bg-background">
       <header className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 shadow-sm">
