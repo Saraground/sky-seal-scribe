@@ -527,6 +527,15 @@ const Preview = () => {
                   </p>
                 </div>
               </div>
+              <div className="flex items-center justify-between p-3 bg-muted rounded-lg cursor-pointer hover:bg-muted/80">
+                <div>
+                  <p className="font-semibold">Driver Name & ID</p>
+                  <p className="text-sm text-muted-foreground">
+                    Not set
+                  </p>
+                </div>
+                <Edit className="w-4 h-4" />
+              </div>
             </div>
           </CardHeader>
           <CardContent className="pt-6">
