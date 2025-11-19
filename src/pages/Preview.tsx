@@ -283,8 +283,9 @@ const Preview = () => {
                     Padlock
                   </td>
                   <td className="border border-black p-1 w-8 text-center font-bold">Total</td>
-                  <td className="border border-black p-1 text-left font-bold" style={{
-                  fontSize: '22px'
+                  <td className="border border-black p-1 text-left" style={{
+                  fontSize: '22px',
+                  fontWeight: 'bold'
                 }}>
                     {flightData?.padlock_total || ""}
                   </td>
@@ -468,7 +469,7 @@ const Preview = () => {
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
                   <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
-                  <td className="border border-black p-1 text-xs font-semibold">{flightData?.padlock_total || ""}</td>
+                  <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.padlock_total || ""}</span></td>
                 </tr>
                 <tr>
                   <td colSpan={2} className="border border-black p-1"></td>
