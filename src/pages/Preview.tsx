@@ -279,18 +279,6 @@ const Preview = () => {
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-black p-1 w-32">
-                    Padlock
-                  </td>
-                  <td className="border border-black p-1 w-8 text-center font-bold">Total</td>
-                  <td className="border border-black p-1 text-left" style={{
-                  fontSize: '14px',
-                  fontWeight: 'bold'
-                }}>
-                    {flightData?.padlock_total || ""}
-                  </td>
-                </tr>
-                <tr>
                   <td colSpan={2} className="border border-black p-1 bg-black text-white text-xs">
                     SSS sticker nos. for loose items
                   </td>
