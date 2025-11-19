@@ -463,13 +463,13 @@ const Preview = () => {
                 </tr>
                 <tr>
                   <td className="border border-black p-1 text-right text-xs font-semibold">ACKNOWLEDGE BY:</td>
+                  <td className="border border-black p-1"></td>
                   <td className="border border-black p-1 text-xs">
                     <div className="font-bold">
                       {flightData?.driver_name && <div>Name: {flightData.driver_name}</div>}
                       {flightData?.driver_id && <div>ID: {flightData.driver_id}</div>}
                     </div>
                   </td>
-                  <td className="border border-black p-1"></td>
                   <td className="border border-black p-1"></td>
                 </tr>
               </tbody>
