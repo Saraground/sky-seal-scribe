@@ -424,7 +424,7 @@ const Preview = () => {
                               })() : ''}
                             </td>
                             <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
-                              <span className="font-bold text-sm">
+                              <span className="font-bold" style={{ fontSize: '25px' }}>
                                 {line}
                               </span>
                             </td>
