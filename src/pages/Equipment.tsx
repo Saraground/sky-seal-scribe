@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Box, Container, Eye, Printer, ScanLine, Camera, Truck } from "lucide-react";
+import { ArrowLeft, Box, Container, Eye, Printer, ScanLine, Camera, Truck, FileText } from "lucide-react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { supabase } from "@/integrations/supabase/client";
 const equipmentTypes = [{
@@ -319,7 +319,7 @@ const Equipment = () => {
         </div>
         
         {/* Driver Name & ID Section */}
-        <div className="mt-1">
+        <div className="mt-1 grid gap-1 grid-cols-2">
           <Dialog open={driverDialogOpen} onOpenChange={setDriverDialogOpen}>
             <DialogTrigger asChild>
               <Card className="hover:shadow-md transition-shadow cursor-pointer">
@@ -362,6 +362,24 @@ const Equipment = () => {
               </div>
             </DialogContent>
           </Dialog>
+
+          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(`/preview/${flightId}`)}>
+            <CardHeader className="pb-1">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <FileText className="w-4 h-4 text-primary" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm">Edit Template</CardTitle>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-0 pb-2">
+              <div className="text-xs font-semibold text-blue-500">
+                View & edit print template
+              </div>
+            </CardContent>
+          </Card>
         </div>
         
         <div className="flex gap-1 mt-1">
