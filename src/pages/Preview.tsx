@@ -412,7 +412,7 @@ const Preview = () => {
                         });
 
                         const equipmentRows = sealLines.map((line, lineIdx) => (
-                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '35px' }}>
+                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '40px' }}>
                             <td className="border border-black p-1 text-center text-xs">
                               {lineIdx === 0 ? index + 1 : ''}
                             </td>
@@ -433,7 +433,7 @@ const Preview = () => {
                         ));
 
                         const emptyRow = (
-                          <tr key={`${equipmentType}-empty`} style={{ height: '26px' }}>
+                          <tr key={`${equipmentType}-empty`} style={{ height: '40px' }}>
                             <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
                             <td className="border border-black p-1"></td>
@@ -446,7 +446,7 @@ const Preview = () => {
                       
                       {/* Dynamic empty rows to fill A4 page */}
                       {Array.from({ length: emptyRowsNeeded }).map((_, i) => (
-                        <tr key={`empty-${i}`} style={{ height: '26px' }}>
+                        <tr key={`empty-${i}`} style={{ height: '40px' }}>
                           <td className="border border-black p-1"></td>
                           <td className="border border-black p-1"></td>
                           <td className="border border-black p-1"></td>
