@@ -351,7 +351,7 @@ const Preview = () => {
                 <col style={{ width: '150px' }} />
               </colgroup>
               <thead>
-                <tr className="bg-gray-100">
+                <tr className="bg-gray-100" style={{ height: '10px' }}>
                   <th className="border border-black p-1 text-sm font-bold">S/n</th>
                   <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
                   <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
