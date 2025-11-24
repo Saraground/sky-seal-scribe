@@ -316,68 +316,6 @@ const Equipment = () => {
               </div>
             </DialogContent>
           </Dialog>
-
-          <Dialog open={driverDialogOpen} onOpenChange={setDriverDialogOpen}>
-            <DialogTrigger asChild>
-              <Card className="hover:shadow-md transition-shadow cursor-pointer">
-                <CardHeader className="pb-1">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                      <Truck className="w-4 h-4 text-primary" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-sm">Driver Name & ID</CardTitle>
-                      
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0 pb-2">
-                  <div className="text-xs font-semibold text-blue-500">
-                    {driverName || driverId ? (
-                      <>
-                        {driverName && <div>Name: {driverName}</div>}
-                        {driverId && <div>ID: {driverId}</div>}
-                      </>
-                    ) : (
-                      <div>Not configured</div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Driver Information</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <Label htmlFor="driver-name">Name</Label>
-                  <Input
-                    id="driver-name"
-                    type="text"
-                    placeholder="Enter driver name"
-                    value={driverNameInput}
-                    onChange={(e) => setDriverNameInput(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSaveDriver()}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="driver-id">ID</Label>
-                  <Input
-                    id="driver-id"
-                    type="text"
-                    placeholder="Enter driver ID"
-                    value={driverIdInput}
-                    onChange={(e) => setDriverIdInput(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleSaveDriver()}
-                  />
-                </div>
-                <Button onClick={handleSaveDriver} className="w-full">
-                  Save
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
         </div>
         
         <div className="flex gap-1 mt-1">

@@ -197,190 +197,292 @@ const Preview = () => {
           </div>
         </div>
 
-        {/* Print Template - Excel Format */}
+        {/* Print Template */}
         <div className="print:block hidden">
           <style dangerouslySetInnerHTML={{
           __html: `
             @media print {
               @page { 
-                margin: 0.5cm; 
+                margin: 0.2cm; 
                 size: A4 portrait; 
               }
               body { 
                 print-color-adjust: exact; 
                 -webkit-print-color-adjust: exact; 
               }
+              table { 
+                page-break-inside: avoid; 
+                font-size: 0.75rem; 
+              }
+              tr { 
+                page-break-inside: avoid !important; 
+                page-break-after: avoid !important; 
+              }
+              * { 
+                page-break-inside: avoid !important; 
+                page-break-before: avoid !important;
+                page-break-after: avoid !important;
+              }
+              html, body {
+                height: 100%;
+                overflow: hidden !important;
+              }
+              .print-container {
+                height: 100vh;
+                overflow: hidden !important;
+                page-break-after: avoid !important;
+              }
             }
           `
         }} />
           
-          <div className="p-2">
-            {/* Header Section - Exactly as Excel */}
-            <table className="w-full border-collapse mb-0" style={{borderCollapse: 'collapse'}}>
+          <div className="border-2 border-black print-container">
+            {/* Header Section */}
+            <table className="w-full border-collapse">
               <tbody>
                 <tr>
-                  <td colSpan={7} className="border border-black text-right p-1 text-sm font-bold" style={{height: '20px'}}>Date</td>
-                  <td colSpan={3} className="border border-black p-1 text-sm">
-                    {flightData ? new Date(flightData.departure_time).toLocaleDateString('en-GB') : ''}
+                  <td rowSpan={2} className="border border-black p-2 w-1/3 align-top">
+                    <div className="flex flex-col h-full justify-between">
+                      <img src={satsLogo} alt="SATS" className="h-12 mx-auto" />
+                      <div className="text-xs font-semibold text-center">SATS Security Services Pte Ltd</div>
+                    </div>
+                  </td>
+                  <td className="border border-black p-1 text-center font-semibold">Date</td>
+                  <td className="border border-black p-1 text-center text-lg font-bold">
+                    {flightData ? new Date(flightData.departure_time).toLocaleDateString() : ''}
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={7} className="border border-black text-center p-2 text-xl font-bold" style={{height: '30px'}}>SCOOT</td>
-                  <td colSpan={3} className="border border-black p-1" style={{height: '30px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={4} className="border border-black p-1 text-sm" style={{height: '25px'}}>SATS Security Services Pte Ltd</td>
-                  <td colSpan={3} className="border border-black p-1" style={{height: '25px'}}></td>
-                  <td colSpan={2} className="border border-black text-right p-1 text-sm font-bold" style={{height: '25px'}}>Flight No.</td>
-                  <td className="border border-black p-1 text-sm">{flightData?.flight_number || ''}</td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td className="border border-black p-1 text-sm font-bold" style={{width: '10%', height: '25px'}}>Hi-Lift</td>
-                  <td className="border border-black text-center p-1 text-sm font-bold" style={{width: '5%'}}>1</td>
-                  <td colSpan={5} className="border border-black p-1" style={{width: '45%'}}></td>
-                  <td colSpan={2} className="border border-black text-right p-1 text-sm font-bold" style={{width: '20%'}}>Seal No.</td>
-                  <td className="border border-black p-1 text-sm" style={{width: '20%'}}>
-                    {flightData?.hilift_1_seal || ''}
+                  <td className="border border-black p-1 text-center font-semibold">
+                    Flight No.
                   </td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td className="border border-black p-1 text-sm font-bold" style={{height: '25px'}}>Hi-Lift</td>
-                  <td className="border border-black text-center p-1 text-sm font-bold">2</td>
-                  <td colSpan={5} className="border border-black p-1"></td>
-                  <td colSpan={2} className="border border-black text-right p-1 text-sm font-bold">Seal No.</td>
-                  <td className="border border-black p-1 text-sm">
-                    {flightData?.hilift_2_seal || ''}
+                  <td className="border border-black p-1 text-center text-lg font-bold">
+                    {flightData?.flight_number || ''}
                   </td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={5} className="border border-black p-1 text-xs font-bold" style={{height: '20px'}}>SSS sticker nos. for loose items</td>
-                  <td colSpan={2} className="border border-black p-1 text-xs">Colour :</td>
-                  <td colSpan={2} className="border border-black p-1 text-xs">From :</td>
-                  <td className="border border-black p-1 text-xs">Ends :</td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={4} className="border border-black p-1 text-xs" style={{height: '20px'}}>Name of APO / SO</td>
-                  <td colSpan={3} className="border border-black p-1 text-xs font-bold">FORM PREPARED BY</td>
-                  <td colSpan={3} className="border border-black p-1 text-xs font-bold">FORM FINALISED BY</td>
-                </tr>
-                <tr>
-                  <td colSpan={4} className="border border-black p-1" style={{height: '30px'}}></td>
-                  <td colSpan={3} className="border border-black p-1 text-xs">Signatures</td>
-                  <td colSpan={3} className="border border-black p-1 text-xs">Signatures</td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={4} className="border border-black p-1 text-xs font-bold" style={{height: '20px'}}>Time-commences & Time-end checking of meal cart :</td>
-                  <td colSpan={6} className="border border-black p-1 text-xs text-right">__________ hrs - __________ hrs</td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
                 </tr>
               </tbody>
             </table>
 
-            {/* Main Data Table - Exactly as Excel */}
-            <table className="w-full border-collapse" style={{borderCollapse: 'collapse'}}>
-              <thead>
+            {/* Equipment Section */}
+            <table className="w-full border-collapse">
+              <tbody>
                 <tr>
-                  <th className="border border-black p-1 text-xs font-bold text-center" style={{width: '5%', height: '20px'}}>S/n</th>
-                  <th className="border border-black p-1 text-xs font-bold text-center" style={{width: '15%'}}>Cart No.</th>
-                  <th className="border border-black p-1 text-xs font-bold text-center" style={{width: '60%'}}>Seal / Sticker No.</th>
-                  <th className="border border-black p-1 text-xs font-bold text-center" style={{width: '20%'}}>Remarks</th>
+                  <td className="border border-black p-1 w-32">
+                    Hi-Lift 1{flightData?.hilift_1_number ? <span style={{
+                    fontSize: '20px',
+                    fontWeight: 'bold'
+                  }}> - {flightData.hilift_1_number}</span> : ""}
+                  </td>
+                  <td className="border border-black p-1 w-8 text-center font-bold">1</td>
+                  <td className="border border-black p-1 text-left font-bold" style={{
+                  fontSize: '22px'
+                }}>
+                    Rear Seal: {flightData?.hilift_1_rear_seal || ""}, Front Seal: {flightData?.hilift_1_seal || ""}
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan={2} className="border border-black p-1 bg-black text-white text-xs">
+                    SSS sticker nos. for loose items
+                  </td>
+                  <td className="border border-black p-1 text-xs">
+                    <span className="font-semibold">Colour:</span>
+                  </td>
+                  <td className="border border-black p-1 text-xs">
+                    <span className="font-semibold">From:</span>
+                  </td>
+                  <td className="border border-black p-1 text-xs">
+                    <span className="font-semibold">Ends:</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Signature Section */}
+            <table className="w-full border-collapse">
+              <tbody>
+                <tr>
+                  <td className="border border-black p-1 text-xs w-1/3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">FORM PREPARED BY:</div>
+                        <div className="mt-1 text-lg font-bold">{creatorUsername}</div>
+                      </div>
+                      <div className="font-semibold">Signature:</div>
+                    </div>
+                  </td>
+                  <td className="border border-black p-1 text-xs w-1/3">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold">FORM FINALISED BY:</div>
+                        <div className="mt-1 text-lg font-bold">{currentUsername}</div>
+                      </div>
+                      <div className="font-semibold">Signature:</div>
+                    </div>
+                  </td>
+                  <td className="border border-black p-1 w-1/3 text-center font-bold" style={{
+                  fontSize: '40px'
+                }}>Scoot</td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Time Section */}
+            <div className="border border-black p-1 bg-blue-900 text-white text-xs font-semibold flex justify-between">
+              <span>Time-commences & Time-end checking of meal cart:</span>
+              <span>
+                {flightData ? new Date(flightData.created_at).toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+              }) : '_______'} hrs - {new Date().toLocaleTimeString('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+              })} hrs
+              </span>
+            </div>
+
+            {/* Main Data Table */}
+            <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
+              <colgroup>
+                <col style={{ width: '60px' }} />
+                <col style={{ width: '125px' }} />
+                <col style={{ width: '385px' }} />
+                <col />
+              </colgroup>
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border border-black p-1 text-sm font-bold">S/n</th>
+                  <th className="border border-black p-1 text-sm font-bold">Cart No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Seal / Sticker No.</th>
+                  <th className="border border-black p-1 text-sm font-bold">Remarks</th>
                 </tr>
               </thead>
               <tbody>
                 {(() => {
-                  const rows = [];
-                  let serialNumber = 1;
-                  
-                  // Add equipment data rows
-                  Object.entries(groupedScans).forEach(([equipmentType, scans]) => {
+                  // Calculate total rows used by equipment data
+                  const equipmentRowCount = Object.entries(groupedScans).reduce((count, [equipmentType, scans]) => {
                     const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
-                    const count = scans.length;
-                    const displayCount = equipmentType === 'full-trolley' ? count / 2 : count;
+                    const maxCharsPerLine = 50;
+                    const sealLines: string[] = [];
                     
-                    rows.push(
-                      <tr key={`data-${equipmentType}`}>
-                        <td className="border border-black p-1 text-xs text-center" style={{height: '25px'}}>{serialNumber}</td>
-                        <td className="border border-black p-1 text-xs text-center">{displayCount} {equipmentNames[equipmentType]}</td>
-                        <td className="border border-black p-1 text-xs">{sealNumbers}</td>
-                        <td className="border border-black p-1 text-xs"></td>
-                      </tr>
-                    );
-                    serialNumber++;
-                  });
-                  
-                  // Add empty rows to fill the page (Excel has about 25-30 data rows)
-                  const totalRows = 25;
-                  const emptyRowsCount = totalRows - rows.length;
-                  
-                  for (let i = 0; i < emptyRowsCount; i++) {
-                    rows.push(
-                      <tr key={`empty-${i}`}>
-                        <td className="border border-black p-1" style={{height: '25px'}}></td>
-                        <td className="border border-black p-1"></td>
-                        <td className="border border-black p-1"></td>
-                        <td className="border border-black p-1"></td>
-                      </tr>
-                    );
-                  }
-                  
-                  return rows;
+                    let currentLine = '';
+                    const sealsArray = sealNumbers.split(', ');
+                    sealsArray.forEach((seal, idx) => {
+                      const testLine = currentLine + (currentLine ? ', ' : '') + seal;
+                      if (testLine.length <= maxCharsPerLine) {
+                        currentLine = testLine;
+                      } else {
+                        if (currentLine) sealLines.push(currentLine);
+                        currentLine = seal;
+                      }
+                      if (idx === sealsArray.length - 1 && currentLine) {
+                        sealLines.push(currentLine);
+                      }
+                    });
+                    
+                    // Each equipment type uses: sealLines.length rows + 1 empty separator row
+                    return count + sealLines.length + 1;
+                  }, 0);
+
+                  // Target total data rows for A4 (adjust to fit perfectly)
+                  const targetDataRows = 25;
+                  const emptyRowsNeeded = Math.max(0, targetDataRows - equipmentRowCount);
+
+                  return (
+                    <>
+                      {Object.entries(groupedScans).flatMap(([equipmentType, scans], index) => {
+                        const sealNumbers = scans.map(scan => scan.seal_number).join(', ');
+                        const maxCharsPerLine = 50;
+                        const sealLines: string[] = [];
+
+                        let currentLine = '';
+                        const sealsArray = sealNumbers.split(', ');
+                        sealsArray.forEach((seal, idx) => {
+                          const testLine = currentLine + (currentLine ? ', ' : '') + seal;
+                          if (testLine.length <= maxCharsPerLine) {
+                            currentLine = testLine;
+                          } else {
+                            if (currentLine) sealLines.push(currentLine);
+                            currentLine = seal;
+                          }
+                          if (idx === sealsArray.length - 1 && currentLine) {
+                            sealLines.push(currentLine);
+                          }
+                        });
+
+                        const equipmentRows = sealLines.map((line, lineIdx) => (
+                          <tr key={`${equipmentType}-${lineIdx}`} style={{ height: '26px' }}>
+                            <td className="border border-black p-1 text-center text-xs">
+                              {lineIdx === 0 ? index + 1 : ''}
+                            </td>
+                            <td className="border border-black p-1 text-center text-xs">
+                              {lineIdx === 0 ? (() => {
+                                const count = scans.length;
+                                const displayCount = equipmentType === 'full-trolley' ? count / 2 : count;
+                                return <><span className="font-bold text-sm">{displayCount}</span> {equipmentNames[equipmentType]}</>;
+                              })() : ''}
+                            </td>
+                            <td className="border border-black p-1 text-left px-2 whitespace-nowrap">
+                              <span className="font-bold text-sm">
+                                {line}
+                              </span>
+                            </td>
+                            <td className="border border-black p-1"></td>
+                          </tr>
+                        ));
+
+                        const emptyRow = (
+                          <tr key={`${equipmentType}-empty`} style={{ height: '26px' }}>
+                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1"></td>
+                            <td className="border border-black p-1"></td>
+                          </tr>
+                        );
+                        
+                        return [...equipmentRows, emptyRow];
+                      })}
+                      
+                      {/* Dynamic empty rows to fill A4 page */}
+                      {Array.from({ length: emptyRowsNeeded }).map((_, i) => (
+                        <tr key={`empty-${i}`} style={{ height: '26px' }}>
+                          <td className="border border-black p-1"></td>
+                          <td className="border border-black p-1"></td>
+                          <td className="border border-black p-1"></td>
+                          <td className="border border-black p-1"></td>
+                        </tr>
+                      ))}
+                    </>
+                  );
                 })()}
+                <tr>
+                  <td colSpan={2} className="border border-black p-1"></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">TOTAL NO. OF TR PADLOCKS:</td>
+                  <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.padlock_total || ""}</span></td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">NAME:</td>
+                  <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.driver_name || ""}</span></td>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">ACKNOWLEDGE BY:</td>
+                  <td className="border border-black p-1"></td>
+                </tr>
+                <tr>
+                  <td className="border border-black p-1 text-right text-xs font-semibold">ID:</td>
+                  <td className="border border-black p-1 text-xs"><span className="font-bold">{flightData?.driver_id || ""}</span></td>
+                  <td className="border border-black p-1"></td>
+                  <td className="border border-black p-1"></td>
+                </tr>
               </tbody>
             </table>
 
-            {/* Footer Section - Exactly as Excel */}
-            <table className="w-full border-collapse mt-0" style={{borderCollapse: 'collapse'}}>
-              <tbody>
-                <tr>
-                  <td colSpan={7} className="border border-black p-1" style={{height: '10px'}}></td>
-                  <td colSpan={2} className="border border-black text-right p-1 text-xs font-bold" style={{height: '10px'}}>TOTAL NO. OF TR PADLOCKS :</td>
-                  <td className="border border-black p-1 text-xs">{flightData?.padlock_total || ''}</td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={7} className="border border-black p-1" style={{height: '10px'}}></td>
-                  <td colSpan={2} className="border border-black text-right p-1 text-xs font-bold" style={{height: '10px'}}>ACKNOWLEDGE BY :</td>
-                  <td className="border border-black p-1 text-xs">
-                    {flightData?.driver_name && <div>Name: {flightData.driver_name}</div>}
-                    {flightData?.driver_id && <div>ID: {flightData.driver_id}</div>}
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1" style={{height: '10px'}}></td>
-                </tr>
-                <tr>
-                  <td colSpan={10} className="border border-black p-1 text-xs" style={{height: '20px'}}>All Other Airlines Meal Cart Check 01 / 25</td>
-                </tr>
-              </tbody>
-            </table>
+            {/* Footer */}
+            <div className="text-xs p-1">All Other Airlines Meal Cart Check 01 / 25</div>
+            
+            {/* Watermark */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="text-gray-300 text-9xl font-bold opacity-20">Page 1</div>
+            </div>
           </div>
         </div>
 
