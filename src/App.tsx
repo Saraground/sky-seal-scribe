@@ -10,6 +10,7 @@ import Scan from "./pages/Scan";
 import Preview from "./pages/Preview";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import TemplateEditor from "./pages/TemplateEditor";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/equipment/:flightId" element={<Equipment />} />
           <Route path="/scan/:flightId/:equipmentType" element={<Scan />} />
           <Route path="/preview/:flightId" element={<Preview />} />
+          <Route path="/template-editor/:flightId" element={<TemplateEditor />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

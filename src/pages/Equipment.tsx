@@ -363,7 +363,7 @@ const Equipment = () => {
             </DialogContent>
           </Dialog>
 
-          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(`/preview/${flightId}`)}>
+          <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(`/template-editor/${flightId}`)}>
             <CardHeader className="pb-1">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -376,7 +376,7 @@ const Equipment = () => {
             </CardHeader>
             <CardContent className="pt-0 pb-2">
               <div className="text-xs font-semibold text-blue-500">
-                View & edit print template
+                Customize print layout & styling
               </div>
             </CardContent>
           </Card>
