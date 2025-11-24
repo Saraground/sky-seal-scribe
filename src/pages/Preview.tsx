@@ -346,9 +346,9 @@ const Preview = () => {
             <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
               <colgroup>
                 <col style={{ width: '60px' }} />
-                <col style={{ width: '125px' }} />
-                <col style={{ width: '385px' }} />
+                <col style={{ width: '200px' }} />
                 <col />
+                <col style={{ width: '150px' }} />
               </colgroup>
               <thead>
                 <tr className="bg-gray-100">
